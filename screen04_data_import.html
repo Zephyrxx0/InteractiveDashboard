@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eco-Grid System - Data Import</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10cb30", // Bright Green from user config
+                        "primary-dark": "#0b8a20",
+                        "background-light": "#f2f0eb", // Stone from PRD
+                        "background-dark": "#102213",
+                        "surface": "#FFFFFF",
+                        "border-color": "#D8D4CD",
+                        "text-main": "#2C332B",
+                        "text-muted": "#6E736B",
+                        "sage": "#5E7D63",
+                        "ochre": "#C49B55",
+                        "clay": "#A85E53",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["IBM Plex Mono", "monospace"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px" },
+                    boxShadow: {
+                        'brutal': '4px 4px 0px 0px #D8D4CD',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for technical look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D8D4CD;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5E7D63;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-body min-h-screen relative overflow-hidden flex flex-col">
+<!-- Background Elements to simulate Dashboard context -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#D8D4CD 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Top Navigation (Blurred in background) -->
+<header class="relative z-10 flex items-center justify-between border-b border-border-color bg-surface/50 backdrop-blur-sm px-10 py-3 blur-[2px]">
+<div class="flex items-center gap-4 text-text-main">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-3xl">grid_view</span>
+</div>
+<h2 class="text-lg font-bold font-display tracking-tight">Eco-Grid System</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="h-8 w-8 bg-border-color rounded-full"></div>
+<div class="h-8 w-24 bg-border-color rounded"></div>
+</div>
+</header>
+<!-- Main Dashboard Content (Blurred in background) -->
+<main class="flex-1 p-10 blur-[2px] opacity-60 pointer-events-none">
+<h1 class="text-text-main font-display text-[32px] font-bold leading-tight mb-8">Dashboard</h1>
+<div class="grid grid-cols-4 gap-4">
+<!-- Simulated Widgets -->
+<div class="bg-surface border border-border-color p-6 h-40"></div>
+<div class="bg-surface border border-border-color p-6 h-40"></div>
+<div class="bg-surface border border-border-color p-6 h-40"></div>
+<div class="bg-surface border border-border-color p-6 h-40"></div>
+<div class="col-span-2 bg-surface border border-border-color p-6 h-64"></div>
+<div class="col-span-2 bg-surface border border-border-color p-6 h-64"></div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-[#F2F0EB]/80 backdrop-blur-[1px] p-4">
+<!-- Modal Container -->
+<div class="w-full max-w-[800px] bg-surface shadow-brutal border border-border-color flex flex-col max-h-[90vh]">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-border-color bg-background-light">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-muted">database</span>
+<h2 class="text-xl font-display font-bold text-text-main tracking-tight">Data Import // Widget Configurator</h2>
+</div>
+<button class="text-text-muted hover:text-text-main transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="flex-1 overflow-y-auto p-8 flex flex-col gap-8">
+<!-- Stage 1: File Upload (Collapsible or Active) -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-baseline mb-2">
+<label class="font-mono text-xs font-bold text-text-muted uppercase tracking-wider">01. Source File</label>
+<span class="text-xs text-primary font-mono bg-primary/10 px-2 py-0.5 rounded text-primary-dark">water_analysis_q3.csv (Parsed)</span>
+</div>
+<!-- Minimized Upload State (Post-upload) -->
+<div class="group flex items-center justify-between p-3 border border-border-color bg-[#f8f9fa] rounded hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="bg-[#e2e8f0] p-2 rounded text-text-muted">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div>
+<p class="text-sm font-medium text-text-main font-body">water_analysis_q3.csv</p>
+<p class="text-xs text-text-muted font-mono">142 KB • Uploaded just now</p>
+</div>
+</div>
+<button class="text-xs font-bold text-text-muted uppercase hover:text-primary transition-colors pr-2">Replace</button>
+</div>
+</div>
+<!-- Stage 2: Mapping Interface -->
+<div class="flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-end border-b border-border-color pb-2">
+<label class="font-mono text-xs font-bold text-text-muted uppercase tracking-wider">02. Map Data Fields</label>
+<span class="text-xs text-text-muted italic font-body">Drag columns to widget properties</span>
+</div>
+<div class="grid grid-cols-12 gap-8 h-full">
+<!-- Source Column (Left) -->
+<div class="col-span-5 flex flex-col gap-3">
+<h3 class="text-sm font-display font-semibold text-text-main mb-1">Source Columns</h3>
+<div class="flex flex-col gap-2 p-4 bg-[#f8fcf9] border border-border-color border-dashed min-h-[240px] rounded">
+<!-- Draggable Item 1 -->
+<div class="bg-white border border-border-color p-2 rounded shadow-sm hover:shadow-md hover:border-primary/50 cursor-grab active:cursor-grabbing flex items-center gap-2 group transition-all">
+<span class="material-symbols-outlined text-text-muted text-base group-hover:text-primary">drag_indicator</span>
+<span class="font-mono text-xs font-medium text-text-main">DATE_LOGGED</span>
+<span class="ml-auto text-[10px] text-text-muted bg-gray-100 px-1 rounded">DATE</span>
+</div>
+<!-- Draggable Item 2 -->
+<div class="bg-white border border-border-color p-2 rounded shadow-sm hover:shadow-md hover:border-primary/50 cursor-grab active:cursor-grabbing flex items-center gap-2 group transition-all opacity-50">
+<span class="material-symbols-outlined text-text-muted text-base">check</span>
+<span class="font-mono text-xs font-medium text-text-main line-through">PH_LEVEL</span>
+<span class="ml-auto text-[10px] text-text-muted bg-gray-100 px-1 rounded">NUM</span>
+</div>
+<!-- Draggable Item 3 -->
+<div class="bg-white border border-border-color p-2 rounded shadow-sm hover:shadow-md hover:border-primary/50 cursor-grab active:cursor-grabbing flex items-center gap-2 group transition-all opacity-50">
+<span class="material-symbols-outlined text-text-muted text-base">check</span>
+<span class="font-mono text-xs font-medium text-text-main line-through">TURBIDITY</span>
+<span class="ml-auto text-[10px] text-text-muted bg-gray-100 px-1 rounded">NUM</span>
+</div>
+<!-- Draggable Item 4 -->
+<div class="bg-white border border-border-color p-2 rounded shadow-sm hover:shadow-md hover:border-primary/50 cursor-grab active:cursor-grabbing flex items-center gap-2 group transition-all">
+<span class="material-symbols-outlined text-text-muted text-base group-hover:text-primary">drag_indicator</span>
+<span class="font-mono text-xs font-medium text-text-main">LOCATION_ID</span>
+<span class="ml-auto text-[10px] text-text-muted bg-gray-100 px-1 rounded">TXT</span>
+</div>
+<!-- Draggable Item 5 -->
+<div class="bg-white border border-border-color p-2 rounded shadow-sm hover:shadow-md hover:border-primary/50 cursor-grab active:cursor-grabbing flex items-center gap-2 group transition-all">
+<span class="material-symbols-outlined text-text-muted text-base group-hover:text-primary">drag_indicator</span>
+<span class="font-mono text-xs font-medium text-text-main">OPERATOR</span>
+<span class="ml-auto text-[10px] text-text-muted bg-gray-100 px-1 rounded">TXT</span>
+</div>
+</div>
+</div>
+<!-- Connector Visual (Center) -->
+<div class="col-span-2 flex flex-col items-center justify-center text-border-color">
+<span class="material-symbols-outlined text-4xl animate-pulse">arrow_right_alt</span>
+</div>
+<!-- Target Column (Right) -->
+<div class="col-span-5 flex flex-col gap-3">
+<h3 class="text-sm font-display font-semibold text-text-main mb-1">Widget Config (Line Chart)</h3>
+<div class="flex flex-col gap-3">
+<!-- X-Axis Drop Zone -->
+<div class="relative">
+<label class="text-[10px] font-bold text-text-muted uppercase mb-1 block">X-Axis (Time Series)</label>
+<div class="h-12 border-2 border-dashed border-border-color bg-background-light rounded flex items-center justify-center transition-colors hover:border-primary hover:bg-primary/5">
+<span class="text-xs text-text-muted font-mono">Drop Date Field</span>
+</div>
+</div>
+<!-- Y-Axis Drop Zone (Filled State) -->
+<div class="relative">
+<label class="text-[10px] font-bold text-text-muted uppercase mb-1 block">Y-Axis (Value)</label>
+<div class="h-12 border border-primary bg-white rounded flex items-center justify-between px-3 shadow-sm relative overflow-hidden">
+<!-- Active Indicator -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">water_drop</span>
+<span class="font-mono text-xs font-bold text-text-main">PH_LEVEL</span>
+</div>
+<button class="text-text-muted hover:text-clay">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+<!-- Secondary Y-Axis Drop Zone (Filled State) -->
+<div class="relative">
+<label class="text-[10px] font-bold text-text-muted uppercase mb-1 block">Secondary Y-Axis (Optional)</label>
+<div class="h-12 border border-primary bg-white rounded flex items-center justify-between px-3 shadow-sm relative overflow-hidden">
+<!-- Active Indicator -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">opacity</span>
+<span class="font-mono text-xs font-bold text-text-main">TURBIDITY</span>
+</div>
+<button class="text-text-muted hover:text-clay">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+<!-- Label Drop Zone -->
+<div class="relative">
+<label class="text-[10px] font-bold text-text-muted uppercase mb-1 block">Grouping / Legend</label>
+<div class="h-12 border-2 border-dashed border-border-color bg-background-light rounded flex items-center justify-center transition-colors hover:border-primary hover:bg-primary/5">
+<span class="text-xs text-text-muted font-mono">Drop Category Field</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stage 3: Preview -->
+<div class="flex flex-col gap-2 mt-2">
+<label class="font-mono text-xs font-bold text-text-muted uppercase tracking-wider">03. Widget Preview</label>
+<div class="border border-border-color rounded p-4 bg-white relative overflow-hidden h-40 flex items-center justify-center">
+<!-- Chart Background Grid -->
+<div class="absolute inset-0 z-0 pointer-events-none" style="background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); background-size: 20px 20px;"></div>
+<!-- Simulated D3 Chart -->
+<div class="relative w-full h-full z-10 flex items-end justify-between px-4 pb-4 pt-8">
+<!-- Y Axis Labels -->
+<div class="absolute left-2 top-2 bottom-4 flex flex-col justify-between text-[9px] font-mono text-text-muted h-full py-2">
+<span>14.0</span>
+<span>7.0</span>
+<span>0.0</span>
+</div>
+<!-- Chart Lines -->
+<svg class="w-full h-full overflow-visible ml-6" preserveaspectratio="none" viewbox="0 0 100 50">
+<!-- Line 1 (pH) -->
+<path d="M0,25 Q10,20 20,28 T40,22 T60,25 T80,18 T100,24" fill="none" stroke="#10cb30" stroke-width="2"></path>
+<!-- Line 2 (Turbidity) -->
+<path d="M0,40 Q15,35 30,38 T50,32 T70,42 T100,38" fill="none" stroke="#C49B55" stroke-dasharray="2,1" stroke-width="2"></path>
+</svg>
+</div>
+<!-- Tooltip Simulation -->
+<div class="absolute top-1/3 left-1/2 transform -translate-x-1/2 bg-text-main text-white text-[10px] font-mono py-1 px-2 rounded shadow-lg">
+                            pH: 7.2 | Turb: 4.1
+                        </div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-4 border-t border-border-color bg-background-light flex justify-between items-center">
+<button class="text-sm font-medium text-text-muted hover:text-text-main px-4 py-2 rounded hover:bg-border-color/20 transition-colors">
+                    Cancel Import
+                </button>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 rounded border border-border-color bg-white text-text-main text-sm font-bold shadow-sm hover:shadow transition-all">
+<span class="material-symbols-outlined text-base">settings</span>
+                        Advanced Options
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2 rounded bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary-dark transition-all">
+<span class="material-symbols-outlined text-base">check</span>
+                        Generate Widget
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

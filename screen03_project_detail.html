@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eco-Grid - Project Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#10cb30",
+              "primary-dark": "#0ea326",
+              "background-light": "#F2F0EB",
+              "background-dark": "#102213",
+              "surface": "#FFFFFF",
+              "border-stone": "#D8D4CD",
+              "text-main": "#2C332B",
+              "text-muted": "#6E736B",
+              "accent-clay": "#A85E53",
+              "accent-ochre": "#C49B55",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "mono": ["IBM Plex Mono", "monospace"],
+              "body": ["Inter", "sans-serif"],
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px", "sm": "2px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F0EB;
+            color: #2C332B;
+        }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'IBM Plex Mono', monospace; }
+        
+        /* Custom scrollbar to match brutalist theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F0EB; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D8D4CD; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6E736B; 
+        }
+    </style>
+</head>
+<body class="bg-background-light min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-stone bg-background-light px-6 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-text-main">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined text-3xl">grid_view</span>
+</div>
+<h2 class="text-text-main text-xl font-display font-bold leading-tight tracking-[-0.015em]">Eco-Grid</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-text-main text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-text-main text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Project Hub</a>
+<a class="text-text-main text-sm font-medium leading-normal hover:text-primary transition-colors border-b-2 border-primary" href="#">Blueprint</a>
+<a class="text-text-main text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Data Import</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-sm size-10 bg-white border border-border-stone text-text-main hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-border-stone" data-alt="User profile picture of a man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpMFdrTecu2gkfFLB7L3Z3-v7lSxQ09IVvENe8OK1Yd6wrvZhE0CvyWPIfLXIT55KTGkCQ40KepLr8HGD4TH-5dzeKwekw7pzia8BFxsk1k23dr6GIC4IzkGXzHWSSfoiL7qt1TsW_R8tIebKSswDRtFBcE_qxiHUgISFiyLTc5v1SXGIIu2TMIOmj9_6rOEFOtYPCpx7_1A0ksr4MgqxtX5FnpBgEoIzzcxF1rlRaz-8PvQnv2J7rj5jyPcBNRZpciJU-VJSgina_");'></div>
+</div>
+</div>
+</header>
+<!-- Archived Banner -->
+<div class="bg-accent-clay/10 border-b border-accent-clay/20 py-2 px-6 text-center">
+<p class="text-accent-clay text-sm font-mono font-medium flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">archive</span>
+            PROJECT ARCHIVED: READ-ONLY MODE
+        </p>
+</div>
+<!-- Main Content -->
+<main class="flex-1 max-w-[1440px] mx-auto w-full p-6 md:p-10 space-y-8">
+<!-- Project Header Block -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-stone pb-6">
+<div class="space-y-4 max-w-2xl">
+<div class="flex items-center gap-3">
+<span class="bg-primary/10 text-primary-dark border border-primary/20 px-2 py-0.5 text-xs font-mono font-bold uppercase tracking-wide rounded-sm">Active</span>
+<span class="text-text-muted text-xs font-mono uppercase tracking-wide">ID: #WTR-2024-882</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-display font-semibold text-text-main tracking-tight">Clean Water Initiative - Phase 2</h1>
+<p class="text-text-muted max-w-xl text-sm leading-relaxed">
+                    Deploying sustainable filtration systems across 12 rural districts. Focus on long-term maintenance training and water quality monitoring.
+                </p>
+</div>
+<div class="flex gap-3 shrink-0">
+<button class="h-10 px-4 flex items-center gap-2 bg-white border border-border-stone text-text-main hover:bg-gray-50 hover:border-text-muted transition-colors rounded-sm text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                    Edit Project
+                </button>
+<button class="h-10 px-4 flex items-center gap-2 bg-white border border-border-stone text-text-main hover:bg-gray-50 hover:border-text-muted transition-colors rounded-sm text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+                    Export Data
+                </button>
+<button class="h-10 px-4 flex items-center gap-2 bg-primary text-white hover:bg-primary-dark transition-colors rounded-sm text-sm font-medium shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Task
+                </button>
+</div>
+</section>
+<!-- Navigation Tabs -->
+<nav class="flex gap-8 border-b border-border-stone">
+<button class="pb-3 text-sm font-medium text-text-main border-b-2 border-primary">Overview</button>
+<button class="pb-3 text-sm font-medium text-text-muted hover:text-text-main transition-colors border-b-2 border-transparent hover:border-border-stone">Financials</button>
+<button class="pb-3 text-sm font-medium text-text-muted hover:text-text-main transition-colors border-b-2 border-transparent hover:border-border-stone">Logistics</button>
+<button class="pb-3 text-sm font-medium text-text-muted hover:text-text-main transition-colors border-b-2 border-transparent hover:border-border-stone">Impact Report</button>
+</nav>
+<!-- Two Column Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 items-start">
+<!-- Left Column: Tasks & Narrative (2/3) -->
+<div class="lg:col-span-2 space-y-10">
+<!-- Metrics Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-white border border-border-stone p-4 rounded-sm">
+<p class="text-xs font-mono text-text-muted uppercase mb-1">Progress</p>
+<p class="text-2xl font-display font-semibold text-text-main">68%</p>
+<div class="w-full bg-background-light h-1 mt-3">
+<div class="bg-primary h-1" style="width: 68%"></div>
+</div>
+</div>
+<div class="bg-white border border-border-stone p-4 rounded-sm">
+<p class="text-xs font-mono text-text-muted uppercase mb-1">Budget Used</p>
+<p class="text-2xl font-display font-semibold text-text-main">$32k</p>
+<p class="text-xs text-text-muted mt-1 font-mono">of $50k</p>
+</div>
+<div class="bg-white border border-border-stone p-4 rounded-sm">
+<p class="text-xs font-mono text-text-muted uppercase mb-1">Installations</p>
+<p class="text-2xl font-display font-semibold text-text-main">142</p>
+<p class="text-xs text-primary mt-1 font-mono flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">arrow_upward</span> +12 this week
+                        </p>
+</div>
+<div class="bg-white border border-border-stone p-4 rounded-sm">
+<p class="text-xs font-mono text-text-muted uppercase mb-1">Days Left</p>
+<p class="text-2xl font-display font-semibold text-text-main">45</p>
+<p class="text-xs text-accent-ochre mt-1 font-mono">On Schedule</p>
+</div>
+</div>
+<!-- Task List Section -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-display font-medium text-text-main">Active Tasks</h3>
+<div class="flex gap-2">
+<button class="text-xs font-mono text-text-muted hover:text-primary uppercase">Filter</button>
+<span class="text-text-muted text-xs">/</span>
+<button class="text-xs font-mono text-text-muted hover:text-primary uppercase">Sort</button>
+</div>
+</div>
+<div class="bg-white border border-border-stone rounded-sm overflow-hidden">
+<!-- Task Header -->
+<div class="grid grid-cols-12 gap-4 p-3 bg-background-light border-b border-border-stone text-xs font-mono text-text-muted uppercase tracking-wider">
+<div class="col-span-1 text-center">Done</div>
+<div class="col-span-6">Task Name</div>
+<div class="col-span-3">Assignee</div>
+<div class="col-span-2 text-right">Due Date</div>
+</div>
+<!-- Task Item: Completed -->
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-border-stone items-center hover:bg-background-light/50 transition-colors group opacity-50">
+<div class="col-span-1 flex justify-center">
+<button class="size-5 rounded-sm bg-primary border border-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+</div>
+<div class="col-span-6">
+<span class="text-sm font-medium text-text-main line-through decoration-text-muted">Initial Site Survey - District A</span>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<img alt="Avatar of Marcus L." class="size-6 rounded-full grayscale opacity-70" data-alt="Portrait of Marcus L." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyp--EyP9XWCUwMtfIMFvRVI7TqztFNs25kYP2SaJnbd0obb4PmniyNfV8ENeRkeh9SzkOXVHEE1y7Zu3F5MLKx-cuqCtseikHSSMwpXUMcc8CXFy-MLtcFnTsMNNb-tP6jZZAu64Qj1zMDtme0M5lgsAD-nh6pHMNdh3p2jlYERnbOUqvbE88YM1nvde8JDroZuCLZ_nx0ijc4gXQpKwms9YNi-jF8qwoEYBXvIA8GZIzXuFAvPpdCqTomnUkwYKGPLGXHDNWras2"/>
+<span class="text-xs text-text-muted font-mono hidden sm:inline-block">Marcus L.</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="text-xs font-mono text-text-muted">Oct 12</span>
+</div>
+</div>
+<!-- Task Item: Active -->
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-border-stone items-center hover:bg-background-light/50 transition-colors group">
+<div class="col-span-1 flex justify-center">
+<button class="size-5 rounded-sm bg-white border border-border-stone hover:border-primary flex items-center justify-center text-transparent group-hover:text-primary/20">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+</div>
+<div class="col-span-6">
+<span class="text-sm font-medium text-text-main">Procure Filtration Units (Type B)</span>
+<span class="ml-2 px-1.5 py-0.5 rounded-sm bg-accent-ochre/10 text-accent-ochre text-[10px] font-mono uppercase tracking-wide">Pending</span>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<img alt="Avatar of Sarah M." class="size-6 rounded-full border border-white shadow-sm" data-alt="Portrait of Sarah M." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgEADqT1rdrKWMNSO-_2lWxTnTji8jOkDmX6dQqqCsorC7KWGpGiJa4epgNCv1RFG-2oOjbY-52VyXJJR7m0tXAnuKv65vn04VBz2-W-0kMczFOmOv1wDhMJwp88MqC3ykgmkFCfExcPe3N8HyPuOaSXXAQwNsPbGyTMIc2oGPOY48nZ8rOqA1t532FoD8Tm4EMQZ8UuyNL5iodm3y_9liPvKEUGWyQ8rdhLr-7AhRsZLTdY6cAzwnVe3Y8RnFgrOPr2DMB859ZLa-"/>
+<span class="text-xs text-text-main font-mono hidden sm:inline-block">Sarah M.</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="text-xs font-mono text-accent-clay font-medium">Oct 15</span>
+</div>
+</div>
+<!-- Task Item: Active -->
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-border-stone items-center hover:bg-background-light/50 transition-colors group">
+<div class="col-span-1 flex justify-center">
+<button class="size-5 rounded-sm bg-white border border-border-stone hover:border-primary flex items-center justify-center text-transparent group-hover:text-primary/20">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+</div>
+<div class="col-span-6">
+<span class="text-sm font-medium text-text-main">Coordinate Logistics Team</span>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<div class="size-6 rounded-full bg-border-stone flex items-center justify-center text-[10px] font-mono text-text-muted">?</div>
+<span class="text-xs text-text-muted font-mono italic hidden sm:inline-block">Unassigned</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="text-xs font-mono text-text-main">Oct 18</span>
+</div>
+</div>
+<!-- Task Item: Active -->
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-border-stone items-center hover:bg-background-light/50 transition-colors group">
+<div class="col-span-1 flex justify-center">
+<button class="size-5 rounded-sm bg-white border border-border-stone hover:border-primary flex items-center justify-center text-transparent group-hover:text-primary/20">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</button>
+</div>
+<div class="col-span-6">
+<span class="text-sm font-medium text-text-main">Water Quality Baseline Testing</span>
+</div>
+<div class="col-span-3 flex items-center gap-2">
+<img alt="Avatar of David K." class="size-6 rounded-full border border-white shadow-sm" data-alt="Portrait of David K." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNE-VIkwW3zvvqLP8GAuduBciXqV9sj0_44wVWRrsfi0aMX6t43EYXMIY4TAqyg1C5VxuEE_lCkDu9N32-GARH3oaVtFvD2N9cxFNoCOvHhwoEHszA6eI-_J3hko74KXrvUFnXqTO8gKx-jkfXSa1B8Xo9G8sYchrdDDVvNOAbGO8_tRKemcbBdRFjNhp_qWztrJIPDVngX1wN2dousz23CmDdsodsJtANpi6qGi7WSILDElkvCalvvHTAmPnzMWLeLtfHYNrn_o4h"/>
+<span class="text-xs text-text-main font-mono hidden sm:inline-block">David K.</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="text-xs font-mono text-text-main">Oct 20</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity (Text Based) -->
+<div>
+<h3 class="text-lg font-display font-medium text-text-main mb-4">Field Notes</h3>
+<div class="space-y-4 border-l border-border-stone ml-2 pl-6 relative">
+<!-- Timeline Item -->
+<div class="relative">
+<div class="absolute -left-[29px] top-1.5 size-2.5 bg-background-light border-2 border-primary rounded-full"></div>
+<p class="text-xs font-mono text-text-muted mb-1">Today, 10:42 AM</p>
+<p class="text-sm text-text-main">Water samples from Sector 4 show pH levels stabilizing at 7.2. Uploaded results to data hub.</p>
+</div>
+<!-- Timeline Item -->
+<div class="relative">
+<div class="absolute -left-[29px] top-1.5 size-2.5 bg-background-light border-2 border-border-stone rounded-full"></div>
+<p class="text-xs font-mono text-text-muted mb-1">Yesterday, 4:15 PM</p>
+<p class="text-sm text-text-main">Delivery of filtration units delayed by weather. Rescheduled for Thursday morning.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Metadata & Media (1/3) -->
+<aside class="lg:col-span-1 space-y-8">
+<!-- Key Details Card -->
+<div class="bg-white border border-border-stone p-6 rounded-sm space-y-6">
+<h3 class="text-sm font-display font-semibold uppercase tracking-wider text-text-main border-b border-border-stone pb-2">Project Details</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-start">
+<span class="text-sm text-text-muted">Lead</span>
+<div class="text-right">
+<span class="block text-sm font-medium text-text-main">Sarah Miller</span>
+<span class="block text-xs text-text-muted">Field Operations</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm text-text-muted">Budget</span>
+<div class="text-right">
+<span class="block text-sm font-medium text-text-main">$50,000.00</span>
+<span class="block text-xs text-primary font-mono">Approved</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm text-text-muted">Region</span>
+<div class="text-right">
+<span class="block text-sm font-medium text-text-main">Sub-Saharan Africa</span>
+<span class="block text-xs text-text-muted">District 12-B</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm text-text-muted">Donors</span>
+<div class="text-right">
+<span class="block text-sm font-medium text-text-main">Global Water Fund</span>
+<span class="block text-xs text-text-muted">Grant #8821</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Media Gallery -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-display font-semibold uppercase tracking-wider text-text-main">Media Gallery</h3>
+<button class="text-xs text-primary hover:underline font-mono">View All</button>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<!-- Thumbnail 1 -->
+<div class="aspect-square bg-gray-100 border border-border-stone overflow-hidden group cursor-pointer relative">
+<img alt="Construction worker inspecting blueprints" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0" data-alt="Worker inspecting blueprints on site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC04JjCffozpZg_43MMQ2XgQmtMrywEoG_C-v6a73GuowfmHNdc6WOWbCDazy4WzXcBVEBx5YjIXTqJH1t4m-QMgSJ8ch1_uAtsMeIRNuKRnrrlREvl3apYwMCGDwnAxPln-N9E1kNmjE7R9Aac-2huT9ZZR1RHXrPBp8y1lRQW_3Biw9tg1c6CctSUEXBOFd4xQw495Q0RxD5jphWH28eYdxdvK0iTKfu3i0WrAJWQUzRqmrteDNOpEtFLuLtWLw0_6D_bn3GpcsJ_"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white drop-shadow-md">zoom_in</span>
+</div>
+</div>
+<!-- Thumbnail 2 -->
+<div class="aspect-square bg-gray-100 border border-border-stone overflow-hidden group cursor-pointer relative">
+<img alt="Clean water flowing from a tap" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0" data-alt="Clean water tap installation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxE_3DtTSL2Iy0ZHfsq_5G6GY0YH8iVJVxvN7iwPZtCIVB4de_AP3sw8UXWtO-s4YeaO_xxvE11uGzoSilYdc2_Y4dMfyWGMqjz1O7zh7TspL79QhPLUsQhjidRiNmWYvaXJTGi6w_adaAECXhtrwSc9cS-ujcbmtflLQPMENDypQTmp14VevPRFjfO96AYKFvNnDQ-C1gHHJc07bZ0Ck5GXt8fpdbieO0hqnh4-DUfv8WIexQMBxTlj2B-TaLSy21Xd6C9jr5a7EQ"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white drop-shadow-md">zoom_in</span>
+</div>
+</div>
+<!-- Thumbnail 3 -->
+<div class="aspect-square bg-gray-100 border border-border-stone overflow-hidden group cursor-pointer relative">
+<img alt="Vegetation and gardening tools" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0" data-alt="Site vegetation progress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtuWj3Gbn78uqDF8AGZ-owOvs825LsXOxX9k-dNErDANFXiaeZKoOg0GG7d7G7NizC8JOgyrWvESLtymYXPQCW1wGRubUULPr1XCKdhNBzUdts_29rkHPhwzaYYk6Q_RHeaelyVHxwoTAfUQzJZXcEQRzHOIbfxcsw6ANA7peaNY8NvWYOXJlpr5H4I9--7ByEIdnnEWx8NJKo4Y0ixF-vgoF1LMGYtjLVgrfBNUbXRc0vw4UvPcUkiC0KcaDUyNoXznaQdYPLJIVX"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white drop-shadow-md">zoom_in</span>
+</div>
+</div>
+<!-- Thumbnail 4 (+More) -->
+<div class="aspect-square bg-background-light border border-border-stone flex flex-col items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-3xl mb-1">add_a_photo</span>
+<span class="text-xs font-mono uppercase">Upload</span>
+</div>
+</div>
+</div>
+<!-- Team Section -->
+<div class="space-y-4">
+<h3 class="text-sm font-display font-semibold uppercase tracking-wider text-text-main border-b border-border-stone pb-2">Team Access</h3>
+<div class="flex -space-x-2 overflow-hidden py-1">
+<img alt="Sarah M." class="inline-block size-8 rounded-full ring-2 ring-white grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="Portrait of Sarah M." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC29F2qw9BrjkrxBbQ4BRqQ0UyuUzs7almj0HLyvAr1P5oXiYTFEKvXjPs-BtUd_Fp7PKbBGsLsLtv0OQDog8jZyQ-2tU7JlEgWkp7-FibnLW20q0cwrJZ5cAHbwNwr-E5boDOSBrNr4V2WDJC6nCLV2rCSQhtytFUyhYIgA5hIcyIxkyZSCTxWFQuYSHilo3b3f1x7DwR-fC0x3yYpHe6IGepZeaRi-vg_7cqf8t9M99gV39m7C5_C-MYbGwxsQEoQxECN-QRbm7-n"/>
+<img alt="David K." class="inline-block size-8 rounded-full ring-2 ring-white grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="Portrait of David K." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8zDbdiUQpB949YQommlGm9Lw_MJFrjeks5Q-kKYQQbk3zczpGBZ7VmthJ0jmb-boUveSFqzx6wRW0Yj9nU9qYKc5XOR5onDP4EP955VwZIv3N0eiavjYqVnCVuRS0Z1s3ZLndoFhQhJGo1Lx0g7PTfvaignxcvf8Cp2VccDQYkzP2SA_8yNSrp_llCHWOM48qe5JtC_pmy08c8gxr1vqTagTbaZfKj18kkDh5CReHolBj1JSd40k_JVOjh1r0eUxTEG-6O0MqT689"/>
+<img alt="Marcus L." class="inline-block size-8 rounded-full ring-2 ring-white grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="Portrait of Marcus L." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaDpqsfLjqImqajGWE6NbU4NMcFH5PNr_Md-keCZfcvK-NUpgs4xFcRZOqd_hdToT82pM4bW92RloNFr1ug-rXD5zl5Ol3UERXKovqsjZrSK9KZQcJFNG7guOr2Jpf-B4xXT37H5TsD3g_WdbBeIWGChwjIY99sbti5wzdlg_RPA1bRQM5w5WWpdPikyR0OW4RVs6N5DmPjEF5QYwpSbv05dc73zUUlCppGbfcxA28M_6tGdk96zGvU5WERlF8-Vj93UGjehlv1Cjn"/>
+<button class="inline-flex size-8 items-center justify-center rounded-full bg-background-light ring-2 ring-white border border-border-stone hover:bg-gray-100">
+<span class="material-symbols-outlined text-sm text-text-muted">add</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

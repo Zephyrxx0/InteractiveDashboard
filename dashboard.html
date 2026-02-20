@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eco-Grid Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10cb30", // Vibrant Green
+                        "primary-dark": "#0da526",
+                        "stone-bg": "#F2F0EB", // Warm light-gray background
+                        "surface": "#FFFFFF", // Stark White
+                        "border-main": "#D8D4CD", // Darker stone for grid lines
+                        "text-main": "#2C332B", // Deep forest charcoal
+                        "text-muted": "#6E736B", // Muted olive-gray
+                        "accent-ochre": "#C49B55",
+                        "accent-clay": "#A85E53",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["IBM Plex Mono", "monospace"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px", 
+                        "sm": "0px",
+                        "md": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'brutal': '4px 4px 0px 0px #D8D4CD',
+                        'brutal-hover': '6px 6px 0px 0px #10cb30',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for technical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F0EB; 
+            border-left: 1px solid #D8D4CD;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D8D4CD; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6E736B; 
+        }
+        
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, #e5e3de 1px, transparent 1px),
+                linear-gradient(to bottom, #e5e3de 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-stone-bg text-text-main font-body min-h-screen flex flex-col antialiased selection:bg-primary/30">
+<!-- Top Navigation -->
+<header class="h-16 bg-surface border-b border-border-main flex items-center justify-between px-6 sticky top-0 z-50">
+<!-- Left: Logo -->
+<div class="flex items-center gap-3">
+<div class="size-8 bg-text-main text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</div>
+<h1 class="font-display font-bold text-xl tracking-tight uppercase">Eco-Grid <span class="text-text-muted font-normal text-sm normal-case ml-1">[SYS v2.4]</span></h1>
+</div>
+<!-- Center: Date/Time -->
+<div class="hidden md:flex items-center gap-2 font-mono text-xs text-text-muted uppercase tracking-wider bg-stone-bg/50 px-3 py-1 border border-border-main">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>OCT 24 | 14:00 UTC</span>
+</div>
+<!-- Right: Profile & Actions -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-stone-bg transition-colors relative">
+<span class="material-symbols-outlined text-text-muted">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-accent-clay rounded-full border border-surface"></span>
+</button>
+<div class="h-8 w-[1px] bg-border-main"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right hidden sm:block">
+<p class="font-display font-bold text-sm leading-none">J. Doe</p>
+<p class="font-mono text-[10px] text-text-muted uppercase leading-none mt-1">Admin</p>
+</div>
+<div class="size-9 bg-stone-bg border border-border-main overflow-hidden relative">
+<img alt="Profile picture of J. Doe" class="w-full h-full object-cover" data-alt="Portrait of a man looking professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbWfoVKtueGXExEJZD8_MXdVos9HOsfLb7Z3r99iLYp56Qq5kZmHBWyxBVepuYDGHqF8H_DH-Bndb30rt9ETvI8JFaf7jgnrG2L-SotBE0mH9VqY6qUG23xTF-iPnpGhuzoXhUXlhvJ3DmnJc3OO1TReD74AF44RLORkBWiXG3xEMDp2zSZ4iX7-giVNwWF7AA1skwbEzyTthY9sWNTl3a688KzYMWAePuB5wAd8kosLTVoy-eR3onbRXj0CcU0QUvBPJldHD06cAX"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Global Toolbar (Sticky) -->
+<div class="sticky top-16 z-40 bg-stone-bg/95 backdrop-blur border-b border-border-main px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+<!-- Left Controls -->
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 h-9 bg-primary text-text-main font-mono text-xs font-bold uppercase border border-primary hover:bg-primary-dark hover:border-primary-dark transition-all shadow-brutal active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                Import Data
+            </button>
+<div class="h-6 w-[1px] bg-border-main"></div>
+<div class="flex items-center gap-2">
+<span class="font-mono text-xs text-text-muted uppercase">View:</span>
+<button class="flex items-center gap-2 px-3 h-9 bg-surface border border-border-main font-display text-sm hover:border-text-main transition-colors">
+                    Global Impact
+                    <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Right Controls -->
+<div class="flex items-center gap-3">
+<span class="font-mono text-xs text-text-muted uppercase hidden sm:inline">Last sync: 2m ago</span>
+<div class="flex items-center bg-surface border border-border-main p-0.5">
+<button class="px-3 py-1 bg-text-main text-white font-mono text-xs font-medium uppercase">Grid</button>
+<button class="px-3 py-1 text-text-muted hover:text-text-main font-mono text-xs font-medium uppercase">List</button>
+</div>
+<button class="flex items-center justify-center size-9 bg-surface border border-border-main text-text-main hover:bg-stone-bg transition-colors" title="Edit Grid Layout">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+</div>
+</div>
+<!-- Main Content Area (The Grid) -->
+<main class="flex-1 p-6 overflow-y-auto grid-bg">
+<div class="max-w-[1600px] mx-auto">
+<!-- Dashboard Grid Layout -->
+<!-- Using CSS Grid for the 12-column layout requested -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12 gap-4 auto-rows-[minmax(180px,auto)]">
+<!-- Widget: Total Beneficiaries (1x1 equivalent -> span 3 cols on 12-col grid) -->
+<div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3 bg-surface border border-border-main p-5 flex flex-col justify-between group hover:border-primary transition-colors cursor-move relative">
+<div class="flex justify-between items-start">
+<h3 class="font-mono text-xs text-text-muted uppercase tracking-wide">Total Beneficiaries</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px]">group</span>
+</div>
+<div>
+<p class="font-display text-4xl font-semibold text-text-main tracking-tight mt-2">14,203</p>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-stone-bg">
+<span class="flex items-center text-primary text-xs font-bold font-mono bg-primary/10 px-1.5 py-0.5">
+<span class="material-symbols-outlined text-[12px] mr-1">trending_up</span>
+                            +12%
+                        </span>
+<span class="text-xs text-text-muted font-body">vs last month</span>
+</div>
+<!-- Resize Handle -->
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Active Sites (1x1 equivalent -> span 3 cols) -->
+<div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3 bg-surface border border-border-main p-5 flex flex-col justify-between group hover:border-primary transition-colors cursor-move relative">
+<div class="flex justify-between items-start">
+<h3 class="font-mono text-xs text-text-muted uppercase tracking-wide">Active Sites</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px]">location_on</span>
+</div>
+<div>
+<p class="font-display text-4xl font-semibold text-text-main tracking-tight mt-2">8</p>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-stone-bg">
+<span class="flex items-center text-text-muted text-xs font-bold font-mono bg-stone-bg px-1.5 py-0.5">
+<span class="material-symbols-outlined text-[12px] mr-1">remove</span>
+                            0%
+                        </span>
+<span class="text-xs text-text-muted font-body">Stable</span>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Trees Planted (1x1 equivalent -> span 3 cols) -->
+<div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3 bg-surface border border-border-main p-5 flex flex-col justify-between group hover:border-primary transition-colors cursor-move relative">
+<div class="flex justify-between items-start">
+<h3 class="font-mono text-xs text-text-muted uppercase tracking-wide">Trees Planted</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px]">forest</span>
+</div>
+<div>
+<p class="font-display text-4xl font-semibold text-text-main tracking-tight mt-2">1,250</p>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-stone-bg">
+<span class="flex items-center text-primary text-xs font-bold font-mono bg-primary/10 px-1.5 py-0.5">
+<span class="material-symbols-outlined text-[12px] mr-1">trending_up</span>
+                            +5%
+                        </span>
+<span class="text-xs text-text-muted font-body">vs target</span>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Budget Utilization (1x1 equivalent -> span 3 cols) -->
+<div class="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3 bg-surface border border-border-main p-5 flex flex-col justify-between group hover:border-primary transition-colors cursor-move relative">
+<div class="flex justify-between items-start">
+<h3 class="font-mono text-xs text-text-muted uppercase tracking-wide">Budget Use</h3>
+<span class="material-symbols-outlined text-text-muted text-[18px]">attach_money</span>
+</div>
+<div class="relative">
+<p class="font-display text-4xl font-semibold text-text-main tracking-tight mt-2">65%</p>
+<!-- Simple visual bar for budget -->
+<div class="w-full h-1 bg-stone-bg mt-3 relative">
+<div class="absolute left-0 top-0 h-full bg-accent-ochre w-[65%]"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-stone-bg">
+<span class="flex items-center text-accent-clay text-xs font-bold font-mono bg-accent-clay/10 px-1.5 py-0.5">
+<span class="material-symbols-outlined text-[12px] mr-1">trending_down</span>
+                            -2%
+                        </span>
+<span class="text-xs text-text-muted font-body">Under spend</span>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Water Quality Trends (2x2 equivalent -> span 6 cols, span 2 rows) -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2 bg-surface border border-border-main p-6 flex flex-col group hover:border-primary transition-colors relative">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-display text-lg font-bold text-text-main leading-tight">Water Quality Analysis</h3>
+<p class="font-body text-sm text-text-muted">pH Levels across Sector 7 (Q1-Q3)</p>
+</div>
+<button class="text-text-muted hover:text-text-main">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Chart Placeholder (Mockup using HTML/CSS) -->
+<div class="flex-1 w-full flex items-end justify-between gap-2 px-2 pb-2 border-l border-b border-border-main relative min-h-[240px]">
+<!-- Y-Axis Lines -->
+<div class="absolute left-0 right-0 top-[20%] h-px bg-stone-bg border-t border-dashed border-border-main/50"></div>
+<div class="absolute left-0 right-0 top-[40%] h-px bg-stone-bg border-t border-dashed border-border-main/50"></div>
+<div class="absolute left-0 right-0 top-[60%] h-px bg-stone-bg border-t border-dashed border-border-main/50"></div>
+<div class="absolute left-0 right-0 top-[80%] h-px bg-stone-bg border-t border-dashed border-border-main/50"></div>
+<!-- Data Points / Line Simulation (Using a simplified SVG path for the line chart look) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none">
+<path d="M0,200 C50,180 100,220 150,150 C200,80 250,120 300,100 C350,80 400,60 450,90 C500,120 550,40 600,60 L600,240 L0,240 Z" fill="url(#gradient)" opacity="0.1"></path>
+<path d="M0,200 C50,180 100,220 150,150 C200,80 250,120 300,100 C350,80 400,60 450,90 C500,120 550,40 600,60" fill="none" stroke="#10cb30" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#10cb30;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#10cb30;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Tooltip Mockup -->
+<div class="absolute top-[30%] left-[48%] bg-text-main text-white text-[10px] font-mono px-2 py-1 z-10">
+                            pH: 7.2
+                        </div>
+<div class="absolute top-[34%] left-[50%] w-px h-[66%] bg-text-main/20 border-l border-dashed border-text-main"></div>
+<div class="absolute top-[34%] left-[50%] size-2 bg-primary border-2 border-white rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between w-full mt-2 text-[10px] font-mono text-text-muted uppercase">
+<span>Jan</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+<span>Jul</span>
+<span>Aug</span>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Regional Map (2x2 equivalent -> span 6 cols, span 2 rows) -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2 bg-surface border border-border-main p-0 flex flex-col group hover:border-primary transition-colors relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full p-6 z-10 bg-gradient-to-b from-surface/80 to-transparent">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display text-lg font-bold text-text-main leading-tight">Deployment Map</h3>
+<p class="font-body text-sm text-text-muted">Active Zones: South America</p>
+</div>
+<button class="bg-white/80 p-1 hover:bg-white transition-colors border border-border-main backdrop-blur">
+<span class="material-symbols-outlined text-[18px]">open_in_full</span>
+</button>
+</div>
+</div>
+<!-- Map Image -->
+<div class="flex-1 w-full h-full bg-stone-bg relative">
+<img alt="Map showing green zones overlaid on dark terrain" class="w-full h-full object-cover grayscale opacity-80 mix-blend-multiply hover:grayscale-0 hover:opacity-100 transition-all duration-500" data-alt="Satellite map view with highlighted eco zones" data-location="South America" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQDS_tK0EZU6LYBDHYZiwg4nn-lJPyRAhe_X6wJ9pfOJDjsqXYDqL63fXhvzAj_qll0PSk3TAGpN9pEtGIuScC_CI6GvXoHwjfxHBH74-jBbpeddiW1QnW09GKyCq0ekYH3jZtF9q_CkMjuz-FMf4S34gkwtOz5CoQJH7VLWbfaDqtx-RufwTDW1yvmNaqH-YMpMjcNgoMxfspIcHh678I2CdJlvk1U1q95ZEnQzzvwKMhf-k3hyO5SctwEx36Qu5mHXHGDX5pzuIG"/>
+<!-- Map Markers -->
+<div class="absolute top-[40%] left-[30%] group/marker cursor-pointer">
+<div class="size-3 bg-primary rounded-full animate-pulse"></div>
+<div class="absolute top-4 left-1/2 -translate-x-1/2 bg-text-main text-white text-[10px] font-mono px-2 py-1 opacity-0 group-hover/marker:opacity-100 transition-opacity whitespace-nowrap z-20">
+                                Sector 4: Active
+                            </div>
+</div>
+<div class="absolute top-[60%] left-[55%] group/marker cursor-pointer">
+<div class="size-3 bg-accent-ochre rounded-full"></div>
+<div class="absolute top-4 left-1/2 -translate-x-1/2 bg-text-main text-white text-[10px] font-mono px-2 py-1 opacity-0 group-hover/marker:opacity-100 transition-opacity whitespace-nowrap z-20">
+                                Sector 2: Review
+                            </div>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize z-20 bg-white/50">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Recent Activities (List) -> span 4 cols -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 bg-surface border border-border-main p-6 flex flex-col group hover:border-primary transition-colors relative min-h-[300px]">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-display text-lg font-bold text-text-main">Recent Logs</h3>
+<a class="text-xs font-mono text-primary hover:underline uppercase" href="#">View All</a>
+</div>
+<div class="space-y-3">
+<!-- Log Item -->
+<div class="flex gap-3 items-start pb-3 border-b border-stone-bg last:border-0">
+<div class="size-8 bg-stone-bg flex items-center justify-center shrink-0 border border-border-main text-text-muted">
+<span class="material-symbols-outlined text-[16px]">article</span>
+</div>
+<div>
+<p class="text-sm font-medium text-text-main leading-tight">Q3 Impact Report uploaded</p>
+<p class="text-xs text-text-muted mt-1">By Sarah J. • 2h ago</p>
+</div>
+</div>
+<!-- Log Item -->
+<div class="flex gap-3 items-start pb-3 border-b border-stone-bg last:border-0">
+<div class="size-8 bg-stone-bg flex items-center justify-center shrink-0 border border-border-main text-text-muted">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium text-text-main leading-tight">Milestone Reached: 1k Trees</p>
+<p class="text-xs text-text-muted mt-1">System • 4h ago</p>
+</div>
+</div>
+<!-- Log Item -->
+<div class="flex gap-3 items-start pb-3 border-b border-stone-bg last:border-0">
+<div class="size-8 bg-stone-bg flex items-center justify-center shrink-0 border border-border-main text-text-muted">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</div>
+<div>
+<p class="text-sm font-medium text-text-main leading-tight">Alert: High wind at Site B</p>
+<p class="text-xs text-text-muted mt-1">Sensor #402 • 6h ago</p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Project Status Breakdown (Pie Chart approximation) -> span 4 cols -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 bg-surface border border-border-main p-6 flex flex-col group hover:border-primary transition-colors relative min-h-[300px]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-display text-lg font-bold text-text-main">Project Status</h3>
+<span class="material-symbols-outlined text-text-muted">pie_chart</span>
+</div>
+<div class="flex flex-row items-center gap-6 h-full">
+<!-- CSS Conic Gradient Pie Chart -->
+<div class="size-32 rounded-full shrink-0 relative" style="background: conic-gradient(#10cb30 0% 60%, #C49B55 60% 85%, #D8D4CD 85% 100%);">
+<div class="absolute inset-0 m-[16px] bg-surface rounded-full flex items-center justify-center">
+<span class="font-display font-bold text-xl">12</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-col gap-3 w-full">
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 bg-primary"></span>
+<span class="text-text-main font-medium">Active</span>
+</div>
+<span class="font-mono text-text-muted">60%</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 bg-accent-ochre"></span>
+<span class="text-text-main font-medium">On Hold</span>
+</div>
+<span class="font-mono text-text-muted">25%</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 bg-border-main"></span>
+<span class="text-text-main font-medium">Completed</span>
+</div>
+<span class="font-mono text-text-muted">15%</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 cursor-se-resize">
+<span class="material-symbols-outlined text-border-main text-[12px] rotate-90">drag_indicator</span>
+</div>
+</div>
+<!-- Widget: Quick Actions / Add New -> span 4 cols -->
+<div class="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 border-2 border-dashed border-border-main p-6 flex flex-col items-center justify-center group hover:border-primary hover:bg-surface/50 transition-all cursor-pointer min-h-[300px]">
+<div class="bg-stone-bg rounded-full p-4 mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-text-muted text-[32px] group-hover:text-primary">add</span>
+</div>
+<h3 class="font-display text-lg font-bold text-text-muted group-hover:text-text-main">Add Widget</h3>
+<p class="font-body text-sm text-text-muted text-center max-w-[200px] mt-1">Drag and drop from library or create custom view</p>
+</div>
+</div>
+<!-- Bottom Spacer -->
+<div class="h-20"></div>
+</div>
+</main>
+</body></html>

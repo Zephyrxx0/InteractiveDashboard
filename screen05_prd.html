@@ -1,0 +1,218 @@
+# Eco-Grid System PRD
+
+## Product Overview
+
+**The Pitch:** A high-fidelity command center for NGOs that transforms dense field data and project timelines into a strict, manageable visual grid. It bridges the gap between raw CSV impact reports and human-readable narratives.
+
+**For:** NGO Project Managers who need to juggle complex field logistics while reporting precise impact metrics to stakeholders. They care about clarity, data density, and seeing the big picture without fluff.
+
+**Device:** Desktop (Primary focus: 1920x1080 and ultrawide monitors)
+
+**Design Direction:** **Technical Brutalism meets Earth Tones.** A rigid, visible underlying geometry softened by organic colors. It feels like a modernized architectural blueprint—functional, sharp, and honest.
+
+**Inspired by:** *Linear* (for density), *Notion* (for modularity), and classic *Swiss Grid Systems*.
+
+---
+
+## Screens
+
+- **01 Dashboard (The Grid):** Customizable canvas for high-level metric visualization and quick status checks.
+- **02 Project Hub (The Index):** A dense list-view catalog of all organizational initiatives sorted by status.
+- **03 Project Detail (The Blueprint):** Deep-dive view into a single project’s media, tasks, and outcomes.
+- **04 Data Import (The Hopper):** Drag-and-drop zone for parsing raw XLS/CSV files into visual widgets.
+
+---
+
+## Key Flows
+
+**Flow: Generating an Impact Report**
+1. User is on **Dashboard** -> clicks `+ Add Widget`
+2. User selects **Data Import** -> drags `water_analysis_q3.csv` into the drop zone
+3. System parses headers -> User maps "pH Level" to "Line Graph"
+4. **Result:** A new 2x2 widget snaps onto the Dashboard grid showing water quality trends.
+
+**Flow: Updating Project Status**
+1. User is on **Project Hub** -> filters by "Active" -> selects "Reforestation Sector 7"
+2. User enters **Project Detail** -> scrolls to "Milestones"
+3. User checks off "Seedling Distribution" -> Status bar advances to 65%
+4. **Result:** Project card on Hub updates instantly; Dashboard aggregate widget increments "Trees Planted."
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+**Core Neutrals:**
+- **Background:** `#F2F0EB` - Warm light-gray (Stone)
+- **Surface:** `#FFFFFF` - Stark White
+- **Border:** `#D8D4CD` - Darker stone for grid lines
+- **Text Primary:** `#2C332B` - Deep forest charcoal
+- **Text Secondary:** `#6E736B` - Muted olive-gray
+
+**Eco-Accents:**
+- **Primary (Sage):** `#5E7D63` - Primary Actions, Active States
+- **Secondary (Ochre):** `#C49B55` - Warnings, Highlights, "In Progress"
+- **Tertiary (Clay):** `#A85E53` - Errors, "Overdue", Urgent
+- **Quaternary (Loam):** `#3D4035` - Dark backgrounds, Footer elements
+
+## Typography
+
+**Font Family:** *Space Grotesk* (Headings) + *IBM Plex Mono* (Data/Labels) + *Inter* (Body)
+
+- **Display:** *Space Grotesk*, 600, 32px, tracking -1px (Page Titles)
+- **Heading:** *Space Grotesk*, 500, 18px (Card Headers)
+- **Data/Label:** *IBM Plex Mono*, 500, 12px, Uppercase (Tags, Metrics, Axis Labels)
+- **Body:** *Inter*, 400, 14px, leading 1.5 (Descriptions)
+
+**Style Notes:**
+- **Radius:** `0px` (Strictly sharp corners)
+- **Shadows:** None. Elements are defined by `1px` borders.
+- **Atmosphere:** High density. Tight margins. "Ink on paper" feel.
+
+## Design Tokens
+
+```css
+:root {
+  --color-bg: #F2F0EB;
+  --color-surface: #FFFFFF;
+  --color-border: #D8D4CD;
+  --color-text-main: #2C332B;
+  --color-text-muted: #6E736B;
+  --color-accent-sage: #5E7D63;
+  --color-accent-ochre: #C49B55;
+  --color-accent-clay: #A85E53;
+  
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+  
+  --spacing-unit: 8px; /* Everything is a multiple of 8 */
+  --border-width: 1px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### 01 Dashboard (The Grid)
+
+**Purpose:** A customizable, widget-based overview of NGO health.
+
+**Layout:**
+- **Top:** 64px fixed header. Logo (left), Date/Time (center), User Profile (right).
+- **Body:** Infinite scroll vertical canvas. 12-column invisible grid.
+- **Grid Gap:** 16px constant.
+
+**Key Elements:**
+- **Global Toolbar:** Sticky bar under header.
+  - `Edit Grid` toggle (switches to drag-mode).
+  - `Import Data` button (Solid Sage, white text).
+  - `Filter View` dropdown (Ochre border).
+- **Metric Card (1x1 Widget):**
+  - **Header:** "Total Beneficiaries", *IBM Plex Mono*, 12px.
+  - **Body:** "14,203", *Space Grotesk*, 32px.
+  - **Footer:** "+12% vs last month" (Green text), small trend arrow.
+- **Chart Card (2x2 Widget):**
+  - White surface, 1px border.
+  - D3.js line chart (Sage line, light gray grid).
+  - Sharp tooltip on hover.
+
+**Interactions:**
+- **Drag & Drop:** When "Edit Grid" is active, widgets lift (slight scale up 1.02, drop shadow `4px 4px 0px #D8D4CD`).
+- **Resize:** Grab handle in bottom-right corner of any widget. Snaps to 12-column grid.
+
+**States:**
+- **Empty:** "No widgets configured." + CTA button "Load Default Template".
+- **Loading:** Skeleton screens with shimmering gray fill.
+
+---
+
+### 02 Project Hub (The Index)
+
+**Purpose:** Comprehensive inventory of all initiatives.
+
+**Layout:**
+- **Left Sidebar (240px):** Faceted search filters.
+  - Sections: Region, Status, Funding Source.
+  - Checkbox lists (Square checkboxes, sharp borders).
+- **Main Area:** Masonry grid of Project Cards.
+
+**Key Elements:**
+- **Project Card:**
+  - **Image:** 16:9 aspect ratio header image. Sharp corners. Grayscale by default, color on hover.
+  - **Status Badge:** Top-right absolute position. Solid color block (Sage/Ochre/Clay). Text: "ACTIVE".
+  - **Title:** "Clean Water Initiative - Phase 2".
+  - **Metadata:** Grid of key-values. "Budget: $50k", "Lead: S. Miller".
+  - **Progress:** 4px high bar at bottom. Filled based on % complete.
+
+**Interactions:**
+- **Hover Card:** Image transitions to full color. Border color changes from Stone `#D8D4CD` to Sage `#5E7D63`.
+- **Click Card:** Navigates to **03 Project Detail**.
+
+---
+
+### 03 Project Detail (The Blueprint)
+
+**Purpose:** Single source of truth for a specific project.
+
+**Layout:**
+- **Header Block:** Full width. Project Title + Action Buttons (Edit, Archive, Export).
+- **Content Grid:** Two columns (2/3 Left for narrative/tasks, 1/3 Right for metadata/team).
+
+**Key Elements:**
+- **Tab System:** "Overview", "Financials", "Logistics".
+  - Style: Simple text labels with a thick 2px underline for active state. No background fill.
+- **Task List (Left Col):**
+  - Rows with 1px bottom border.
+  - **Columns:** Checkbox, Task Name, Assignee (Avatar), Due Date (Mono font).
+  - **Strikethrough:** When checked, text opacity 50%, line-through.
+- **Media Gallery (Right Col):**
+  - Grid of thumbnails (site photos, receipts).
+  - Clicking opens a stark white modal lightbox.
+
+**States:**
+- **Archived:** Banner at top (Clay background, white text): "This project is archived. Read-only mode."
+
+---
+
+### 04 Data Import (The Hopper)
+
+**Purpose:** Transform raw files into visual widgets.
+
+**Layout:**
+- **Center Modal:** 800px wide, centered on screen. Overlay is 80% opacity Stone `#F2F0EB`.
+
+**Key Elements:**
+- **Drop Zone:** Dashed border `#6E736B`. Text: "Drop CSV / XLSX here".
+- **Mapping Interface (appears after drop):**
+  - **Left Col:** "Source Columns" (list of headers found in file).
+  - **Right Col:** "Widget Fields" (X-Axis, Y-Axis, Label).
+  - **Interaction:** Drag from Left to Right to map data.
+- **Preview:** Small rendering of the resulting chart at bottom.
+
+**Interactions:**
+- **Success:** Button turns Sage green. "Widget Created". Modal closes. Dashboard refreshes.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** React + Tailwind CSS v3 + Recharts (for data viz) + dnd-kit (for drag and drop).
+
+**Build Order:**
+1. **Design Tokens & Shell:** Implement the `layout.js` wrapper, fonts, and tailwind config variables. This establishes the "Eco-Grid" aesthetic immediately.
+2. **02 Project Hub:** Builds the core card components and grid logic without the complexity of drag-and-drop.
+3. **03 Project Detail:** Deepens the component library (tables, tabs, headers).
+4. **01 Dashboard:** Implements the complex `dnd-kit` grid logic using the cards established in previous steps.
+5. **04 Data Import:** Connects the backend file parsing logic to the frontend visualization.
+
+</details>

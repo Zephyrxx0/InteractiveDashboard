@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eco-Grid System - Project Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5E7D63", // Sage as requested in PRD, overriding the generic green for this specific design to match "Eco-Grid"
+                        "primary-dark": "#4a634e",
+                        "secondary": "#C49B55", // Ochre
+                        "tertiary": "#A85E53", // Clay
+                        "neutral-bg": "#F2F0EB", // Stone
+                        "neutral-border": "#D8D4CD", // Darker Stone
+                        "neutral-surface": "#FFFFFF",
+                        "text-main": "#2C332B", // Charcoal
+                        "text-muted": "#6E736B", // Olive Gray
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["IBM Plex Mono", "monospace"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "none": "0px",
+                        "DEFAULT": "0px", // Strict brutalism
+                        "sm": "0px",
+                        "md": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px", // Only for avatars/pills if absolutely needed
+                    },
+                    boxShadow: {
+                        'none': 'none',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for a technical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F0EB; 
+            border-left: 1px solid #D8D4CD;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D8D4CD; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5E7D63; 
+        }
+        
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, #D8D4CD 1px, transparent 1px),
+                linear-gradient(to bottom, #D8D4CD 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="bg-neutral-bg text-text-main font-body antialiased overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="h-16 flex-none bg-neutral-surface border-b border-neutral-border flex items-center justify-between px-6 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-text-main">
+<div class="size-6 bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm font-bold">grid_view</span>
+</div>
+<h1 class="text-xl font-display font-bold tracking-tight uppercase">Eco-Grid System</h1>
+</div>
+<nav class="hidden md:flex items-center h-full">
+<a class="h-16 flex items-center px-4 text-sm font-mono uppercase text-text-muted hover:text-text-main hover:bg-neutral-bg border-r border-transparent hover:border-neutral-border transition-colors" href="#">Dashboard</a>
+<a class="h-16 flex items-center px-4 text-sm font-mono uppercase text-text-main bg-neutral-bg border-x border-neutral-border font-medium" href="#">Project Hub</a>
+<a class="h-16 flex items-center px-4 text-sm font-mono uppercase text-text-muted hover:text-text-main hover:bg-neutral-bg border-r border-transparent hover:border-neutral-border transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-neutral-bg border border-neutral-border min-w-[240px]">
+<span class="material-symbols-outlined text-text-muted text-[18px]">search</span>
+<input class="bg-transparent border-none p-0 text-sm font-mono placeholder:text-text-muted/70 focus:ring-0 w-full uppercase" placeholder="SEARCH PROJECTS ID..." type="text"/>
+</div>
+<div class="flex items-center gap-4 border-l border-neutral-border pl-6">
+<span class="text-xs font-mono text-text-muted uppercase hidden lg:block">GMT +2:00</span>
+<button class="relative group">
+<span class="material-symbols-outlined text-text-main">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-tertiary rounded-full border border-neutral-surface"></span>
+</button>
+<div class="size-8 bg-neutral-bg border border-neutral-border flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="size-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSRf9m46nQ4DwzNAHgVl4nUxmSXdnh-lsbc8txwWx8Ap0ndRu5FQeCxxc3TmKCRjhtUL3y2xtrduW9J3wW7iJsgWO3WsWjrj0aQBpUHAgR0XXb0Rzl4zQY9V40sGZ3zvPkc5AjEG_3S375BB4XTIN8JRlfZpv9D6TOO8Hu4_ZJxl4LJ0Dk76FIs7ydlsx7jX3fzOW5kbdZxTukzvA2FcPBv4awc7tWgxFwAUBGF4FseTGsaepdvYG6RdCIthWgNwW9xEUIGc0OPNPL"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Filters -->
+<aside class="w-[240px] flex-none bg-neutral-surface border-r border-neutral-border overflow-y-auto flex flex-col">
+<div class="p-6 border-b border-neutral-border">
+<h2 class="font-display font-semibold text-lg uppercase tracking-tight">Filters</h2>
+<p class="text-xs font-mono text-text-muted mt-1 uppercase">Refine Selection</p>
+</div>
+<!-- Filter Group: Region -->
+<div class="p-6 border-b border-neutral-border space-y-4">
+<h3 class="text-xs font-mono font-bold text-text-main uppercase tracking-widest">Region</h3>
+<div class="space-y-3">
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Sub-Saharan Africa</span>
+</label>
+<label class="flex items-start gap-3 group cursor-pointer">
+<input checked="" class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-main font-medium">Southeast Asia</span>
+</label>
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Latin America</span>
+</label>
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Eastern Europe</span>
+</label>
+</div>
+</div>
+<!-- Filter Group: Status -->
+<div class="p-6 border-b border-neutral-border space-y-4">
+<h3 class="text-xs font-mono font-bold text-text-main uppercase tracking-widest">Status</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 group cursor-pointer">
+<input checked="" class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg" type="checkbox"/>
+<span class="inline-flex items-center gap-2 text-sm font-body text-text-main font-medium">
+<span class="size-2 bg-primary block"></span> Active
+                        </span>
+</label>
+<label class="flex items-center gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg" type="checkbox"/>
+<span class="inline-flex items-center gap-2 text-sm font-body text-text-muted group-hover:text-text-main transition-colors">
+<span class="size-2 bg-secondary block"></span> Planning
+                        </span>
+</label>
+<label class="flex items-center gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg" type="checkbox"/>
+<span class="inline-flex items-center gap-2 text-sm font-body text-text-muted group-hover:text-text-main transition-colors">
+<span class="size-2 bg-tertiary block"></span> Halted
+                        </span>
+</label>
+</div>
+</div>
+<!-- Filter Group: Funding -->
+<div class="p-6 space-y-4">
+<h3 class="text-xs font-mono font-bold text-text-main uppercase tracking-widest">Funding Source</h3>
+<div class="space-y-3">
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Government Grant</span>
+</label>
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Private Donation</span>
+</label>
+<label class="flex items-start gap-3 group cursor-pointer">
+<input class="size-4 border border-neutral-border rounded-none text-primary focus:ring-0 focus:ring-offset-0 checked:bg-primary checked:border-primary transition-colors bg-neutral-bg mt-0.5" type="checkbox"/>
+<span class="text-sm font-body text-text-muted group-hover:text-text-main transition-colors">Corporate</span>
+</label>
+</div>
+</div>
+<div class="mt-auto p-6 border-t border-neutral-border">
+<button class="w-full h-10 flex items-center justify-center bg-neutral-bg border border-neutral-border text-xs font-mono uppercase font-bold text-text-main hover:bg-neutral-border/20 transition-colors">
+                    Reset Filters
+                </button>
+</div>
+</aside>
+<!-- Main Content: Masonry Grid -->
+<main class="flex-1 overflow-y-auto bg-neutral-bg relative">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 grid-bg pointer-events-none z-0"></div>
+<div class="p-8 relative z-10 max-w-[1920px] mx-auto">
+<!-- Action Bar -->
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-end gap-4">
+<h2 class="text-3xl font-display font-bold text-text-main leading-none">Projects</h2>
+<span class="text-sm font-mono text-text-muted mb-1 uppercase">Showing 14 of 42</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-neutral-surface border border-neutral-border">
+<button class="p-2 hover:bg-neutral-bg text-primary border-r border-neutral-border">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-2 hover:bg-neutral-bg text-text-muted">
+<span class="material-symbols-outlined text-[20px]">view_list</span>
+</button>
+</div>
+<button class="h-10 px-6 bg-primary text-white font-mono text-xs uppercase font-bold hover:bg-primary-dark transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            New Project
+                        </button>
+</div>
+</div>
+<!-- Projects Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1: Active -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-primary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Active</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Clean water initiative field work with villagers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuNsv5dljp4Uo2EajvWkyAMnWhIhPgZ0NbxIl700OGIfxbwWfiUe4LyS1TA5RxlcOdWAjE7aGlRgGLbGkgtd-OjVfG5jQk3gN1AHp9NaC7M9WZSGfFt1hqfVUd7VGSFDpvAtUPySfh8kubfkMru-tacedffkDA8QQc88T2Q6H7iXBo3z-dXBBsauFmGn0E3WXKvuUmf0LqOz-TMTLmz_FazM07aBBLU5jFj8sZbaJl1GsPsFt-TtWFMvjS3o4QFgNfgIE_5DddzoPw"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: WTR-092</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Clean Water Initiative - Phase 2</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Implementation of solar-powered filtration systems in rural districts. Includes community training.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$150,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL6WMKG_Yi1s4BgZwiAwoVP7jrA0xAFea_RMyUrbopRyysuHKrkrjDly-9tS33slo8nIiLhJznV7vn6Li_V9nqigK4K0Rm6nh7vAJl4uexpmdp6gSTHhcKRBHcSefYYwTEO2_G-OlJCbw6epBl0UgCgTQZOgGuyexsKRo4NAaIsBUe5rLei-5eBN-jPAFlw1XbBjoIe7MV_1FtatKu5mwZ31ig6F4Z2tpo_DKBiJVkiSzBeDVHfjINlQ2Voq1IPoKhuJU4TXzkYLve"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">S. Miller</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-text-main">12 Oct 2024</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">SE Asia</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-primary" style="width: 65%"></div>
+</div>
+</article>
+<!-- Card 2: Warning -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-secondary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Warning</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Reforestation project site with saplings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgs4VOF8ZBuEIHCJy5YsHw23TCAcKWGGxn9T17eUs8uYW9BzD23mqs9v_0i_VHy1UeV3FQTV_10tih6JyXv45HUd1K_BGvkkXhSI7UPvM_jq3XdwVa_Lk44eSZn0OHAoeQdmqK0QU1ZyonvpiXrLT_4peLa_boBH2i_cVKANbNztUfrIxlSRKN68Fcc0JnhG5tnSWlKjHI5dkYXeQvhF1YJcrBvSYu-CYZksXiCte2FetT-5X93BbcFglF51RjVHxcBMhROmBhUt-v"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: FOR-115</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Reforestation Sector 7</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Large scale planting of native species to combat soil erosion. Logistics delayed due to weather.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$75,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1qEmWvDdkAS75S2mO28P9rINByPVIFfn-Pz8u43onVuiot7kW6gCZah8Yh5UZgShs4jQkLjfVPDyzXwvvBJzD7yEgq5xtiUIgN2C9TMEGekO4jlF0QcwhROEA98Xoj0dXKoQEq2s38LjEQz8I69IBlgRt3TTENcQy_r0suGtDpSCyqZrI7AUxVPQy2PgQimX6Fu2LQiW9ly6P0jtYMSu0cY7fNAHct5qBn11UKvCuP0ukNWFgJeHfjXzWJe5TaCTIGRZgW0xM2b1p"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">D. Chen</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-text-main">28 Nov 2024</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">S. America</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-secondary" style="width: 30%"></div>
+</div>
+</article>
+<!-- Card 3: Halted -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-tertiary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Halted</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Urban vertical garden structure construction" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp9nS_GE4u8jrWIF2xnj7QEIwpwhIjU7ER8xIFXx8JarbMQdamUXjHANROt-7M66dcAVi0cKDMTbYGT5No1pWeqVzk8C__R3B94-ie4YfEsIbkrtm4XPx4VlyvI-lOS-Ic4M04wofsOYmFW4yps7uveNxfDFoSVL8w1ahQ8MUgQV9ENvQLpNVtVjIGWjmzd59CONDz8IJGziNN3ui_j6K7o75A8EhLVGKKMIW6AOByRexC22HrJdC0X6goCkn2rNOu1uKk-doY2HdG"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: URB-044</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Urban Vertical Gardens</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Experimental hydroponic towers in dense city centers. Project paused pending permit review.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$210,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYbGXCtNN4b1qqCCAmNNXv9NOgot1S7ey9q1O3N1DkYX3NQ8Db1fPmS0X7FuKBBZJR-D1QnjiJ6jeLsXocN8vipnf6jvO96hawnPPpwH0awY7oLKsIsf1bJoxCPgk2tRX2ul31yDLXxo1NYDko1xwG_yY3OzL7oizElrd_cm6aVbRi4RS-FrypCSx7BYEdCLKQq0muYgiZicRdvDJLPTN3Wonavb-alvx5CY1oscRhHBm67Zs0a7Az97FCbXbRBnvtsDb-VFft7KWq"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">M. Garcia</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-tertiary">Overdue</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">E. Europe</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-tertiary" style="width: 10%"></div>
+</div>
+</article>
+<!-- Card 4: Active -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-primary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Active</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Children in a classroom using tablets" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHe5zJa0a53GbQ4MxETS5YNCWZi_krJRnwT0YeSgENr2i8OLUa4F2KyKzkSBHJR22i8IDKm3AsuELzlGJy6WrsRcUJv2cSnzp0cQIOiFHJjOweXxFbp5b821O6BskHI33vPZoadF16IPF98LBpO1Irr-pvkd-HS5V8JLxJSQ1JISaAem4HCmdzNIPFiPx3Dkz45CdXAtCoroN88GxZFnBnrhfSXstjHTnqnBaavmetXUUWDWjhu5Egopf7QXVGl-fweAN39Zkonghn"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: EDU-201</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Education Tech Rollout</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Distributing 5,000 ruggedized tablets to remote schools. Software installation complete.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$500,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTjm_-li1kTL1nPO1XtFWSzzaqMWdhiqX3HofcbIhIJ7Cgj9jU46TXz2NicEKhyPAJtHYZzSgoYesLs9CDxdva44OTpUCU_X5EcVKm45woQDFn2Ds9WvqoEc8Dg0jzpkh1aYu7IW_SCul3iJnt_CzuoCfwD6PafrXHWshkYIfFmegzB70FVlc4jWbGnvQzwEM7o9AnMl8IT6E0rYaGcMToH7HaS52k2c0Mn_kFE_F3wM-vPDgtNEVQQX4XFJIPp5L61Qjki-ugDg84"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">J. Kim</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-text-main">15 Jan 2025</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">Global</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-primary" style="width: 88%"></div>
+</div>
+</article>
+<!-- Card 5: Active -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-primary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Active</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Solar panel installation on a rooftop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhlT50p-RbpEM-smbJdrhCT7g1k3ixjdznOPcRAI7gM1qeJ0J7JPNUxhNEOqV91k0lG1brv5yJ3KF3FcdjDpCflLSEMtUVMRDGn0xqqyfwEbYC1QhXjHyTRbtP7LEE3azHT4t3hW30pnF_StqPyYRH-EuONzaRR5uZiklZZeHgI8wlPZ0c_10UbVzZJi0ns4L_4cyYVukixnRI6c8Xwdz5eOFPZbYMkeJSUn-STywW0NnG-QnxAfW2TCXU7H5PrSZ2dyZrtlqSY24t"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: NRGY-005</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Micro-Grid Solar Pilot</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Testing decentralized power generation for off-grid clinics. Battery storage installation phase.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$320,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7_Q39V1SUNyeEu6Cw-bJl6k8lULZNAw_x2fY4KK1anWlWJetK7leIA0GZ1wRfnUceimOieHnf0DRjYa5JRSJRLzxK91eSU-Vr6bO6kLv96daL50a-LOkbdje77cDhT9LixoXjeq_qugaxYNgEc5q2OZnIbVC2NKHh-iNSsrk-66wQYInpx-bL5XSs6DKbVuMk4HXdYV7VrKFc4gXJmZ4ioe5scmalZgJNrEXvpJBVoW69kw3gDhf-WbZP9GIUAKyf2-ILYoIz0ea0"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">P. Rao</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-text-main">01 Mar 2025</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">SE Asia</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-primary" style="width: 45%"></div>
+</div>
+</article>
+<!-- Card 6: Planning -->
+<article class="group bg-neutral-surface border border-neutral-border hover:border-primary transition-colors duration-300 flex flex-col relative cursor-pointer">
+<div class="absolute top-0 right-0 bg-secondary text-white px-3 py-1 z-20">
+<span class="text-xs font-mono font-bold uppercase tracking-wider">Planning</span>
+</div>
+<div class="relative w-full aspect-video overflow-hidden border-b border-neutral-border">
+<img class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out" data-alt="Agricultural drone flying over crop field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXT1BE7MIRTo87nvGR8mhinvAgz26vo1MxccGOW0Ze3tkgtlgxVORD_7UKZZw57qSM_evLCgWMWglRO0hlzNTpAjMUsep_ZCPgGb7Vok1sC8NjH-vdIkotNUIw4mUd1SlD1-axHhtZbhyEAZowQV9JOQEZDd2FnBgbJ-UP7Nfe95P1lSa0flYuurcgsUX1BDODiX66hJkYvhCzCRSUtZHvFuJ1GIINZ0sKlWHeMRYdN11haa7HUakQpfCTVAEbqtGbZUfb6sR40O66"/>
+<div class="absolute bottom-0 left-0 bg-neutral-bg/90 px-2 py-1 border-t border-r border-neutral-border">
+<span class="text-[10px] font-mono uppercase text-text-main tracking-widest">ID: AGR-772</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="text-lg font-display font-bold text-text-main leading-tight group-hover:text-primary transition-colors">Drone Crop Analysis</h3>
+<p class="text-sm text-text-muted mt-2 font-body line-clamp-2">Using multi-spectral imaging to detect early signs of blight in wheat crops.</p>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 py-4 border-y border-neutral-border/50">
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Budget</p>
+<p class="text-sm font-mono font-medium text-text-main">$90,000</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Lead</p>
+<div class="flex items-center gap-2">
+<div class="size-5 bg-neutral-border overflow-hidden">
+<img alt="Lead Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn5QGOTfpYg075H6jldH-tzLyQ142BNVZmjRJWU_KvzKsXLF7pKTa7u_QqStVvmii0h-0BRtQAOOILL9PzYdL1D0lrpuiwTD8c4HYqdWzjhM7tgIXl4L0FsXAo5dvK2bruU4dZMwbcUIjzeTHodyDj_IhKiDKfdQQ8qke2eCjRFQZm035UeBwLzRaLOpc1LN-OkonWl90tchlwGaFimnEkOgoBTIhXmDP6Rlb3ZUtdpcWmEfTMwLF2UZDeinWelG_kYGN7Y8D7LZvS"/>
+</div>
+<span class="text-sm font-mono font-medium text-text-main">K. Tanaka</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Deadline</p>
+<p class="text-sm font-mono font-medium text-text-main">TBD</p>
+</div>
+<div>
+<p class="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Region</p>
+<p class="text-sm font-mono font-medium text-text-main">E. Europe</p>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-1 w-full bg-neutral-bg border-t border-neutral-border">
+<div class="h-full bg-secondary" style="width: 5%"></div>
+</div>
+</article>
+</div>
+</div>
+</main>
+</div>
+<!-- Decorative Bottom Line -->
+<div class="h-1 w-full bg-primary flex-none"></div>
+</body></html>

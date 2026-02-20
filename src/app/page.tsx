@@ -1,65 +1,122 @@
-import Image from "next/image";
+import { Header } from "@/components/header";
+import { Toolbar } from "@/components/toolbar";
+import { MetricCard } from "@/components/metric-card";
+import { ChartWidget } from "@/components/chart-widget";
+import { MapWidget } from "@/components/map-widget";
+import { LogItem } from "@/components/log-item";
+import { ProjectStatusChart } from "@/components/project-status-chart";
 
-export default function Home() {
+export default function DashboardPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    <>
+      <Header activeNav="dashboard" />
+      <Toolbar />
+
+      <main className="flex-1 p-6 overflow-y-auto grid-bg">
+        <div className="max-w-[1600px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12 gap-4 auto-rows-[minmax(180px,auto)]">
+            {/* KPI: Total Beneficiaries */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
+              <MetricCard
+                title="Total Beneficiaries"
+                value="14,203"
+                icon="group"
+                trend={{ value: "+12%", direction: "up", label: "vs last month" }}
+              />
+            </div>
+
+            {/* KPI: Active Sites */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
+              <MetricCard
+                title="Active Sites"
+                value="8"
+                icon="location_on"
+                trend={{ value: "0%", direction: "stable", label: "Stable" }}
+              />
+            </div>
+
+            {/* KPI: Trees Planted */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
+              <MetricCard
+                title="Trees Planted"
+                value="1,250"
+                icon="forest"
+                trend={{ value: "+5%", direction: "up", label: "vs target" }}
+              />
+            </div>
+
+            {/* KPI: Budget Utilization */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
+              <MetricCard
+                title="Budget Use"
+                value="65%"
+                icon="attach_money"
+                trend={{ value: "-2%", direction: "down", label: "Under spend" }}
+              >
+                {/* Budget progress bar */}
+                <div className="w-full h-1 bg-background mt-3 relative">
+                  <div className="absolute left-0 top-0 h-full bg-eco-ochre w-[65%]" />
+                </div>
+              </MetricCard>
+            </div>
+
+            {/* Water Quality Analysis Chart (2x2) */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2">
+              <ChartWidget />
+            </div>
+
+            {/* Deployment Map (2x2) */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2">
+              <MapWidget />
+            </div>
+
+            {/* Recent Logs */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 bg-card border border-border p-6 flex flex-col group hover:border-primary transition-colors relative min-h-[300px]">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-display text-lg font-bold text-foreground">Recent Logs</h3>
+                <a className="text-xs font-mono text-primary hover:underline uppercase" href="#">
+                  View All
+                </a>
+              </div>
+              <div className="space-y-3">
+                <LogItem
+                  icon="article"
+                  title="Q3 Impact Report uploaded"
+                  meta="By Sarah J. • 2h ago"
+                />
+                <LogItem
+                  icon="check_circle"
+                  title="Milestone Reached: 1k Trees"
+                  meta="System • 4h ago"
+                />
+                <LogItem
+                  icon="warning"
+                  title="Alert: High wind at Site B"
+                  meta="Sensor #402 • 6h ago"
+                />
+              </div>
+            </div>
+
+            {/* Project Status Pie Chart */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4">
+              <ProjectStatusChart />
+            </div>
+
+            {/* Add Widget Placeholder */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 border-2 border-dashed border-border bg-card/50 flex flex-col items-center justify-center min-h-[300px] group hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
+              <div className="size-12 border-2 border-dashed border-border flex items-center justify-center text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors mb-3">
+                <span className="material-symbols-outlined text-2xl">add</span>
+              </div>
+              <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider group-hover:text-primary transition-colors">
+                Add Widget
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Drag data or click to configure
+              </p>
+            </div>
+          </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
