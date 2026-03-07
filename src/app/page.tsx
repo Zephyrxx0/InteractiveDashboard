@@ -1,122 +1,99 @@
-import { Header } from "@/components/header";
-import { Toolbar } from "@/components/toolbar";
-import { MetricCard } from "@/components/metric-card";
-import { ChartWidget } from "@/components/chart-widget";
-import { MapWidget } from "@/components/map-widget";
-import { LogItem } from "@/components/log-item";
-import { ProjectStatusChart } from "@/components/project-status-chart";
+"use client";
 
-export default function DashboardPage() {
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+
+export default function LandingPage() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) router.replace("/dashboard");
+  }, [user, router]);
+
   return (
-    <>
-      <Header activeNav="dashboard" />
-      <Toolbar />
+    <div className="min-h-screen bg-background grid-bg flex flex-col">
+      {/* Navbar */}
+      <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6 sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="size-8 bg-foreground text-primary flex items-center justify-center">
+            <span className="material-symbols-outlined text-[20px]">grid_view</span>
+          </div>
+          <h1 className="font-display font-bold text-xl tracking-tight uppercase">
+            Eco-Grid <span className="text-muted-foreground font-normal text-sm normal-case ml-1">[SYS v2.4]</span>
+          </h1>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="/login">
+            <Button variant="outline" className="font-mono text-xs uppercase tracking-wider">
+              Sign In
+            </Button>
+          </Link>
+        </div>
+      </header>
 
-      <main className="flex-1 p-6 overflow-y-auto grid-bg">
-        <div className="max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12 gap-4 auto-rows-[minmax(180px,auto)]">
-            {/* KPI: Total Beneficiaries */}
-            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
-              <MetricCard
-                title="Total Beneficiaries"
-                value="14,203"
-                icon="group"
-                trend={{ value: "+12%", direction: "up", label: "vs last month" }}
-              />
-            </div>
+      {/* Hero */}
+      <main className="flex-1 flex items-center justify-center px-6">
+        <div className="max-w-2xl text-center">
+          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-4 py-1.5 mb-6">
+            <span className="size-2 bg-primary rounded-full animate-pulse" />
+            <span className="font-mono text-xs text-primary uppercase tracking-wider font-bold">
+              System Online
+            </span>
+          </div>
 
-            {/* KPI: Active Sites */}
-            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
-              <MetricCard
-                title="Active Sites"
-                value="8"
-                icon="location_on"
-                trend={{ value: "0%", direction: "stable", label: "Stable" }}
-              />
-            </div>
+          <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+            Your NGO&apos;s
+            <br />
+            <span className="text-primary">Command Center</span>
+          </h2>
 
-            {/* KPI: Trees Planted */}
-            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
-              <MetricCard
-                title="Trees Planted"
-                value="1,250"
-                icon="forest"
-                trend={{ value: "+5%", direction: "up", label: "vs target" }}
-              />
-            </div>
+          <p className="text-lg text-muted-foreground max-w-lg mx-auto mb-10 leading-relaxed">
+            High-fidelity project management, real-time field data visualization,
+            and impact tracking — all in one interface.
+          </p>
 
-            {/* KPI: Budget Utilization */}
-            <div className="col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-3">
-              <MetricCard
-                title="Budget Use"
-                value="65%"
-                icon="attach_money"
-                trend={{ value: "-2%", direction: "down", label: "Under spend" }}
+          <div className="flex items-center justify-center gap-4">
+            <Link href="/login">
+              <Button
+                size="lg"
+                className="font-mono text-sm uppercase tracking-wider font-bold h-12 px-8 shadow-[var(--shadow-brutal)] hover:shadow-[var(--shadow-brutal-hover)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                {/* Budget progress bar */}
-                <div className="w-full h-1 bg-background mt-3 relative">
-                  <div className="absolute left-0 top-0 h-full bg-eco-ochre w-[65%]" />
-                </div>
-              </MetricCard>
-            </div>
+                Get Started
+              </Button>
+            </Link>
+          </div>
 
-            {/* Water Quality Analysis Chart (2x2) */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2">
-              <ChartWidget />
-            </div>
-
-            {/* Deployment Map (2x2) */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-6 xl:row-span-2">
-              <MapWidget />
-            </div>
-
-            {/* Recent Logs */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 bg-card border border-border p-6 flex flex-col group hover:border-primary transition-colors relative min-h-[300px]">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-display text-lg font-bold text-foreground">Recent Logs</h3>
-                <a className="text-xs font-mono text-primary hover:underline uppercase" href="#">
-                  View All
-                </a>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-6 mt-16 border-t border-border pt-8">
+            {[
+              { value: "14,203", label: "Beneficiaries Tracked" },
+              { value: "8", label: "Active Project Sites" },
+              { value: "1,250", label: "Trees Planted" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="font-display text-3xl font-bold text-foreground tracking-tight">{stat.value}</p>
+                <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mt-1">
+                  {stat.label}
+                </p>
               </div>
-              <div className="space-y-3">
-                <LogItem
-                  icon="article"
-                  title="Q3 Impact Report uploaded"
-                  meta="By Sarah J. • 2h ago"
-                />
-                <LogItem
-                  icon="check_circle"
-                  title="Milestone Reached: 1k Trees"
-                  meta="System • 4h ago"
-                />
-                <LogItem
-                  icon="warning"
-                  title="Alert: High wind at Site B"
-                  meta="Sensor #402 • 6h ago"
-                />
-              </div>
-            </div>
-
-            {/* Project Status Pie Chart */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4">
-              <ProjectStatusChart />
-            </div>
-
-            {/* Add Widget Placeholder */}
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 border-2 border-dashed border-border bg-card/50 flex flex-col items-center justify-center min-h-[300px] group hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
-              <div className="size-12 border-2 border-dashed border-border flex items-center justify-center text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors mb-3">
-                <span className="material-symbols-outlined text-2xl">add</span>
-              </div>
-              <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider group-hover:text-primary transition-colors">
-                Add Widget
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Drag data or click to configure
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </main>
-    </>
+
+      {/* Footer */}
+      <footer className="border-t border-border py-4 px-6 flex items-center justify-between">
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+          © 2026 Eco-Grid System
+        </p>
+        <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+          v2.4 · Status: <span className="text-primary">Operational</span>
+        </p>
+      </footer>
+    </div>
   );
 }

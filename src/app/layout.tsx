@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { AuthProvider } from "@/lib/auth";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
@@ -39,7 +41,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased selection:bg-primary/30`}
       >
-        {children}
+        <AuthProvider>
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,0 +1,74 @@
+/* ═══════════════════════════════════════════════════════════
+   Eco-Grid System — Default (Light) Theme
+   Single source of truth: Stitch project designTheme
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Core Surfaces ── */
+  --background: oklch(0.95 0.01 90);       /* #F2F0EB — warm stone */
+  --foreground: oklch(0.25 0.02 140);       /* #2C332B — forest charcoal */
+
+  --card: oklch(1 0 0);                     /* #FFFFFF */
+  --card-foreground: oklch(0.25 0.02 140);  /* #2C332B */
+
+  --popover: oklch(1 0 0);                  /* #FFFFFF */
+  --popover-foreground: oklch(0.25 0.02 140);
+
+  /* ── Semantic Colors ── */
+  --primary: oklch(0.72 0.22 145);          /* #10cb30 — vibrant green */
+  --primary-foreground: oklch(1 0 0);       /* #FFFFFF */
+
+  --secondary: oklch(0.95 0.01 90);         /* #F2F0EB */
+  --secondary-foreground: oklch(0.25 0.02 140);
+
+  --muted: oklch(0.95 0.01 90);             /* #F2F0EB */
+  --muted-foreground: oklch(0.5 0.02 130);  /* #6E736B */
+
+  --accent: oklch(0.95 0.01 90);            /* #F2F0EB */
+  --accent-foreground: oklch(0.25 0.02 140);
+
+  --destructive: oklch(0.5 0.12 25);        /* #A85E53 — clay red */
+  --destructive-foreground: oklch(1 0 0);
+
+  --warning: oklch(0.7 0.12 75);            /* #C49B55 — ochre */
+  --warning-foreground: oklch(1 0 0);
+
+  --success: oklch(0.72 0.22 145);          /* #10cb30 */
+  --success-foreground: oklch(1 0 0);
+
+  --info: oklch(0.55 0.08 155);             /* #5E7D63 — sage */
+  --info-foreground: oklch(1 0 0);
+
+  /* ── Borders & Inputs ── */
+  --border: oklch(0.87 0.01 80);            /* #D8D4CD */
+  --input: oklch(0.87 0.01 80);             /* #D8D4CD */
+  --ring: oklch(0.72 0.22 145);             /* #10cb30 */
+
+  /* ── Radius ── */
+  --radius: 0px;                            /* Brutalist: sharp corners */
+
+  /* ── Charts ── */
+  --chart-1: oklch(0.72 0.22 145);          /* #10cb30 — primary green */
+  --chart-2: oklch(0.7 0.12 75);            /* #C49B55 — ochre */
+  --chart-3: oklch(0.5 0.12 25);            /* #A85E53 — clay */
+  --chart-4: oklch(0.55 0.08 155);          /* #5E7D63 — sage */
+  --chart-5: oklch(0.3 0.02 130);           /* #3D4035 — loam */
+
+  /* ── Sidebar ── */
+  --sidebar: oklch(1 0 0);                  /* #FFFFFF */
+  --sidebar-foreground: oklch(0.25 0.02 140);
+  --sidebar-primary: oklch(0.72 0.22 145);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.01 90);
+  --sidebar-accent-foreground: oklch(0.25 0.02 140);
+  --sidebar-border: oklch(0.87 0.01 80);
+  --sidebar-ring: oklch(0.72 0.22 145);
+
+  /* ── Shadows (Brutal) ── */
+  --shadow-brutal: 4px 4px 0px 0px oklch(0.87 0.01 80);
+  --shadow-brutal-hover: 6px 6px 0px 0px oklch(0.72 0.22 145);
+
+  /* ── Grid Background ── */
+  --grid-line: oklch(0.92 0.01 85);         /* #e5e3de */
+  --grid-line-strong: oklch(0.87 0.01 80);  /* #D8D4CD */
+}

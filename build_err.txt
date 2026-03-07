@@ -1,0 +1,30 @@
+
+> interactivedashboard@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 2.2s
+  Running TypeScript ...
+  Collecting page data using 19 workers ...
+  Generating static pages using 19 workers (0/8) ...
+Error occurred prerendering page "/login/reset". Read more: https://nextjs.org/docs/messages/prerender-error
+Error [FirebaseError]: Firebase: Error (auth/invalid-api-key).
+    at a$ (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:29841)
+    at a_ (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:29890)
+    at J.instanceFactory (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:78065)
+    at L.getOrInitializeService (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:10351)
+    at L.initialize (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:9753)
+    at <unknown> (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:79393)
+    at <unknown> (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:79422)
+    at module evaluation (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\src_lib_auth_tsx_5f8c205c._.js:1:80514)
+    at instantiateModule (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\[turbopack]_runtime.js:740:9)
+    at getOrInstantiateModuleFromParent (D:\Codes\Personal\interactivedashboard\.next\server\chunks\ssr\[turbopack]_runtime.js:763:12) {
+  code: 'auth/invalid-api-key',
+  customData: [Object],
+  digest: '1543741625'
+}
+Export encountered an error on /(auth)/login/reset/page: /login/reset, exiting the build.
+Γ¿» Next.js build worker exited with code: 1 and signal: null

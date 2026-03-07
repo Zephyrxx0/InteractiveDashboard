@@ -1,54 +1,65 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../theme/default.css";
+@import "../theme/dark.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* ── Surface Colors ── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* ── Semantic Colors ── */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* ── Borders & Inputs ── */
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ── Charts ── */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* ── Sidebar ── */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ── Typography ── */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-ibm-plex-mono);
   --font-display: var(--font-space-grotesk);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  /* Eco-Grid custom palette */
-  --color-eco-sage: #5E7D63;
-  --color-eco-ochre: #C49B55;
-  --color-eco-clay: #A85E53;
-  --color-eco-loam: #3D4035;
-  --color-eco-stone: #F2F0EB;
-  --color-eco-border: #D8D4CD;
-  --color-eco-primary: #10cb30;
-  --color-eco-primary-dark: #0da526;
-  --color-eco-text-main: #2C332B;
-  --color-eco-text-muted: #6E736B;
+
+  /* ── Radius Scale ── */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -58,77 +69,47 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-:root {
-  --radius: 0rem;
-  --background: #F2F0EB;
-  --foreground: #2C332B;
-  --card: #FFFFFF;
-  --card-foreground: #2C332B;
-  --popover: #FFFFFF;
-  --popover-foreground: #2C332B;
-  --primary: #10cb30;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F2F0EB;
-  --secondary-foreground: #2C332B;
-  --muted: #F2F0EB;
-  --muted-foreground: #6E736B;
-  --accent: #F2F0EB;
-  --accent-foreground: #2C332B;
-  --destructive: #A85E53;
-  --border: #D8D4CD;
-  --input: #D8D4CD;
-  --ring: #10cb30;
-  --chart-1: #10cb30;
-  --chart-2: #C49B55;
-  --chart-3: #A85E53;
-  --chart-4: #5E7D63;
-  --chart-5: #3D4035;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #2C332B;
-  --sidebar-primary: #10cb30;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F2F0EB;
-  --sidebar-accent-foreground: #2C332B;
-  --sidebar-border: #D8D4CD;
-  --sidebar-ring: #10cb30;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground font-sans;
   }
 }
 
-/* Custom scrollbar for technical feel */
+/* ── Custom Scrollbar ── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #F2F0EB;
-  border-left: 1px solid #D8D4CD;
-}
-::-webkit-scrollbar-thumb {
-  background: #D8D4CD;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #6E736B;
+  background: var(--background);
+  border-left: 1px solid var(--border);
 }
 
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ── Grid Background Utilities ── */
 .grid-bg {
   background-size: 40px 40px;
   background-image:
-    linear-gradient(to right, #e5e3de 1px, transparent 1px),
-    linear-gradient(to bottom, #e5e3de 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
 }
 
 .grid-bg-fade {
   background-image:
-    linear-gradient(to right, #D8D4CD 1px, transparent 1px),
-    linear-gradient(to bottom, #D8D4CD 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-strong) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
