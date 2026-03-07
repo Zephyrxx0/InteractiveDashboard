@@ -98,7 +98,7 @@ export function TaskList({ tasks }: TaskListProps) {
             <span
               className={cn(
                 "text-xs font-mono",
-                task.dueDateUrgent ? "text-eco-clay font-medium" : "text-foreground"
+                task.dueDateUrgent ? "text-destructive font-medium" : "text-foreground"
               )}
             >
               {task.dueDate}
