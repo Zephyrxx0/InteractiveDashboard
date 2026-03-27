@@ -34,7 +34,13 @@
 9. User can view and set due dates with calendar picker
 10. User can assign tasks to team members and filter by assignee
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
+- [ ] 01-02-PLAN.md — Enhanced KPI cards, DateRangePicker, analytics page composition
+- [ ] 01-03-PLAN.md — Task types, inline editing, status workflow, filtering
+- [ ] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
 
 **UI hint:** yes
 
@@ -54,7 +60,12 @@
 4. User can switch between day/week/month zoom levels
 5. User can zoom out to see task overview across extended time periods
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Gantt types, custom GanttChart with zoom levels (day/week/month)
+- [ ] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
+- [ ] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
 
 **UI hint:** yes
 
@@ -75,7 +86,12 @@
 5. User can download any uploaded file
 6. User can view all uploaded files in a grid library view
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Install react-dropzone, file validation, FileDropzone component
+- [ ] 03-02-PLAN.md — Firebase Storage upload with progress, thumbnails, download
+- [ ] 03-03-PLAN.md — MediaLibrary grid view, media page with upload dialog
 
 **UI hint:** yes
 
@@ -94,7 +110,12 @@
 3. User can select from summary report templates
 4. User can filter exports by date range
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Export types, CSV export with date filtering
+- [ ] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
+- [ ] 04-03-PLAN.md — Reports page with preview, quick export cards
 
 **UI hint:** yes
 
@@ -104,11 +125,12 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Analytics Foundation | 0/1 | Not started | - |
-| 2. Task Management Enhancement | 0/1 | Not started | - |
-| 3. Media Management | 0/1 | Not started | - |
-| 4. Reports & Export | 0/1 | Not started | - |
+| 1. Analytics Foundation | 0/4 | Planned | - |
+| 2. Task Management Enhancement | 0/3 | Planned | - |
+| 3. Media Management | 0/3 | Planned | - |
+| 4. Reports & Export | 0/3 | Planned | - |
 
 ---
 
 *Roadmap created: 2026-03-27*
+*Plans created: 2026-03-27*
