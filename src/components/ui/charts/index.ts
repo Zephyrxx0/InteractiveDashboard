@@ -1,5 +1,5 @@
 // Chart components barrel export
-export { ChartContainer } from './chart-container';
-export { LineChartWidget } from './line-chart';
-export { BarChartWidget } from './bar-chart';
-export { PieChartWidget } from './pie-chart';
+export { ChartContainer, type ChartContainerProps } from './chart-container';
+export { LineChartWidget, type LineChartWidgetProps } from './line-chart';
+export { BarChartWidget, type BarChartWidgetProps } from './bar-chart';
+export { PieChartWidget, type PieChartWidgetProps } from './pie-chart';
