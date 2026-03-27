@@ -6,7 +6,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Analytics Foundation** - Enhanced KPI cards, charts, date filtering, real-time updates, basic task management, code quality foundation
+- [x] **Phase 1: Analytics Foundation** - Enhanced KPI cards, charts, date filtering, real-time updates, basic task management, code quality foundation
 - [ ] **Phase 2: Task Management Enhancement** - Timeline/Gantt view, task dependencies, drag-drop rescheduling, zoom levels, advanced task features, code quality improvements
 - [ ] **Phase 3: Media Management** - File upload, validation, compression, preview, download, media library
 - [ ] **Phase 4: Reports & Export** - CSV export, PDF generation, report templates, export filtering
@@ -40,7 +40,7 @@ Plans:
 - [x] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
 - [x] 01-02-PLAN.md — Enhanced KPI cards, DateRangePicker, analytics page composition
 - [x] 01-03-PLAN.md — Task types, inline editing, status workflow, filtering
-- [ ] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
+- [x] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
 
 **UI hint:** yes
 
