@@ -5,23 +5,20 @@ import {
   collection, 
   query, 
   onSnapshot, 
+  where,
   type Unsubscribe, 
   type QueryConstraint,
   type Firestore
 } from 'firebase/firestore';
 import type { Task } from '@/types/task';
+import { app } from './firebase';
 
 // Get Firestore instance (lazy init)
 let db: Firestore | null = null;
 
 function getDb(): Firestore | null {
-  if (!db) {
-    // Dynamic import to avoid SSR issues
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { app } = require('./firebase');
-    if (app) {
-      db = getFirestore(app);
-    }
+  if (!db && app) {
+    db = getFirestore(app);
   }
   return db;
 }
@@ -147,8 +144,6 @@ export function subscribeToProjectTasks(
     return null;
   }
   
-  // Import where dynamically to avoid issues
-  const { where } = require('firebase/firestore');
   const tasksRef = collection(firestore, 'tasks');
   const q = query(tasksRef, where('projectId', '==', projectId));
   
