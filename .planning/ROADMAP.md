@@ -37,7 +37,7 @@
 **Plans:** 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
+- [x] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
 - [ ] 01-02-PLAN.md — Enhanced KPI cards, DateRangePicker, analytics page composition
 - [ ] 01-03-PLAN.md — Task types, inline editing, status workflow, filtering
 - [ ] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
