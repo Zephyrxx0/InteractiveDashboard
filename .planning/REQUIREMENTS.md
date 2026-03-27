@@ -13,7 +13,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AN-02**: Line charts for trend visualization
 - [x] **AN-03**: Bar charts for comparison visualization
 - [x] **AN-04**: Pie/donut charts for distribution visualization
-- [ ] **AN-05**: Date range filtering for charts
+- [x] **AN-05**: Date range filtering for charts
 - [ ] **AN-06**: Real-time data updates from Firebase
 
 ### Task Management
@@ -106,7 +106,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AN-02 | Phase 1 | Complete |
 | AN-03 | Phase 1 | Complete |
 | AN-04 | Phase 1 | Complete |
-| AN-05 | Phase 1 | Pending |
+| AN-05 | Phase 1 | Complete |
 | AN-06 | Phase 1 | Pending |
 | TM-01 | Phase 1 | Complete |
 | TM-02 | Phase 1 | Complete |
