@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-04-01T15:49:44.961Z"
+last_updated: "2026-04-01T16:20:14.165Z"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 13
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # State: Interactive Dashboard Enhancement
@@ -45,6 +45,7 @@ Plan: 3 of 3
 | Phase 01 P04 | 10m | 3 tasks | 2 files |
 | Phase 02-01 P01 | 5m | 3 tasks | 6 files |
 | Phase 02-02 P02-02 | 4m | 3 tasks | 5 files |
+| Phase 02-task-management P03 | 10 | 2 tasks | 4 files |
 
 ## Plans Overview
 
@@ -104,6 +105,9 @@ Plan: 3 of 3
 15. **[Phase 01-04]** Module-level caches for Firebase subscriptions to prevent duplicate listeners
 - [Phase 02-01]: CSS Grid positioning for Gantt - avoids 500KB+ library bloat
 - [Phase 02-02]: Custom drag hook instead of library - maintains lightweight Gantt approach
+- [Phase 02-task-management]: Added 'nodes' to GanttTaskBar to act as semantic connection points for dependency arrows.
+- [Phase 02-task-management]: Switched orthogonal routing to start from nodes instead of overlapping elements.
+- [Phase 02-task-management]: Implemented animejs for animated dependency line drawing.
 
 ### Research Findings Applied
 

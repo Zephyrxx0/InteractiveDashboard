@@ -47,8 +47,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **CQ-01**: TypeScript strict mode compliance
 - [ ] **CQ-02**: ESLint configuration for code quality
-- [ ] **CQ-03**: Component documentation
-- [ ] **CQ-04**: Error handling improvements
+- [x] **CQ-03**: Component documentation
+- [x] **CQ-04**: Error handling improvements
 
 ## v2 Requirements
 
@@ -128,8 +128,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RP-04 | Phase 4 | Pending |
 | CQ-01 | Phase 1 | Pending |
 | CQ-02 | Phase 1 | Pending |
-| CQ-03 | Phase 2 | Pending |
-| CQ-04 | Phase 2 | Pending |
+| CQ-03 | Phase 2 | Complete |
+| CQ-04 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 25 total
