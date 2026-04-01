@@ -64,7 +64,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Gantt types, custom GanttChart with zoom levels (day/week/month)
-- [ ] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
+- [x] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
 - [ ] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
 
 **UI hint:** yes
