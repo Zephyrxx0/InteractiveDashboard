@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import * as anime from 'animejs';
+import { animate } from 'animejs';
 import { GanttTask, GanttConfig, ZoomLevel, ZOOM_COLUMN_WIDTHS, getColumnCount } from '@/types/gantt';
 import { GanttTaskBar } from './gantt-task-bar';
 import { GanttTimelineHeader } from './gantt-timeline-header';
@@ -98,17 +98,27 @@ export function GanttChart({
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
 
-  // Animate lines on load
+  // Animate dependency lines on load using animejs v4 API
   useEffect(() => {
     if (showDependencies && tasks.length > 0) {
-      // @ts-ignore anime type might be slightly off due to strict imports
-      const animeInstance = (anime.default || anime);
-      animeInstance({
-        targets: '.dependency-path',
-        strokeDashoffset: [animeInstance.setDashoffset, 0],
-        easing: 'easeInOutSine',
+      // Get all dependency line paths
+      const paths = document.querySelectorAll('.dependency-path');
+      if (!paths.length) return;
+
+      // Calculate total path length for each path and set initial dashoffset
+      paths.forEach((path) => {
+        const svgPath = path as SVGPathElement;
+        const length = svgPath.getTotalLength();
+        svgPath.style.strokeDasharray = `${length}`;
+        svgPath.style.strokeDashoffset = `${length}`;
+      });
+
+      // Animate strokeDashoffset from full length to 0 (drawing effect)
+      animate('.dependency-path', {
+        strokeDashoffset: 0,
+        ease: 'inOutSine',
         duration: 1000,
-        delay: function(el: any, i: number) { return i * 250 },
+        delay: (_el: unknown, i: number) => i * 250,
       });
     }
   }, [showDependencies, tasks, zoomLevel]);
