@@ -39,73 +39,42 @@ export function useGanttDrag({ config, onTaskUpdate }: UseGanttDragOptions) {
 
   const handleDragMove = useCallback(
     (e: MouseEvent) => {
-      if (
-        !dragState.isDragging ||
-        !dragState.originalStartDate ||
-        !dragState.originalEndDate
-      )
-        return;
+      if (!dragState.isDragging || !dragState.taskId || !dragState.originalStartDate || !dragState.originalEndDate) return;
 
       const deltaX = e.clientX - dragState.startX;
       const daysToMove = Math.round(deltaX / config.columnWidth);
 
-      // Calculate days per column based on zoom level
       let daysPerColumn = 1;
       switch (config.zoomLevel) {
-        case 'week':
-          daysPerColumn = 7;
-          break;
-        case 'month':
-          daysPerColumn = 30;
-          break;
+        case 'week': daysPerColumn = 7; break;
+        case 'month': daysPerColumn = 30; break;
       }
 
       const actualDaysToMove = daysToMove * daysPerColumn;
-
-      if (actualDaysToMove !== 0) {
-        const newStartDate = addDays(dragState.originalStartDate, actualDaysToMove);
-        const newEndDate = addDays(dragState.originalEndDate, actualDaysToMove);
-        // Optionally: Preview dates could be exposed here
-        return { newStartDate, newEndDate };
-      }
-      return null;
+      
+      // We don't dispatch updates on every move to avoid jumping layout,
+      // but we could use this for a preview shadow
     },
     [dragState, config.columnWidth, config.zoomLevel]
   );
 
   const handleDragEnd = useCallback(
     (e: MouseEvent) => {
-      if (
-        !dragState.isDragging ||
-        !dragState.taskId ||
-        !dragState.originalStartDate ||
-        !dragState.originalEndDate
-      ) {
-        setDragState({
-          isDragging: false,
-          taskId: null,
-          startX: 0,
-          originalStartDate: null,
-          originalEndDate: null,
-        });
+      if (!dragState.isDragging || !dragState.taskId || !dragState.originalStartDate || !dragState.originalEndDate) {
+        setDragState({ isDragging: false, taskId: null, startX: 0, originalStartDate: null, originalEndDate: null });
         return;
       }
 
       const deltaX = e.clientX - dragState.startX;
-      const daysToMove = Math.round(deltaX / config.columnWidth);
+      const columnsToMove = Math.round(deltaX / config.columnWidth);
 
-      // Calculate days per column based on zoom level
       let daysPerColumn = 1;
       switch (config.zoomLevel) {
-        case 'week':
-          daysPerColumn = 7;
-          break;
-        case 'month':
-          daysPerColumn = 30;
-          break;
+        case 'week': daysPerColumn = 7; break;
+        case 'month': daysPerColumn = 30; break;
       }
 
-      const actualDaysToMove = daysToMove * daysPerColumn;
+      const actualDaysToMove = columnsToMove * daysPerColumn;
 
       if (actualDaysToMove !== 0) {
         const newStartDate = addDays(dragState.originalStartDate, actualDaysToMove);

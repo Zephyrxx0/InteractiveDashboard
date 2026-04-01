@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import * as anime from 'animejs';
 import { GanttTask, GanttConfig, ZoomLevel, ZOOM_COLUMN_WIDTHS, getColumnCount } from '@/types/gantt';
 import { GanttTaskBar } from './gantt-task-bar';
 import { GanttTimelineHeader } from './gantt-timeline-header';
@@ -96,6 +97,21 @@ export function GanttChart({
       };
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
+
+  // Animate lines on load
+  useEffect(() => {
+    if (showDependencies && tasks.length > 0) {
+      // @ts-ignore anime type might be slightly off due to strict imports
+      const animeInstance = (anime.default || anime);
+      animeInstance({
+        targets: '.dependency-path',
+        strokeDashoffset: [animeInstance.setDashoffset, 0],
+        easing: 'easeInOutSine',
+        duration: 1000,
+        delay: function(el: any, i: number) { return i * 250 },
+      });
+    }
+  }, [showDependencies, tasks, zoomLevel]);
 
   // Draw today line position
   const todayPosition = useMemo(() => {

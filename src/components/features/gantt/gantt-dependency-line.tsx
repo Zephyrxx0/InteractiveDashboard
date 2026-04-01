@@ -44,23 +44,24 @@ export function GanttDependencyLine({
   const fromY = (fromIndex + 0.5) * config.rowHeight;
   const toY = (toIndex + 0.5) * config.rowHeight;
 
-  // Draw path with elbow (right angle) routing
-  // Step 1: Go right from fromX
-  // Step 2: Go vertical to toY level
-  // Step 3: Go right to toX
-  const padding = 8; // Small gap from task bars
+  // The arrow should connect directly to the start node of the toTask
+  // and emanate from the end node of the fromTask.
+  
+  // The nodes are offset by +/- 1.5 of their parent, and they are circles of radius 1.5.
+  // Instead of drawing through the bars, let's draw strictly between the right edge of fromX and left edge of toX.
+
+  const padding = 12; // Gap from the task nodes
   const midX = Math.min(fromX + padding, toX - padding);
 
-  // Create path with orthogonal routing
   let path: string;
-  if (toX >= fromX) {
+  if (toX >= fromX + padding * 2) {
     // Normal case: dependency flows left to right
-    path = `M ${fromX} ${fromY} H ${fromX + padding} V ${toY} H ${toX}`;
+    path = `M ${fromX} ${fromY} H ${fromX + padding} V ${toY} H ${toX - 2}`; // -2 for arrowhead offset
   } else {
     // Reverse case: target starts before source ends
     // Route around using a wider elbow
     const elbowY = fromY > toY ? fromY - config.rowHeight / 2 : fromY + config.rowHeight / 2;
-    path = `M ${fromX} ${fromY} H ${fromX + padding} V ${elbowY} H ${toX - padding} V ${toY} H ${toX}`;
+    path = `M ${fromX} ${fromY} H ${fromX + padding} V ${elbowY} H ${toX - padding} V ${toY} H ${toX - 2}`;
   }
 
   return (
@@ -70,7 +71,7 @@ export function GanttDependencyLine({
         fill="none"
         stroke="currentColor"
         strokeWidth={1.5}
-        className="text-muted-foreground"
+        className="text-muted-foreground dependency-path"
         markerEnd="url(#arrowhead)"
       />
     </g>
