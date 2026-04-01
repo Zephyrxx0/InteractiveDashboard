@@ -203,11 +203,11 @@ export function GanttChart({
                 ))}
               </div>
 
-              {/* Task rows */}
+              {/* Task rows - group class enables hover state for connection nodes */}
               {tasks.map((task, taskIndex) => (
                 <div
                   key={task.id}
-                  className="relative border-b border-border/20 hover:bg-muted/20 transition-colors"
+                  className="group relative border-b border-border/20 hover:bg-muted/20 transition-colors z-10"
                   style={{ height: `${config.rowHeight}px` }}
                 >
                   <GanttTaskBar
@@ -220,10 +220,10 @@ export function GanttChart({
                 </div>
               ))}
 
-              {/* Dependency lines SVG layer */}
+              {/* Dependency lines SVG layer - z-0 to render BEHIND task bars */}
               {showDependencies && (
                 <svg
-                  className="absolute inset-0 pointer-events-none z-10"
+                  className="absolute inset-0 pointer-events-none z-0"
                   style={{ width: totalWidth, height: totalHeight }}
                 >
                   <DependencyArrowMarker />

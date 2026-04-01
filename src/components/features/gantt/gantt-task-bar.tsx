@@ -39,9 +39,9 @@ export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }:
         minWidth: '24px',
       }}
     >
-      {/* Start Node */}
+      {/* Start Node - visible on parent row hover */}
       <div 
-        className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-20 cursor-crosshair opacity-0 hover:opacity-100 transition-opacity gantt-node" 
+        className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-10 cursor-crosshair opacity-0 group-hover:opacity-100 transition-opacity gantt-node" 
         data-task-id={task.id} 
         data-node-type="start"
       />
@@ -92,9 +92,9 @@ export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }:
         )}
       </div>
 
-      {/* End Node */}
+      {/* End Node - visible on parent row hover */}
       <div 
-        className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-20 cursor-crosshair opacity-0 hover:opacity-100 transition-opacity gantt-node" 
+        className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-10 cursor-crosshair opacity-0 group-hover:opacity-100 transition-opacity gantt-node" 
         data-task-id={task.id} 
         data-node-type="end"
       />
