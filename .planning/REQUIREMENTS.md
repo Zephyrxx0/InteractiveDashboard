@@ -22,10 +22,10 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **TM-02**: Task status workflow (todo, in-progress, done, blocked)
 - [x] **TM-03**: Due date management with calendar view
 - [x] **TM-04**: Assignee assignment and filtering
-- [ ] **TM-05**: Timeline/Gantt view of tasks
+- [x] **TM-05**: Timeline/Gantt view of tasks
 - [ ] **TM-06**: Drag-and-drop task rescheduling
 - [ ] **TM-07**: Task dependencies (link tasks)
-- [ ] **TM-08**: Zoom levels (day/week/month view)
+- [x] **TM-08**: Zoom levels (day/week/month view)
 
 ### Media Management
 
@@ -112,10 +112,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TM-02 | Phase 1 | Complete |
 | TM-03 | Phase 1 | Complete |
 | TM-04 | Phase 1 | Complete |
-| TM-05 | Phase 2 | Pending |
+| TM-05 | Phase 2 | Complete |
 | TM-06 | Phase 2 | Pending |
 | TM-07 | Phase 2 | Pending |
-| TM-08 | Phase 2 | Pending |
+| TM-08 | Phase 2 | Complete |
 | MM-01 | Phase 3 | Pending |
 | MM-02 | Phase 3 | Pending |
 | MM-03 | Phase 3 | Pending |
