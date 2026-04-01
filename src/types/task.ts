@@ -20,6 +20,9 @@ export interface Task {
   updatedAt: Date;
   tags?: Array<{ label: string; color: string }>;
   projectId?: string;
+  startDate?: Date;  // For Gantt timeline
+  endDate?: Date;    // For Gantt timeline
+  dependencies?: string[]; // Task IDs this depends on (for Gantt)
 }
 
 export interface TaskFilters {
