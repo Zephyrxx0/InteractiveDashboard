@@ -9,6 +9,7 @@ interface GanttDependencyLineProps {
   config: GanttConfig;
   fromIndex: number;
   toIndex: number;
+  onRemove?: (fromTaskId: string, toTaskId: string) => void;
 }
 
 export function GanttDependencyLine({
@@ -17,6 +18,7 @@ export function GanttDependencyLine({
   config,
   fromIndex,
   toIndex,
+  onRemove,
 }: GanttDependencyLineProps) {
   // Calculate positions based on zoom level
   const fromDays = differenceInDays(fromTask.endDate, config.startDate);
@@ -65,15 +67,29 @@ export function GanttDependencyLine({
   }
 
   return (
-    <g className="dependency-line">
+    <g 
+      className="dependency-line group/line cursor-pointer"
+      onClick={() => onRemove?.(fromTask.id, toTask.id)}
+    >
+      {/* Invisible wider hit area for easier clicking */}
+      <path
+        d={path}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={12}
+        className="pointer-events-auto"
+      />
+      {/* Visible line */}
       <path
         d={path}
         fill="none"
         stroke="currentColor"
         strokeWidth={1.5}
-        className="text-muted-foreground dependency-path"
+        className="text-muted-foreground dependency-path transition-colors group-hover/line:text-destructive group-hover/line:stroke-[2.5]"
         markerEnd="url(#arrowhead)"
       />
+      {/* Hover tooltip indicator */}
+      <title>Click to remove dependency: {fromTask.name} → {toTask.name}</title>
     </g>
   );
 }

@@ -9,10 +9,22 @@ interface GanttTaskBarProps {
   config: GanttConfig;
   onClick?: (task: GanttTask) => void;
   onDragStart?: (e: React.MouseEvent, task: GanttTask) => void;
+  onNodeClick?: (taskId: string, nodeType: 'start' | 'end') => void;
   isDragging?: boolean;
+  isConnecting?: boolean;
+  isConnectionSource?: boolean;
 }
 
-export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }: GanttTaskBarProps) {
+export function GanttTaskBar({ 
+  task, 
+  config, 
+  onClick, 
+  onDragStart, 
+  onNodeClick,
+  isDragging,
+  isConnecting,
+  isConnectionSource,
+}: GanttTaskBarProps) {
   const { left, width } = calculateTaskPosition(task, config);
   const statusConfig = STATUS_CONFIG[task.status];
 
@@ -39,11 +51,21 @@ export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }:
         minWidth: '24px',
       }}
     >
-      {/* Start Node - visible on parent row hover */}
+      {/* Start Node - visible on parent row hover or when connecting */}
       <div 
-        className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-10 cursor-crosshair opacity-0 group-hover:opacity-100 transition-opacity gantt-node" 
+        className={cn(
+          "absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
+          isConnecting 
+            ? "opacity-100 border-primary scale-125" 
+            : "opacity-0 group-hover:opacity-100 border-primary",
+          isConnectionSource && "bg-primary border-primary"
+        )}
         data-task-id={task.id} 
         data-node-type="start"
+        onClick={(e) => {
+          e.stopPropagation();
+          onNodeClick?.(task.id, 'start');
+        }}
       />
 
       <div
@@ -92,11 +114,21 @@ export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }:
         )}
       </div>
 
-      {/* End Node - visible on parent row hover */}
+      {/* End Node - visible on parent row hover or when connecting */}
       <div 
-        className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 border-primary z-10 cursor-crosshair opacity-0 group-hover:opacity-100 transition-opacity gantt-node" 
+        className={cn(
+          "absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
+          isConnecting 
+            ? "opacity-100 border-primary scale-125" 
+            : "opacity-0 group-hover:opacity-100 border-primary",
+          isConnectionSource && "bg-primary border-primary"
+        )}
         data-task-id={task.id} 
         data-node-type="end"
+        onClick={(e) => {
+          e.stopPropagation();
+          onNodeClick?.(task.id, 'end');
+        }}
       />
     </div>
   );
