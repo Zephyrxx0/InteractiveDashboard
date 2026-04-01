@@ -8,9 +8,11 @@ interface GanttTaskBarProps {
   task: GanttTask;
   config: GanttConfig;
   onClick?: (task: GanttTask) => void;
+  onDragStart?: (e: React.MouseEvent, task: GanttTask) => void;
+  isDragging?: boolean;
 }
 
-export function GanttTaskBar({ task, config, onClick }: GanttTaskBarProps) {
+export function GanttTaskBar({ task, config, onClick, onDragStart, isDragging }: GanttTaskBarProps) {
   const { left, width } = calculateTaskPosition(task, config);
   const statusConfig = STATUS_CONFIG[task.status];
 
@@ -31,8 +33,11 @@ export function GanttTaskBar({ task, config, onClick }: GanttTaskBarProps) {
   return (
     <div
       className={cn(
-        'absolute top-1/2 -translate-y-1/2 h-8 rounded flex items-center overflow-hidden cursor-pointer transition-opacity hover:opacity-90',
-        getStatusColor()
+        'absolute top-1/2 -translate-y-1/2 h-8 rounded flex items-center overflow-hidden transition-all select-none',
+        getStatusColor(),
+        isDragging
+          ? 'cursor-grabbing opacity-70 shadow-lg scale-[1.02]'
+          : 'cursor-grab hover:opacity-90'
       )}
       style={{
         left: `${left}px`,
@@ -40,6 +45,11 @@ export function GanttTaskBar({ task, config, onClick }: GanttTaskBarProps) {
         minWidth: '24px',
       }}
       onClick={() => onClick?.(task)}
+      onMouseDown={(e) => {
+        // Prevent default text selection during drag
+        e.preventDefault();
+        onDragStart?.(e, task);
+      }}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick?.(task)}

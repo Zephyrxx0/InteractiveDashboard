@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { GanttTask, GanttConfig, ZoomLevel, ZOOM_COLUMN_WIDTHS, getColumnCount } from '@/types/gantt';
 import { GanttTaskBar } from './gantt-task-bar';
 import { GanttTimelineHeader } from './gantt-timeline-header';
+import { GanttDependencyLine, DependencyArrowMarker } from './gantt-dependency-line';
+import { useGanttDrag } from '@/hooks/use-gantt-drag';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { addDays, subDays, min, max } from 'date-fns';
@@ -13,6 +15,8 @@ interface GanttChartProps {
   startDate?: Date;
   endDate?: Date;
   onTaskClick?: (task: GanttTask) => void;
+  onTaskUpdate?: (taskId: string, updates: Partial<GanttTask>) => void;
+  showDependencies?: boolean;
   className?: string;
 }
 
@@ -21,6 +25,8 @@ export function GanttChart({
   startDate: propStartDate,
   endDate: propEndDate,
   onTaskClick,
+  onTaskUpdate,
+  showDependencies = true,
   className,
 }: GanttChartProps) {
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>('week');
@@ -65,6 +71,31 @@ export function GanttChart({
     const columnCount = getColumnCount(config);
     return columnCount * config.columnWidth;
   }, [config]);
+
+  // Calculate total chart height
+  const totalHeight = useMemo(() => {
+    return tasks.length * config.rowHeight;
+  }, [tasks.length, config.rowHeight]);
+
+  // Drag-drop hook integration
+  const { isDragging, draggedTaskId, handleDragStart, handleDragMove, handleDragEnd } = useGanttDrag({
+    config,
+    onTaskUpdate: (taskId, startDate, endDate) => {
+      onTaskUpdate?.(taskId, { startDate, endDate });
+    },
+  });
+
+  // Add window event listeners for drag
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleDragMove);
+      window.addEventListener('mouseup', handleDragEnd);
+      return () => {
+        window.removeEventListener('mousemove', handleDragMove);
+        window.removeEventListener('mouseup', handleDragEnd);
+      };
+    }
+  }, [isDragging, handleDragMove, handleDragEnd]);
 
   // Draw today line position
   const todayPosition = useMemo(() => {
@@ -147,15 +178,48 @@ export function GanttChart({
               </div>
 
               {/* Task rows */}
-              {tasks.map((task) => (
+              {tasks.map((task, taskIndex) => (
                 <div
                   key={task.id}
                   className="relative border-b border-border/20 hover:bg-muted/20 transition-colors"
                   style={{ height: `${config.rowHeight}px` }}
                 >
-                  <GanttTaskBar task={task} config={config} onClick={onTaskClick} />
+                  <GanttTaskBar
+                    task={task}
+                    config={config}
+                    onClick={onTaskClick}
+                    onDragStart={handleDragStart}
+                    isDragging={draggedTaskId === task.id}
+                  />
                 </div>
               ))}
+
+              {/* Dependency lines SVG layer */}
+              {showDependencies && (
+                <svg
+                  className="absolute inset-0 pointer-events-none z-10"
+                  style={{ width: totalWidth, height: totalHeight }}
+                >
+                  <DependencyArrowMarker />
+                  {tasks.flatMap((task, taskIndex) =>
+                    (task.dependencies || []).map((depId) => {
+                      const depTask = tasks.find((t) => t.id === depId);
+                      const depIndex = tasks.findIndex((t) => t.id === depId);
+                      if (!depTask) return null;
+                      return (
+                        <GanttDependencyLine
+                          key={`${depId}-${task.id}`}
+                          fromTask={depTask}
+                          toTask={task}
+                          config={config}
+                          fromIndex={depIndex}
+                          toIndex={taskIndex}
+                        />
+                      );
+                    })
+                  )}
+                </svg>
+              )}
             </div>
           </div>
         </div>
