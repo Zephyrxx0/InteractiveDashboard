@@ -3,10 +3,83 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { PageHeader } from '@/components/page-header';
-import { GanttChart } from '@/components/features/gantt';
+import { GanttChart, GanttTaskSheet } from '@/components/features/gantt';
 import { GanttTask } from '@/types/gantt';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { addDays } from 'date-fns';
+
+/**
+ * Template definitions for quick task creation.
+ * Each template creates a task with predefined properties.
+ */
+interface TaskTemplate {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  defaultDuration: number; // days
+  defaultStatus: GanttTask['status'];
+}
+
+const TASK_TEMPLATES: TaskTemplate[] = [
+  {
+    id: 'milestone',
+    name: 'Milestone',
+    icon: 'flag',
+    description: 'A key checkpoint or deliverable',
+    defaultDuration: 1,
+    defaultStatus: 'todo',
+  },
+  {
+    id: 'sprint',
+    name: 'Sprint',
+    icon: 'sprint',
+    description: '2-week development sprint',
+    defaultDuration: 14,
+    defaultStatus: 'todo',
+  },
+  {
+    id: 'review',
+    name: 'Review',
+    icon: 'rate_review',
+    description: 'Code or design review period',
+    defaultDuration: 3,
+    defaultStatus: 'todo',
+  },
+  {
+    id: 'testing',
+    name: 'Testing Phase',
+    icon: 'bug_report',
+    description: 'QA and testing period',
+    defaultDuration: 5,
+    defaultStatus: 'todo',
+  },
+  {
+    id: 'deployment',
+    name: 'Deployment',
+    icon: 'rocket_launch',
+    description: 'Release and deployment task',
+    defaultDuration: 2,
+    defaultStatus: 'todo',
+  },
+  {
+    id: 'meeting',
+    name: 'Meeting',
+    icon: 'groups',
+    description: 'Team meeting or sync',
+    defaultDuration: 1,
+    defaultStatus: 'todo',
+  },
+];
 
 /**
  * Mock task data for demonstration purposes.
@@ -92,15 +165,22 @@ const MOCK_GANTT_TASKS: GanttTask[] = [
   },
 ];
 
+/** Generates a unique task ID */
+function generateTaskId(): string {
+  return `T-${String(Date.now()).slice(-6)}`;
+}
+
 /**
  * Timeline page displaying project tasks in a Gantt chart visualization.
  * 
  * Features:
  * - Interactive Gantt chart with zoom controls (day/week/month)
- * - Task details on hover via tooltips
+ * - Task details slide-out panel for editing
+ * - Template dropdown for quick task creation
  * - Error state with retry functionality
  * - Empty state with guidance to add tasks
  * - Task update handler for drag-drop rescheduling
+ * - Dependency connection management
  * 
  * @returns {JSX.Element} The rendered timeline page
  */
@@ -110,6 +190,8 @@ export default function TimelinePage() {
   
   const [tasks, setTasks] = useState<GanttTask[]>(MOCK_GANTT_TASKS);
   const [error, setError] = useState<Error | null>(null);
+  const [selectedTask, setSelectedTask] = useState<GanttTask | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   /**
    * Handles updates to a task's properties (e.g., from drag-drop rescheduling).
@@ -124,13 +206,68 @@ export default function TimelinePage() {
   };
 
   /**
-   * Handles task click events - opens task details panel/modal.
+   * Handles adding a dependency connection between two tasks.
+   * 
+   * @param {string} fromTaskId - The source task ID (dependency)
+   * @param {string} toTaskId - The target task ID (dependent)
+   */
+  const handleConnectionAdd = (fromTaskId: string, toTaskId: string) => {
+    setTasks(prev => prev.map(t => {
+      if (t.id === toTaskId) {
+        const deps = t.dependencies || [];
+        if (!deps.includes(fromTaskId)) {
+          return { ...t, dependencies: [...deps, fromTaskId], updatedAt: new Date() };
+        }
+      }
+      return t;
+    }));
+  };
+
+  /**
+   * Handles removing a dependency connection between two tasks.
+   * 
+   * @param {string} fromTaskId - The source task ID (dependency)
+   * @param {string} toTaskId - The target task ID (dependent)
+   */
+  const handleConnectionRemove = (fromTaskId: string, toTaskId: string) => {
+    setTasks(prev => prev.map(t => {
+      if (t.id === toTaskId && t.dependencies) {
+        return { 
+          ...t, 
+          dependencies: t.dependencies.filter(id => id !== fromTaskId),
+          updatedAt: new Date() 
+        };
+      }
+      return t;
+    }));
+  };
+
+  /**
+   * Handles task click events - opens task details panel.
    * 
    * @param {GanttTask} task - The clicked task
    */
   const handleTaskClick = (task: GanttTask) => {
-    // TODO: Open task details panel/modal
-    console.log('Task clicked:', task.id, task.name);
+    setSelectedTask(task);
+    setIsSheetOpen(true);
+  };
+
+  /**
+   * Handles task deletion.
+   * Also removes this task from any dependencies.
+   * 
+   * @param {string} taskId - ID of the task to delete
+   */
+  const handleTaskDelete = (taskId: string) => {
+    setTasks(prev => {
+      // Remove the task and clean up any references to it in dependencies
+      return prev
+        .filter(t => t.id !== taskId)
+        .map(t => ({
+          ...t,
+          dependencies: t.dependencies?.filter(id => id !== taskId),
+        }));
+    });
   };
 
   /**
@@ -144,11 +281,60 @@ export default function TimelinePage() {
   };
 
   /**
-   * Handles adding a new task - placeholder for task creation flow.
+   * Creates a new task from a template.
+   * 
+   * @param {TaskTemplate} template - The template to use
    */
-  const handleAddTask = () => {
-    // TODO: Open task creation modal
-    console.log('Add task clicked for project:', projectId);
+  const handleAddFromTemplate = (template: TaskTemplate) => {
+    const now = new Date();
+    const startDate = addDays(now, 1); // Start tomorrow
+    const endDate = addDays(startDate, template.defaultDuration);
+    
+    const newTask: GanttTask = {
+      id: generateTaskId(),
+      name: template.name,
+      description: template.description,
+      status: template.defaultStatus,
+      startDate,
+      endDate,
+      dueDate: endDate,
+      progress: 0,
+      createdAt: now,
+      updatedAt: now,
+      projectId,
+    };
+    
+    setTasks(prev => [...prev, newTask]);
+    
+    // Open the sheet to edit the new task
+    setSelectedTask(newTask);
+    setIsSheetOpen(true);
+  };
+
+  /**
+   * Creates a blank new task.
+   */
+  const handleAddBlankTask = () => {
+    const now = new Date();
+    const startDate = addDays(now, 1);
+    const endDate = addDays(startDate, 7);
+    
+    const newTask: GanttTask = {
+      id: generateTaskId(),
+      name: 'New Task',
+      status: 'todo',
+      startDate,
+      endDate,
+      dueDate: endDate,
+      progress: 0,
+      createdAt: now,
+      updatedAt: now,
+      projectId,
+    };
+    
+    setTasks(prev => [...prev, newTask]);
+    setSelectedTask(newTask);
+    setIsSheetOpen(true);
   };
 
   // Error state - shows when loading/fetching fails
@@ -186,7 +372,7 @@ export default function TimelinePage() {
             title="No tasks scheduled"
             description="Add tasks with start and end dates to see them on the timeline. Tasks will be displayed as bars that can be dragged to reschedule."
             actionLabel="Add Task"
-            onAction={handleAddTask}
+            onAction={handleAddBlankTask}
           />
         </div>
       </div>
@@ -200,13 +386,53 @@ export default function TimelinePage() {
         title="Timeline"
         subtitle="Project schedule visualization"
         actions={
-          <Button 
-            onClick={handleAddTask}
-            className="font-mono text-xs uppercase tracking-wider"
-          >
-            <span className="material-symbols-outlined text-[16px] mr-2">add</span>
-            Add Task
-          </Button>
+          <div className="flex items-center gap-2">
+            {/* Templates Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="font-mono text-xs uppercase tracking-wider"
+                >
+                  <span className="material-symbols-outlined text-[16px] mr-2">widgets</span>
+                  Templates
+                  <span className="material-symbols-outlined text-[14px] ml-1">expand_more</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-mono text-xs uppercase tracking-wider">
+                  Quick Add from Template
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {TASK_TEMPLATES.map((template) => (
+                  <DropdownMenuItem
+                    key={template.id}
+                    onClick={() => handleAddFromTemplate(template)}
+                    className="cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[18px] mr-3 text-muted-foreground">
+                      {template.icon}
+                    </span>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{template.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {template.defaultDuration} day{template.defaultDuration !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Add Task Button */}
+            <Button 
+              onClick={handleAddBlankTask}
+              className="font-mono text-xs uppercase tracking-wider"
+            >
+              <span className="material-symbols-outlined text-[16px] mr-2">add</span>
+              Add Task
+            </Button>
+          </div>
         }
       />
       
@@ -214,9 +440,21 @@ export default function TimelinePage() {
         <GanttChart
           tasks={tasks}
           onTaskClick={handleTaskClick}
+          onTaskUpdate={handleTaskUpdate}
+          onConnectionAdd={handleConnectionAdd}
+          onConnectionRemove={handleConnectionRemove}
           className="h-full"
         />
       </div>
+
+      {/* Task Details Sheet */}
+      <GanttTaskSheet
+        task={selectedTask}
+        open={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+        onSave={handleTaskUpdate}
+        onDelete={handleTaskDelete}
+      />
     </div>
   );
 }

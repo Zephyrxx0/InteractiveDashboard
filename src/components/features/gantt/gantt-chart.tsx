@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { animate } from 'animejs';
 import { GanttTask, GanttConfig, ZoomLevel, ZOOM_COLUMN_WIDTHS, getColumnCount } from '@/types/gantt';
 import { GanttTaskBar } from './gantt-task-bar';
@@ -11,12 +11,21 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { addDays, subDays, min, max } from 'date-fns';
 
+/** State for creating a new connection between tasks */
+interface ConnectionState {
+  isConnecting: boolean;
+  fromTaskId: string | null;
+  fromNodeType: 'start' | 'end' | null;
+}
+
 interface GanttChartProps {
   tasks: GanttTask[];
   startDate?: Date;
   endDate?: Date;
   onTaskClick?: (task: GanttTask) => void;
   onTaskUpdate?: (taskId: string, updates: Partial<GanttTask>) => void;
+  onConnectionAdd?: (fromTaskId: string, toTaskId: string) => void;
+  onConnectionRemove?: (fromTaskId: string, toTaskId: string) => void;
   showDependencies?: boolean;
   className?: string;
 }
@@ -27,10 +36,17 @@ export function GanttChart({
   endDate: propEndDate,
   onTaskClick,
   onTaskUpdate,
+  onConnectionAdd,
+  onConnectionRemove,
   showDependencies = true,
   className,
 }: GanttChartProps) {
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>('week');
+  const [connectionState, setConnectionState] = useState<ConnectionState>({
+    isConnecting: false,
+    fromTaskId: null,
+    fromNodeType: null,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Calculate date range from tasks if not provided
@@ -85,6 +101,43 @@ export function GanttChart({
       onTaskUpdate?.(taskId, { startDate, endDate });
     },
   });
+
+  // Connection node click handler - start or complete a connection
+  const handleNodeClick = useCallback((taskId: string, nodeType: 'start' | 'end') => {
+    if (!connectionState.isConnecting) {
+      // Start a new connection from this node
+      setConnectionState({
+        isConnecting: true,
+        fromTaskId: taskId,
+        fromNodeType: nodeType,
+      });
+    } else if (connectionState.fromTaskId && connectionState.fromTaskId !== taskId) {
+      // Complete the connection to this task
+      // Connection goes from the "end" of source to "start" of target (typical dependency)
+      if (connectionState.fromNodeType === 'end' && nodeType === 'start') {
+        onConnectionAdd?.(connectionState.fromTaskId, taskId);
+      } else if (connectionState.fromNodeType === 'start' && nodeType === 'end') {
+        // Reverse direction
+        onConnectionAdd?.(taskId, connectionState.fromTaskId);
+      }
+      // Reset connection state
+      setConnectionState({ isConnecting: false, fromTaskId: null, fromNodeType: null });
+    } else {
+      // Clicked same task or invalid - cancel
+      setConnectionState({ isConnecting: false, fromTaskId: null, fromNodeType: null });
+    }
+  }, [connectionState, onConnectionAdd]);
+
+  // Cancel connection on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && connectionState.isConnecting) {
+        setConnectionState({ isConnecting: false, fromTaskId: null, fromNodeType: null });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [connectionState.isConnecting]);
 
   // Add window event listeners for drag
   useEffect(() => {
@@ -149,9 +202,17 @@ export function GanttChart({
     <div className={cn('bg-card border border-border rounded-lg flex flex-col overflow-hidden', className)}>
       {/* Toolbar */}
       <div className="flex items-center justify-between p-3 border-b border-border bg-muted/30">
-        <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
-          {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+            {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'}
+          </span>
+          {/* Connection mode indicator */}
+          {connectionState.isConnecting && (
+            <span className="font-mono text-xs text-primary bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">
+              Click target node to connect • ESC to cancel
+            </span>
+          )}
+        </div>
         <div className="flex gap-1">
           {(['day', 'week', 'month'] as ZoomLevel[]).map((level) => (
             <Button
@@ -215,16 +276,19 @@ export function GanttChart({
                     config={config}
                     onClick={onTaskClick}
                     onDragStart={handleDragStart}
+                    onNodeClick={handleNodeClick}
                     isDragging={draggedTaskId === task.id}
+                    isConnecting={connectionState.isConnecting}
+                    isConnectionSource={connectionState.fromTaskId === task.id}
                   />
                 </div>
               ))}
 
-              {/* Dependency lines SVG layer - z-0 to render BEHIND task bars */}
+              {/* Dependency lines SVG layer - between grid and tasks, clickable for removal */}
               {showDependencies && (
                 <svg
-                  className="absolute inset-0 pointer-events-none z-0"
-                  style={{ width: totalWidth, height: totalHeight }}
+                  className="absolute inset-0"
+                  style={{ width: totalWidth, height: totalHeight, zIndex: 5 }}
                 >
                   <DependencyArrowMarker />
                   {tasks.flatMap((task, taskIndex) =>
@@ -240,6 +304,7 @@ export function GanttChart({
                           config={config}
                           fromIndex={depIndex}
                           toIndex={taskIndex}
+                          onRemove={onConnectionRemove}
                         />
                       );
                     })
