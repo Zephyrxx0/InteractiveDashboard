@@ -26,10 +26,12 @@ export function ExportDialog({
   const [open, setOpen] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(formats[0]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [selectedTemplate, setSelectedTemplate] = useState<'summary' | 'detailed'>('summary');
 
   const handleExport = () => {
     onExport({
       format: selectedFormat,
+      template: selectedFormat === 'pdf' ? selectedTemplate : undefined,
       dateRange: dateRange?.from && dateRange?.to ? { from: dateRange.from, to: dateRange.to } : undefined,
     });
     setOpen(false);
@@ -63,6 +65,31 @@ export function ExportDialog({
               ))}
             </div>
           </div>
+
+          {/* Template selection (PDF only) */}
+          {selectedFormat === 'pdf' && (
+            <div>
+              <label className="text-sm font-medium mb-2 block">Report Template</label>
+              <div className="flex gap-2">
+                <Button
+                  variant={selectedTemplate === 'summary' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedTemplate('summary')}
+                  className="font-mono text-xs uppercase"
+                >
+                  Summary
+                </Button>
+                <Button
+                  variant={selectedTemplate === 'detailed' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedTemplate('detailed')}
+                  className="font-mono text-xs uppercase"
+                >
+                  Detailed
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Date range filter */}
           <div>
