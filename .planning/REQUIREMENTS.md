@@ -34,7 +34,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **MM-03**: File size limits and compression
 - [x] **MM-04**: Image preview with thumbnails
 - [x] **MM-05**: File download capability
-- [ ] **MM-06**: Media library grid view
+- [x] **MM-06**: Media library grid view
 
 ### Reports & Export
 
@@ -121,7 +121,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MM-03 | Phase 3 | Complete |
 | MM-04 | Phase 3 | Complete |
 | MM-05 | Phase 3 | Complete |
-| MM-06 | Phase 3 | Pending |
+| MM-06 | Phase 3 | Complete |
 | RP-01 | Phase 4 | Pending |
 | RP-02 | Phase 4 | Pending |
 | RP-03 | Phase 4 | Pending |
