@@ -118,7 +118,7 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md — Export types, CSV export with date filtering
 - [x] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
-- [ ] 04-03-PLAN.md — Reports page with preview, quick export cards
+- [x] 04-03-PLAN.md — Reports page with preview, quick export cards
 
 **UI hint:** yes
 
