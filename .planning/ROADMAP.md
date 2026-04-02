@@ -92,7 +92,7 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Install react-dropzone, file validation, FileDropzone component
+- [x] 03-01-PLAN.md — Install react-dropzone, file validation, FileDropzone component
 - [ ] 03-02-PLAN.md — Firebase Storage upload with progress, thumbnails, download
 - [ ] 03-03-PLAN.md — MediaLibrary grid view, media page with upload dialog
 

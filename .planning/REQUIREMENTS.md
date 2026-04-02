@@ -29,9 +29,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Media Management
 
-- [ ] **MM-01**: File upload with progress indicator
-- [ ] **MM-02**: File type validation (images, documents)
-- [ ] **MM-03**: File size limits and compression
+- [x] **MM-01**: File upload with progress indicator
+- [x] **MM-02**: File type validation (images, documents)
+- [x] **MM-03**: File size limits and compression
 - [ ] **MM-04**: Image preview with thumbnails
 - [ ] **MM-05**: File download capability
 - [ ] **MM-06**: Media library grid view
@@ -116,9 +116,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TM-06 | Phase 2 | Complete |
 | TM-07 | Phase 2 | Complete |
 | TM-08 | Phase 2 | Complete |
-| MM-01 | Phase 3 | Pending |
-| MM-02 | Phase 3 | Pending |
-| MM-03 | Phase 3 | Pending |
+| MM-01 | Phase 3 | Complete |
+| MM-02 | Phase 3 | Complete |
+| MM-03 | Phase 3 | Complete |
 | MM-04 | Phase 3 | Pending |
 | MM-05 | Phase 3 | Pending |
 | MM-06 | Phase 3 | Pending |
