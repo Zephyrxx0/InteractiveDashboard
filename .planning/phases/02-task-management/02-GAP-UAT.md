@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 02-task-management-gap-closure
 source: [02-04-PLAN.md, 02-05-PLAN.md]
 started: 2026-04-01T16:30:00Z
-updated: 2026-04-01T16:40:00Z
+updated: 2026-04-01T16:45:00Z
 ---
 
 ## Current Test
@@ -43,12 +43,25 @@ skipped: 0
   reason: "User reported: Cant remove already connected arrows"
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: "Z-index conflict - task nodes have z-10 while SVG dependency layer has z-5. Arrow click events are intercepted by higher z-index task nodes."
+  artifacts:
+    - path: "src/components/features/gantt/gantt-chart.tsx"
+      issue: "SVG dependency layer z-index is 5, below task nodes at z-10"
+    - path: "src/components/features/gantt/gantt-task-bar.tsx"
+      issue: "Task nodes positioned at -1.5px outside task bar with z-10"
+  missing:
+    - "Increase SVG dependency layer z-index to 20+ above task nodes"
+    - "OR add pointer-events-none to nodes when not in connection mode"
+  debug_session: .planning/debug/gantt-arrow-issues.md
 - truth: "Hovering on task bar reveals rich tooltip - Task names visible in left sidebar"
   status: failed
   reason: "User reported: Still disconnect arrows between two nodes"
   severity: major
   test: 2
-  artifacts: []
-  missing: []
+  root_cause: "Same z-index issue as Test 1 - clicking nodes triggers new connections (handleNodeClick) instead of removing arrows. Arrows appear disconnected because new connections overwrite them or removal fails."
+  artifacts:
+    - path: "src/components/features/gantt/gantt-chart.tsx"
+      issue: "handleNodeClick fires on node click, intercepts arrow clicks"
+  missing:
+    - "Same fix as Test 1 - increase z-index or use pointer-events"
+  debug_session: .planning/debug/gantt-arrow-issues.md
