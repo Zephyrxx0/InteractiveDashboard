@@ -70,7 +70,7 @@ export default function ReportsPage() {
       } else if (options.format === 'pdf') {
         await exportTasksToPDF(tasks, {
           ...exportOptions,
-          template: 'summary',
+          template: options.template || 'summary',
           title: 'Task Report',
           subtitle: 'Generated from Interactive Dashboard',
         });
@@ -83,7 +83,7 @@ export default function ReportsPage() {
   };
 
   const handleQuickExport = async (format: 'csv' | 'pdf') => {
-    await handleExport({ format, dateRange });
+    await handleExport({ format, dateRange, template: format === 'pdf' ? 'summary' : undefined });
   };
 
   return (
