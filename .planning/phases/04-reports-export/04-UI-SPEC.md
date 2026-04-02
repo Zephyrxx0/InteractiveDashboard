@@ -24,8 +24,8 @@ status: draft
 
 ## 4. Copywriting Contract
 - **Primary CTA Label:** "Export Report" (for dialog triggers), "Download CSV", "Download PDF".
-- **Empty State Copy:** "No data available in selected range." (Skip export and show friendly message).
-- **Error State Copy:** "Failed to generate export. Please try again."
+- **Empty State Copy:** "There are no reports to export for these dates."
+- **Error State Copy:** "Failed to generate export. Check your connection or try selecting a smaller date range."
 - **Destructive Actions:** None in this phase.
 - *Source: 04-CONTEXT.md and sensible defaults.*
 
@@ -33,6 +33,7 @@ status: draft
 - **Triggers:** Dialog-based trigger for format selection and date range options.
 - **Form Layout:** Clean form inside a Dialog to select format (CSV/PDF), report template (Summary/Detailed), and date range (reusing DateRangePicker).
 - **PDF Styling:** Clean/minimal approach, professional, follows dashboard theme (Header, summary stats, task table).
+- **Visual Hierarchy & Focal Point:** The primary focal point is the report format selection options (CSV vs PDF), followed by the date range selector and the primary "Export" CTA.
 - *Source: 04-CONTEXT.md.*
 
 ## 6. Registry & Components
