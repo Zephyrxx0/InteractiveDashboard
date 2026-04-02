@@ -113,12 +113,13 @@ Plans:
 3. User can select from summary report templates
 4. User can filter exports by date range
 
-**Plans:** 2/3 plans executed
+**Plans:** 4 plans
 
 Plans:
 - [x] 04-01-PLAN.md — Export types, CSV export with date filtering
 - [x] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
 - [x] 04-03-PLAN.md — Reports page with preview, quick export cards
+- [ ] 04-04-PLAN.md — Gap Closure: Add template selector to PDF exports
 
 **UI hint:** yes
 
