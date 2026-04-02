@@ -119,7 +119,7 @@ Plans:
 - [x] 04-01-PLAN.md — Export types, CSV export with date filtering
 - [x] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
 - [x] 04-03-PLAN.md — Reports page with preview, quick export cards
-- [ ] 04-04-PLAN.md — Gap Closure: Add template selector to PDF exports
+- [x] 04-04-PLAN.md — Gap Closure: Add template selector to PDF exports
 
 **UI hint:** yes
 
