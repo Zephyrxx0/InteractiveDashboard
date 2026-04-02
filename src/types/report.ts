@@ -2,6 +2,7 @@ export type ExportFormat = 'csv' | 'pdf' | 'xlsx';
 
 export interface ExportOptions {
   format: ExportFormat;
+  template?: 'summary' | 'detailed';
   dateRange?: {
     from: Date;
     to: Date;
