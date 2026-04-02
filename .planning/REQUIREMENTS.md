@@ -38,10 +38,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Reports & Export
 
-- [ ] **RP-01**: CSV export for task data
+- [x] **RP-01**: CSV export for task data
 - [ ] **RP-02**: PDF report generation
 - [ ] **RP-03**: Summary report templates
-- [ ] **RP-04**: Date range filtering for exports
+- [x] **RP-04**: Date range filtering for exports
 
 ### Code Quality
 
@@ -122,10 +122,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MM-04 | Phase 3 | Complete |
 | MM-05 | Phase 3 | Complete |
 | MM-06 | Phase 3 | Complete |
-| RP-01 | Phase 4 | Pending |
+| RP-01 | Phase 4 | Complete |
 | RP-02 | Phase 4 | Pending |
 | RP-03 | Phase 4 | Pending |
-| RP-04 | Phase 4 | Pending |
+| RP-04 | Phase 4 | Complete |
 | CQ-01 | Phase 1 | Pending |
 | CQ-02 | Phase 1 | Pending |
 | CQ-03 | Phase 2 | Complete |
