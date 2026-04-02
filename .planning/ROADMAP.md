@@ -60,12 +60,15 @@ Plans:
 4. User can switch between day/week/month zoom levels
 5. User can zoom out to see task overview across extended time periods
 
-**Plans:** 3 plans
+**Plans:** 4 plans (including gap closure)
 
 Plans:
 - [x] 02-01-PLAN.md — Gantt types, custom GanttChart with zoom levels (day/week/month)
 - [x] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
 - [x] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
+- [x] 02-04-PLAN.md — animejs v4 API migration
+- [x] 02-05-PLAN.md — Wire GanttTaskRow, add JSDoc documentation
+- [ ] 02-06-PLAN.md — Fix z-index conflict for arrow removal, wire GanttTaskRow
 
 **UI hint:** yes
 
