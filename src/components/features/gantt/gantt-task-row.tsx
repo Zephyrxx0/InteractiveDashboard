@@ -18,6 +18,7 @@ import { format } from 'date-fns';
  * @property {boolean} [isBeingDragged] - Whether this task is currently being dragged
  * @property {boolean} [isConnecting] - Whether a connection operation is in progress
  * @property {boolean} [isConnectionSource] - Whether this task is the source of an in-progress connection
+ * @property {boolean} [showNodes] - Whether to show connection nodes on task bars
  */
 interface GanttTaskRowProps {
   task: GanttTask;
@@ -28,6 +29,7 @@ interface GanttTaskRowProps {
   isBeingDragged?: boolean;
   isConnecting?: boolean;
   isConnectionSource?: boolean;
+  showNodes?: boolean;
 }
 
 /**
@@ -61,6 +63,7 @@ export function GanttTaskRow({
   isBeingDragged,
   isConnecting,
   isConnectionSource,
+  showNodes = false,
 }: GanttTaskRowProps) {
   /**
    * Handles mouse down events to initiate drag operations.
@@ -93,6 +96,7 @@ export function GanttTaskRow({
               isDragging={isBeingDragged}
               isConnecting={isConnecting}
               isConnectionSource={isConnectionSource}
+              showNodes={showNodes}
             />
           </div>
         </TooltipTrigger>

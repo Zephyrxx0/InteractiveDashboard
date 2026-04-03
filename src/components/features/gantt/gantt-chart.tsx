@@ -27,6 +27,7 @@ interface GanttChartProps {
   onConnectionAdd?: (fromTaskId: string, toTaskId: string) => void;
   onConnectionRemove?: (fromTaskId: string, toTaskId: string) => void;
   showDependencies?: boolean;
+  showNodes?: boolean;
   className?: string;
 }
 
@@ -42,7 +43,8 @@ export function GanttChart({
   onTaskUpdate,
   onConnectionAdd,
   onConnectionRemove,
-  showDependencies = true,
+  showDependencies = false,
+  showNodes = false,
   className,
 }: GanttChartProps) {
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>('week');
@@ -338,6 +340,7 @@ export function GanttChart({
                   isBeingDragged={draggedTaskId === task.id}
                   isConnecting={connectionState.isConnecting}
                   isConnectionSource={connectionState.fromTaskId === task.id}
+                  showNodes={showNodes}
                 />
               ))}
 

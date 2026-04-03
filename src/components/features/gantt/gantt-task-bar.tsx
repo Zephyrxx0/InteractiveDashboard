@@ -13,6 +13,7 @@ interface GanttTaskBarProps {
   isDragging?: boolean;
   isConnecting?: boolean;
   isConnectionSource?: boolean;
+  showNodes?: boolean;
 }
 
 export function GanttTaskBar({ 
@@ -24,6 +25,7 @@ export function GanttTaskBar({
   isDragging,
   isConnecting,
   isConnectionSource,
+  showNodes = false,
 }: GanttTaskBarProps) {
   const { left, width } = calculateTaskPosition(task, config);
   const statusConfig = STATUS_CONFIG[task.status];
@@ -51,30 +53,32 @@ export function GanttTaskBar({
         minWidth: '24px',
       }}
     >
-      {/* Start Node - visible on parent row hover or when connecting */}
-      <div 
-        className={cn(
-          "absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
-          isConnecting 
-            ? "opacity-100 border-primary scale-125" 
-            : "opacity-0 group-hover:opacity-100 border-primary",
-          isConnectionSource && "bg-primary border-primary"
-        )}
-        data-task-id={task.id} 
-        data-node-type="start"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNodeClick?.(task.id, 'start');
-        }}
-      />
+      {/* Start Node - only visible when showNodes is true */}
+      {showNodes && (
+        <div 
+          className={cn(
+            "absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
+            isConnecting 
+              ? "opacity-100 border-primary scale-125" 
+              : "opacity-0 group-hover:opacity-100 border-primary",
+            isConnectionSource && "bg-primary border-primary"
+          )}
+          data-task-id={task.id} 
+          data-node-type="start"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNodeClick?.(task.id, 'start');
+          }}
+        />
+      )}
 
       <div
         className={cn(
-          'w-full h-full rounded flex items-center overflow-hidden transition-all select-none',
+          'w-full h-full rounded-md flex items-center overflow-hidden transition-all select-none',
           getStatusColor(),
           isDragging
             ? 'cursor-grabbing opacity-70 shadow-lg scale-[1.02]'
-            : 'cursor-grab hover:opacity-90'
+            : 'cursor-grab hover:opacity-90 hover:shadow-md'
         )}
         onClick={() => onClick?.(task)}
         onMouseDown={(e) => {
@@ -114,22 +118,24 @@ export function GanttTaskBar({
         )}
       </div>
 
-      {/* End Node - visible on parent row hover or when connecting */}
-      <div 
-        className={cn(
-          "absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
-          isConnecting 
-            ? "opacity-100 border-primary scale-125" 
-            : "opacity-0 group-hover:opacity-100 border-primary",
-          isConnectionSource && "bg-primary border-primary"
-        )}
-        data-task-id={task.id} 
-        data-node-type="end"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNodeClick?.(task.id, 'end');
-        }}
-      />
+      {/* End Node - only visible when showNodes is true */}
+      {showNodes && (
+        <div 
+          className={cn(
+            "absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-background border-2 z-10 cursor-crosshair transition-all gantt-node",
+            isConnecting 
+              ? "opacity-100 border-primary scale-125" 
+              : "opacity-0 group-hover:opacity-100 border-primary",
+            isConnectionSource && "bg-primary border-primary"
+          )}
+          data-task-id={task.id} 
+          data-node-type="end"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNodeClick?.(task.id, 'end');
+          }}
+        />
+      )}
     </div>
   );
 }
