@@ -14,14 +14,20 @@ import { format } from 'date-fns';
  * @property {GanttConfig} config - Gantt configuration for positioning and sizing
  * @property {function} [onDragStart] - Handler called when drag operation begins
  * @property {function} [onClick] - Handler called when task is clicked
+ * @property {function} [onNodeClick] - Handler called when a connection node is clicked
  * @property {boolean} [isBeingDragged] - Whether this task is currently being dragged
+ * @property {boolean} [isConnecting] - Whether a connection operation is in progress
+ * @property {boolean} [isConnectionSource] - Whether this task is the source of an in-progress connection
  */
 interface GanttTaskRowProps {
   task: GanttTask;
   config: GanttConfig;
   onDragStart?: (e: React.MouseEvent, task: GanttTask) => void;
   onClick?: (task: GanttTask) => void;
+  onNodeClick?: (taskId: string, nodeType: 'start' | 'end') => void;
   isBeingDragged?: boolean;
+  isConnecting?: boolean;
+  isConnectionSource?: boolean;
 }
 
 /**
@@ -51,7 +57,10 @@ export function GanttTaskRow({
   config,
   onDragStart,
   onClick,
+  onNodeClick,
   isBeingDragged,
+  isConnecting,
+  isConnectionSource,
 }: GanttTaskRowProps) {
   /**
    * Handles mouse down events to initiate drag operations.
@@ -67,52 +76,46 @@ export function GanttTaskRow({
   return (
     <div
       className={cn(
-        "flex items-center border-b border-border",
+        "group relative border-b border-border/20 hover:bg-muted/20 transition-colors",
         isBeingDragged && "opacity-70 bg-muted/30"
       )}
       style={{ height: config.rowHeight }}
     >
-      {/* Task sidebar (fixed width) - shows task name and assignee */}
-      <div className="w-[200px] flex-shrink-0 px-3 border-r border-border bg-background">
-        <div className="truncate text-sm font-medium">{task.name}</div>
-        <div className="text-xs text-muted-foreground">
-          {task.assignee?.name || 'Unassigned'}
-        </div>
-      </div>
-      
       {/* Task bar in timeline with tooltip */}
-      <div className="flex-1 relative">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div onMouseDown={handleMouseDown}>
-              <GanttTaskBar
-                task={task}
-                config={config}
-                onClick={onClick}
-              />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="max-w-[300px]">
-            <div className="space-y-1">
-              <p className="font-semibold">{task.name}</p>
-              <p className="text-xs">
-                {format(task.startDate, 'MMM d')} – {format(task.endDate, 'MMM d, yyyy')}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div onMouseDown={handleMouseDown} className="absolute inset-0">
+            <GanttTaskBar
+              task={task}
+              config={config}
+              onClick={onClick}
+              onNodeClick={onNodeClick}
+              isDragging={isBeingDragged}
+              isConnecting={isConnecting}
+              isConnectionSource={isConnectionSource}
+            />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-[300px]">
+          <div className="space-y-1">
+            <p className="font-semibold">{task.name}</p>
+            <p className="text-xs">
+              {format(task.startDate, 'MMM d')} – {format(task.endDate, 'MMM d, yyyy')}
+            </p>
+            {task.assignee && (
+              <p className="text-xs">Assigned to: {task.assignee.name}</p>
+            )}
+            {task.progress !== undefined && (
+              <p className="text-xs">Progress: {task.progress}%</p>
+            )}
+            {task.dependencies && task.dependencies.length > 0 && (
+              <p className="text-xs text-muted-foreground">
+                Depends on: {task.dependencies.length} task{task.dependencies.length > 1 ? 's' : ''}
               </p>
-              {task.assignee && (
-                <p className="text-xs">Assigned to: {task.assignee.name}</p>
-              )}
-              {task.progress !== undefined && (
-                <p className="text-xs">Progress: {task.progress}%</p>
-              )}
-              {task.dependencies && task.dependencies.length > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Depends on: {task.dependencies.length} task{task.dependencies.length > 1 ? 's' : ''}
-                </p>
-              )}
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      </div>
+            )}
+          </div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }

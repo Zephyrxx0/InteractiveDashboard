@@ -40,11 +40,11 @@ export function getColumnCount(config: GanttConfig): number {
   }
 }
 
-// Column width defaults per zoom level
+// Column width defaults per zoom level (minimum values, will scale up to fit container)
 export const ZOOM_COLUMN_WIDTHS: Record<ZoomLevel, number> = {
-  day: 40,
-  week: 100,
-  month: 120,
+  day: 32,    // Smaller for more days visible
+  week: 80,   // Moderate for week view
+  month: 100, // Wider for month overview
 };
 
 // Calculate task position and width in pixels

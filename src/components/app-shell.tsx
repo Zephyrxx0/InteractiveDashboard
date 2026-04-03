@@ -58,9 +58,9 @@ function AppSidebar() {
 
     return (
         <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-            <SidebarHeader className="h-16 flex flex-row items-center px-4 border-b border-sidebar-border">
-                <Link href="/dashboard" className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center">
-                    <div className="size-8 bg-foreground text-primary flex items-center justify-center shrink-0">
+            <SidebarHeader className="h-14 flex flex-row items-center px-3 border-b border-sidebar-border">
+                <Link href="/dashboard" className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center w-full">
+                    <div className="size-9 bg-foreground text-primary flex items-center justify-center shrink-0">
                         <span className="material-symbols-outlined text-[20px]">grid_view</span>
                     </div>
                     <h1 className="font-display font-bold text-lg tracking-tight uppercase leading-none group-data-[collapsible=icon]:hidden">

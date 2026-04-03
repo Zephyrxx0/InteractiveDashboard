@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { animate } from 'animejs';
 import { GanttTask, GanttConfig, ZoomLevel, ZOOM_COLUMN_WIDTHS, getColumnCount } from '@/types/gantt';
-import { GanttTaskBar } from './gantt-task-bar';
+import { GanttTaskRow } from './gantt-task-row';
 import { GanttTimelineHeader } from './gantt-timeline-header';
 import { GanttDependencyLine, DependencyArrowMarker } from './gantt-dependency-line';
 import { useGanttDrag } from '@/hooks/use-gantt-drag';
@@ -30,6 +30,10 @@ interface GanttChartProps {
   className?: string;
 }
 
+/**
+ * Interactive Gantt chart with drag-drop rescheduling and dependency arrows.
+ * Supports day/week/month zoom levels and responsive scaling.
+ */
 export function GanttChart({
   tasks,
   startDate: propStartDate,
@@ -47,7 +51,26 @@ export function GanttChart({
     fromTaskId: null,
     fromNodeType: null,
   });
+  const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Track container width for responsive scaling
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+
+    observer.observe(container);
+    // Initial measurement
+    setContainerWidth(container.clientWidth);
+
+    return () => observer.disconnect();
+  }, []);
 
   // Calculate date range from tasks if not provided
   const dateRange = useMemo(() => {
@@ -72,15 +95,43 @@ export function GanttChart({
     };
   }, [tasks, propStartDate, propEndDate]);
 
+  // Calculate responsive column width that fills container
+  const columnWidth = useMemo(() => {
+    if (containerWidth === 0) return ZOOM_COLUMN_WIDTHS[zoomLevel];
+    
+    const diffTime = dateRange.end.getTime() - dateRange.start.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    
+    let columnCount: number;
+    switch (zoomLevel) {
+      case 'day':
+        columnCount = Math.ceil(diffDays);
+        break;
+      case 'week':
+        columnCount = Math.ceil(diffDays / 7);
+        break;
+      case 'month':
+        columnCount = Math.ceil(diffDays / 30);
+        break;
+    }
+
+    // Calculate width to fit container, but respect minimum
+    const minWidth = ZOOM_COLUMN_WIDTHS[zoomLevel];
+    const calculatedWidth = containerWidth / columnCount;
+    
+    // Use calculated width if it's larger than minimum, otherwise use minimum (will scroll)
+    return Math.max(calculatedWidth, minWidth);
+  }, [containerWidth, dateRange, zoomLevel]);
+
   const config: GanttConfig = useMemo(
     () => ({
       zoomLevel,
       startDate: dateRange.start,
       endDate: dateRange.end,
       rowHeight: 48,
-      columnWidth: ZOOM_COLUMN_WIDTHS[zoomLevel],
+      columnWidth,
     }),
-    [zoomLevel, dateRange]
+    [zoomLevel, dateRange, columnWidth]
   );
 
   // Calculate total chart width
@@ -151,12 +202,21 @@ export function GanttChart({
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
 
-  // Animate dependency lines on load using animejs v4 API
+  // Track if initial animation has run
+  const hasAnimatedRef = useRef(false);
+
+  // Animate dependency lines ONLY on initial mount
   useEffect(() => {
-    if (showDependencies && tasks.length > 0) {
-      // Get all dependency line paths
+    if (hasAnimatedRef.current) return; // Already animated, skip
+    if (!showDependencies || tasks.length === 0) return;
+
+    // Small delay to ensure SVG is rendered
+    const timer = setTimeout(() => {
       const paths = document.querySelectorAll('.dependency-path');
       if (!paths.length) return;
+
+      // Mark as animated
+      hasAnimatedRef.current = true;
 
       // Calculate total path length for each path and set initial dashoffset
       paths.forEach((path) => {
@@ -170,11 +230,13 @@ export function GanttChart({
       animate('.dependency-path', {
         strokeDashoffset: 0,
         ease: 'inOutSine',
-        duration: 1000,
-        delay: (_el: unknown, i: number) => i * 250,
+        duration: 800,
+        delay: (_el: unknown, i: number) => i * 150,
       });
-    }
-  }, [showDependencies, tasks, zoomLevel]);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [showDependencies, tasks.length]); // Only depend on presence of tasks, not their content
 
   // Draw today line position
   const todayPosition = useMemo(() => {
@@ -264,31 +326,26 @@ export function GanttChart({
                 ))}
               </div>
 
-              {/* Task rows - group class enables hover state for connection nodes */}
-              {tasks.map((task, taskIndex) => (
-                <div
+              {/* Task rows with sidebar and tooltips */}
+              {tasks.map((task) => (
+                <GanttTaskRow
                   key={task.id}
-                  className="group relative border-b border-border/20 hover:bg-muted/20 transition-colors z-10"
-                  style={{ height: `${config.rowHeight}px` }}
-                >
-                  <GanttTaskBar
-                    task={task}
-                    config={config}
-                    onClick={onTaskClick}
-                    onDragStart={handleDragStart}
-                    onNodeClick={handleNodeClick}
-                    isDragging={draggedTaskId === task.id}
-                    isConnecting={connectionState.isConnecting}
-                    isConnectionSource={connectionState.fromTaskId === task.id}
-                  />
-                </div>
+                  task={task}
+                  config={config}
+                  onClick={onTaskClick}
+                  onDragStart={handleDragStart}
+                  onNodeClick={handleNodeClick}
+                  isBeingDragged={draggedTaskId === task.id}
+                  isConnecting={connectionState.isConnecting}
+                  isConnectionSource={connectionState.fromTaskId === task.id}
+                />
               ))}
 
-              {/* Dependency lines SVG layer - between grid and tasks, clickable for removal */}
+              {/* Dependency lines SVG layer - above task nodes (z-25 > z-10) for arrow click events */}
               {showDependencies && (
                 <svg
-                  className="absolute inset-0"
-                  style={{ width: totalWidth, height: totalHeight, zIndex: 5 }}
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ width: totalWidth, height: totalHeight, zIndex: 25 }}
                 >
                   <DependencyArrowMarker />
                   {tasks.flatMap((task, taskIndex) =>
