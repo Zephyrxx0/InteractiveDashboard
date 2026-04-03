@@ -28,6 +28,7 @@ export interface Task {
 export interface TaskFilters {
   status?: TaskStatus | 'all';
   assigneeId?: string | 'all';
+  projectId?: string | 'all';
   dueDateRange?: { from: Date; to: Date };
 }
 

@@ -24,19 +24,38 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { format, isPast, isToday } from "date-fns";
+import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+
+export type SortKey = 'name' | 'project' | 'status' | 'assignee' | 'dueDate';
+export type SortDirection = 'asc' | 'desc';
+
+interface Project {
+  id: string;
+  name: string;
+}
 
 interface TaskListProps {
   tasks: Task[];
   assignees?: Assignee[];
+  projects?: Project[];
   onTaskUpdate?: (taskId: string, updates: Partial<Task>) => void;
   onStatusChange?: (taskId: string, status: TaskStatus) => void;
+  sortKey?: SortKey;
+  sortDirection?: SortDirection;
+  onSort?: (key: SortKey) => void;
+  showProjectColumn?: boolean;
 }
 
 export function TaskList({
   tasks,
   assignees = [],
+  projects = [],
   onTaskUpdate,
   onStatusChange,
+  sortKey,
+  sortDirection,
+  onSort,
+  showProjectColumn = false,
 }: TaskListProps) {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState("");
@@ -108,14 +127,61 @@ export function TaskList({
     return isPast(date) && !isToday(date);
   };
 
+  const getProjectName = (projectId?: string): string => {
+    if (!projectId) return "—";
+    const project = projects.find(p => p.id === projectId);
+    return project?.name || projectId;
+  };
+
+  const SortableHeader = ({ column, label, className }: { column: SortKey; label: string; className?: string }) => {
+    const isActive = sortKey === column;
+    return (
+      <button
+        onClick={() => onSort?.(column)}
+        className={cn(
+          "flex items-center gap-1 hover:text-foreground transition-colors",
+          isActive && "text-foreground",
+          className
+        )}
+      >
+        {label}
+        {onSort && (
+          isActive ? (
+            sortDirection === 'asc' ? (
+              <ChevronUp className="h-3 w-3" />
+            ) : (
+              <ChevronDown className="h-3 w-3" />
+            )
+          ) : (
+            <ChevronsUpDown className="h-3 w-3 opacity-50" />
+          )
+        )}
+      </button>
+    );
+  };
+
   return (
     <div className="bg-card border border-border overflow-hidden">
       {/* Header */}
-      <div className="grid grid-cols-12 gap-4 p-3 bg-background border-b border-border text-xs font-mono text-muted-foreground uppercase tracking-wider">
+      <div className={cn(
+        "grid gap-4 p-3 bg-background border-b border-border text-xs font-mono text-muted-foreground uppercase tracking-wider",
+        "grid-cols-12"
+      )}>
         <div className="col-span-1 text-center">Status</div>
-        <div className="col-span-5">Task Name</div>
-        <div className="col-span-3">Assignee</div>
-        <div className="col-span-3 text-right">Due Date</div>
+        <div className={showProjectColumn ? "col-span-4" : "col-span-5"}>
+          <SortableHeader column="name" label="Task Name" />
+        </div>
+        {showProjectColumn && (
+          <div className="col-span-2">
+            <SortableHeader column="project" label="Project" />
+          </div>
+        )}
+        <div className={showProjectColumn ? "col-span-2" : "col-span-3"}>
+          <SortableHeader column="assignee" label="Assignee" />
+        </div>
+        <div className="col-span-3 text-right">
+          <SortableHeader column="dueDate" label="Due Date" className="justify-end" />
+        </div>
       </div>
 
       {/* Tasks */}
@@ -123,7 +189,8 @@ export function TaskList({
         <div
           key={task.id}
           className={cn(
-            "grid grid-cols-12 gap-4 p-4 border-b border-border items-center hover:bg-background/50 transition-colors group",
+            "grid gap-4 p-4 border-b border-border items-center hover:bg-background/50 transition-colors group",
+            "grid-cols-12",
             task.status === "done" && "opacity-50"
           )}
         >
@@ -167,7 +234,7 @@ export function TaskList({
           </div>
 
           {/* Task Name - Inline Editing */}
-          <div className="col-span-5">
+          <div className={showProjectColumn ? "col-span-4" : "col-span-5"}>
             {editingTaskId === task.id ? (
               <Input
                 ref={inputRef}
@@ -210,8 +277,17 @@ export function TaskList({
             )}
           </div>
 
+          {/* Project Column */}
+          {showProjectColumn && (
+            <div className="col-span-2">
+              <span className="text-xs font-mono text-muted-foreground">
+                {getProjectName(task.projectId)}
+              </span>
+            </div>
+          )}
+
           {/* Assignee Selection */}
-          <div className="col-span-3">
+          <div className={showProjectColumn ? "col-span-2" : "col-span-3"}>
             <Select
               value={task.assignee?.id || "unassigned"}
               onValueChange={(value) => handleAssigneeChange(task.id, value)}
