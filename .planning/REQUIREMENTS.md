@@ -9,46 +9,46 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Analytics
 
-- [ ] **AN-01**: Enhanced KPI cards with trend indicators
-- [ ] **AN-02**: Line charts for trend visualization
-- [ ] **AN-03**: Bar charts for comparison visualization
-- [ ] **AN-04**: Pie/donut charts for distribution visualization
-- [ ] **AN-05**: Date range filtering for charts
+- [x] **AN-01**: Enhanced KPI cards with trend indicators
+- [x] **AN-02**: Line charts for trend visualization
+- [x] **AN-03**: Bar charts for comparison visualization
+- [x] **AN-04**: Pie/donut charts for distribution visualization
+- [x] **AN-05**: Date range filtering for charts
 - [ ] **AN-06**: Real-time data updates from Firebase
 
 ### Task Management
 
-- [ ] **TM-01**: Task list with inline editing
-- [ ] **TM-02**: Task status workflow (todo, in-progress, done, blocked)
-- [ ] **TM-03**: Due date management with calendar view
-- [ ] **TM-04**: Assignee assignment and filtering
-- [ ] **TM-05**: Timeline/Gantt view of tasks
-- [ ] **TM-06**: Drag-and-drop task rescheduling
-- [ ] **TM-07**: Task dependencies (link tasks)
-- [ ] **TM-08**: Zoom levels (day/week/month view)
+- [x] **TM-01**: Task list with inline editing
+- [x] **TM-02**: Task status workflow (todo, in-progress, done, blocked)
+- [x] **TM-03**: Due date management with calendar view
+- [x] **TM-04**: Assignee assignment and filtering
+- [x] **TM-05**: Timeline/Gantt view of tasks
+- [x] **TM-06**: Drag-and-drop task rescheduling
+- [x] **TM-07**: Task dependencies (link tasks)
+- [x] **TM-08**: Zoom levels (day/week/month view)
 
 ### Media Management
 
-- [ ] **MM-01**: File upload with progress indicator
-- [ ] **MM-02**: File type validation (images, documents)
-- [ ] **MM-03**: File size limits and compression
-- [ ] **MM-04**: Image preview with thumbnails
-- [ ] **MM-05**: File download capability
-- [ ] **MM-06**: Media library grid view
+- [x] **MM-01**: File upload with progress indicator
+- [x] **MM-02**: File type validation (images, documents)
+- [x] **MM-03**: File size limits and compression
+- [x] **MM-04**: Image preview with thumbnails
+- [x] **MM-05**: File download capability
+- [x] **MM-06**: Media library grid view
 
 ### Reports & Export
 
-- [ ] **RP-01**: CSV export for task data
-- [ ] **RP-02**: PDF report generation
-- [ ] **RP-03**: Summary report templates
-- [ ] **RP-04**: Date range filtering for exports
+- [x] **RP-01**: CSV export for task data
+- [x] **RP-02**: PDF report generation
+- [x] **RP-03**: Summary report templates
+- [x] **RP-04**: Date range filtering for exports
 
 ### Code Quality
 
 - [ ] **CQ-01**: TypeScript strict mode compliance
 - [ ] **CQ-02**: ESLint configuration for code quality
-- [ ] **CQ-03**: Component documentation
-- [ ] **CQ-04**: Error handling improvements
+- [x] **CQ-03**: Component documentation
+- [x] **CQ-04**: Error handling improvements
 
 ## v2 Requirements
 
@@ -102,34 +102,34 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AN-01 | Phase 1 | Pending |
-| AN-02 | Phase 1 | Pending |
-| AN-03 | Phase 1 | Pending |
-| AN-04 | Phase 1 | Pending |
-| AN-05 | Phase 1 | Pending |
+| AN-01 | Phase 1 | Complete |
+| AN-02 | Phase 1 | Complete |
+| AN-03 | Phase 1 | Complete |
+| AN-04 | Phase 1 | Complete |
+| AN-05 | Phase 1 | Complete |
 | AN-06 | Phase 1 | Pending |
-| TM-01 | Phase 1 | Pending |
-| TM-02 | Phase 1 | Pending |
-| TM-03 | Phase 1 | Pending |
-| TM-04 | Phase 1 | Pending |
-| TM-05 | Phase 2 | Pending |
-| TM-06 | Phase 2 | Pending |
-| TM-07 | Phase 2 | Pending |
-| TM-08 | Phase 2 | Pending |
-| MM-01 | Phase 3 | Pending |
-| MM-02 | Phase 3 | Pending |
-| MM-03 | Phase 3 | Pending |
-| MM-04 | Phase 3 | Pending |
-| MM-05 | Phase 3 | Pending |
-| MM-06 | Phase 3 | Pending |
-| RP-01 | Phase 4 | Pending |
-| RP-02 | Phase 4 | Pending |
-| RP-03 | Phase 4 | Pending |
-| RP-04 | Phase 4 | Pending |
+| TM-01 | Phase 1 | Complete |
+| TM-02 | Phase 1 | Complete |
+| TM-03 | Phase 1 | Complete |
+| TM-04 | Phase 1 | Complete |
+| TM-05 | Phase 2 | Complete |
+| TM-06 | Phase 2 | Complete |
+| TM-07 | Phase 2 | Complete |
+| TM-08 | Phase 2 | Complete |
+| MM-01 | Phase 3 | Complete |
+| MM-02 | Phase 3 | Complete |
+| MM-03 | Phase 3 | Complete |
+| MM-04 | Phase 3 | Complete |
+| MM-05 | Phase 3 | Complete |
+| MM-06 | Phase 3 | Complete |
+| RP-01 | Phase 4 | Complete |
+| RP-02 | Phase 4 | Complete |
+| RP-03 | Phase 4 | Complete |
+| RP-04 | Phase 4 | Complete |
 | CQ-01 | Phase 1 | Pending |
 | CQ-02 | Phase 1 | Pending |
-| CQ-03 | Phase 2 | Pending |
-| CQ-04 | Phase 2 | Pending |
+| CQ-03 | Phase 2 | Complete |
+| CQ-04 | Phase 2 | Complete |
 
 **Coverage:**
 - v1 requirements: 25 total
