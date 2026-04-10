@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/layout/page-header';
 import { ExportDialog } from '@/components/features/export';
 import { ReportPreview } from '@/components/features/export/report-preview';
 import { DateRangePicker } from '@/components/ui/date-range-picker';

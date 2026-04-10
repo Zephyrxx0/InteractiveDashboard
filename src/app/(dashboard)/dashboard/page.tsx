@@ -1,9 +1,9 @@
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { KpiCard } from "@/components/ui/kpi-card";
-import { ChartWidget } from "@/components/chart-widget";
-import { MapWidget } from "@/components/map-widget";
-import { LogItem } from "@/components/log-item";
-import { ProjectStatusChart } from "@/components/project-status-chart";
+import { ChartWidget } from "@/components/widgets/chart-widget";
+import { MapWidget } from "@/components/widgets/map-widget";
+import { LogItem } from "@/components/widgets/log-item";
+import { ProjectStatusChart } from "@/components/widgets/project-status-chart";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {

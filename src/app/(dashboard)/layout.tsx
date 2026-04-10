@@ -1,6 +1,6 @@
 "use client";
 
-import { AppShell } from "@/components/app-shell";
+import { AppShell } from "@/components/layout/app-shell";
 import { useRequireAuth } from "@/lib/auth";
 
 export default function DashboardLayout({

@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default function NotificationsPage() {

@@ -2,7 +2,7 @@
 
 import { usePathname, useParams } from "next/navigation";
 import Link from "next/link";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const tabs = [

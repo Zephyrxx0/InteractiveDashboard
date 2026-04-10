@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {

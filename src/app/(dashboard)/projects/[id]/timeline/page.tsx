@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/layout/page-header';
 import { GanttChart, GanttTaskSheet } from '@/components/features/gantt';
 import { GanttTask } from '@/types/gantt';
 import { Button } from '@/components/ui/button';

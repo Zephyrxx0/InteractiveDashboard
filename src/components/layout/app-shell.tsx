@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
     Sidebar,
     SidebarContent,
@@ -187,10 +188,12 @@ function TopBar() {
                         <p className="font-display font-bold text-sm leading-none">J. Doe</p>
                         <p className="font-mono text-[10px] text-muted-foreground uppercase leading-none mt-1">Admin</p>
                     </div>
-                    <div className="size-9 bg-background border border-border overflow-hidden">
-                        <img
+                    <div className="size-9 bg-background border border-border overflow-hidden relative">
+                        <Image
                             alt="Profile"
-                            className="w-full h-full object-cover"
+                            className="object-cover"
+                            fill
+                            sizes="36px"
                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbWfoVKtueGXExEJZD8_MXdVos9HOsfLb7Z3r99iLYp56Qq5kZmHBWyxBVepuYDGHqF8H_DH-Bndb30rt9ETvI8JFaf7jgnrG2L-SotBE0mH9VqY6qUG23xTF-iPnpGhuzoXhUXlhvJ3DmnJc3OO1TReD74AF44RLORkBWiXG3xEMDp2zSZ4iX7-giVNwWF7AA1skwbEzyTthY9sWNTl3a688KzYMWAePuB5wAd8kosLTVoy-eR3onbRXj0CcU0QUvBPJldHD06cAX"
                         />
                     </div>

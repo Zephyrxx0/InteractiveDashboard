@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { TaskList, SortKey, SortDirection } from "@/components/features/task-list";
 import { Button } from "@/components/ui/button";
 import {

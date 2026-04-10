@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { PageHeader } from '@/components/page-header';
+import { PageHeader } from '@/components/layout/page-header';
 import { FileDropzone, UploadProgressList, MediaLibrary } from '@/components/features/media';
 import { useFileUpload } from '@/hooks/use-file-upload';
 import { MediaFile } from '@/types/media';

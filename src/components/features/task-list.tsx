@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { Task, TaskStatus, STATUS_CONFIG, Assignee } from "@/types/task";
 import {
   DropdownMenu,
@@ -296,14 +297,18 @@ export function TaskList({
                 <SelectValue>
                   {task.assignee ? (
                     <div className="flex items-center gap-2">
-                      <img
-                        alt={task.assignee.name}
-                        className={cn(
-                          "size-6 rounded-full border border-white shadow-sm",
-                          task.status === "done" && "grayscale opacity-70"
-                        )}
-                        src={task.assignee.avatarUrl}
-                      />
+                      <div className="size-6 rounded-full border border-white shadow-sm overflow-hidden relative">
+                        <Image
+                          alt={task.assignee.name}
+                          className={cn(
+                            "object-cover",
+                            task.status === "done" && "grayscale opacity-70"
+                          )}
+                          fill
+                          sizes="24px"
+                          src={task.assignee.avatarUrl}
+                        />
+                      </div>
                       <span className="text-xs font-mono hidden sm:inline-block text-foreground">
                         {task.assignee.name}
                       </span>
@@ -334,11 +339,15 @@ export function TaskList({
                 {assignees.map((assignee) => (
                   <SelectItem key={assignee.id} value={assignee.id}>
                     <div className="flex items-center gap-2">
-                      <img
-                        alt={assignee.name}
-                        className="size-6 rounded-full border border-white shadow-sm"
-                        src={assignee.avatarUrl}
-                      />
+                      <div className="size-6 rounded-full border border-white shadow-sm overflow-hidden relative">
+                        <Image
+                          alt={assignee.name}
+                          className="object-cover"
+                          fill
+                          sizes="24px"
+                          src={assignee.avatarUrl}
+                        />
+                      </div>
                       <span>{assignee.name}</span>
                     </div>
                   </SelectItem>

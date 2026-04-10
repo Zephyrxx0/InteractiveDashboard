@@ -3,7 +3,16 @@
 
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
+// node v18+ exposes a global fetch; fall back to node-fetch if not present
+let fetch = global.fetch;
+if (!fetch) {
+  try {
+    fetch = require('node-fetch');
+  } catch (e) {
+    console.error('Please install node-fetch (npm i node-fetch)');
+    process.exit(1);
+  }
+}
 
 const GEMMA = process.env.GEMMA_API_URL || 'http://localhost:11434';
 const SAMPLE = path.resolve(__dirname, '..', 'feat_guide', 'sample.csv');
