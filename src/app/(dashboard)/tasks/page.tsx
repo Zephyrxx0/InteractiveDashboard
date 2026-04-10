@@ -12,105 +12,45 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Task, TaskStatus, TaskFilters, Assignee, STATUS_CONFIG } from "@/types/task";
+import { useTasks, useUpdateTask } from "@/hooks/use-tasks";
+import { useProjects } from "@/hooks/use-projects";
 
-// Mock projects list
-const MOCK_PROJECTS = [
-  { id: "proj-1", name: "Website Redesign" },
-  { id: "proj-2", name: "Mobile App v2" },
-  { id: "proj-3", name: "API Integration" },
-  { id: "proj-4", name: "Q3 Marketing" },
-];
-
-// Mock assignees list
+// Mock assignees list (Keep until Users table is added)
 const MOCK_ASSIGNEES: Assignee[] = [
   { id: "sarah", name: "Sarah J.", avatarUrl: "https://i.pravatar.cc/150?u=sarah", email: "sarah@example.com" },
   { id: "mike", name: "Mike T.", avatarUrl: "https://i.pravatar.cc/150?u=mike", email: "mike@example.com" },
   { id: "elena", name: "Elena M.", avatarUrl: "https://i.pravatar.cc/150?u=elena", email: "elena@example.com" },
 ];
 
-// Mock tasks using new Task interface
-const MOCK_TASKS: Task[] = [
-  {
-    id: "T-1001",
-    name: "Finalize Phase 2 Environment Report",
-    status: "in-progress",
-    assignee: MOCK_ASSIGNEES[0],
-    dueDate: new Date(),
-    createdAt: new Date("2026-03-20"),
-    updatedAt: new Date("2026-03-25"),
-    projectId: "proj-1",
-    tags: [{ label: "Documentation", color: "bg-info/20 text-info border border-info/30" }],
-  },
-  {
-    id: "T-1002",
-    name: "Deploy sensors at Site B",
-    status: "todo",
-    assignee: MOCK_ASSIGNEES[1],
-    dueDate: new Date(Date.now() + 86400000), // Tomorrow
-    createdAt: new Date("2026-03-22"),
-    updatedAt: new Date("2026-03-22"),
-    projectId: "proj-2",
-    tags: [{ label: "Field Work", color: "bg-warning/20 text-warning border border-warning/30" }],
-  },
-  {
-    id: "T-1003",
-    name: "Review Q3 Budget Allocation",
-    status: "todo",
-    assignee: MOCK_ASSIGNEES[2],
-    dueDate: new Date("2026-10-15"),
-    createdAt: new Date("2026-03-21"),
-    updatedAt: new Date("2026-03-21"),
-    projectId: "proj-4",
-    tags: [{ label: "Finance", color: "bg-success/20 text-success border border-success/30" }],
-  },
-  {
-    id: "T-1004",
-    name: "Draft Community Outreach Plan",
-    status: "blocked",
-    assignee: undefined,
-    dueDate: new Date("2026-10-18"),
-    createdAt: new Date("2026-03-23"),
-    updatedAt: new Date("2026-03-23"),
-    projectId: "proj-4",
-    tags: [{ label: "Planning", color: "bg-primary/20 text-primary border border-primary/30" }],
-  },
-  {
-    id: "T-1005",
-    name: "Equipment Maintenance Log",
-    status: "done",
-    assignee: MOCK_ASSIGNEES[1],
-    dueDate: new Date("2026-10-01"),
-    createdAt: new Date("2026-03-15"),
-    updatedAt: new Date("2026-03-27"),
-    projectId: "proj-3",
-    tags: [{ label: "Maintenance", color: "bg-muted/50 text-muted-foreground border border-border" }],
-  },
-  {
-    id: "T-1006",
-    name: "API endpoint documentation",
-    status: "in-progress",
-    assignee: MOCK_ASSIGNEES[0],
-    dueDate: new Date("2026-10-20"),
-    createdAt: new Date("2026-03-25"),
-    updatedAt: new Date("2026-03-28"),
-    projectId: "proj-3",
-    tags: [{ label: "Documentation", color: "bg-info/20 text-info border border-info/30" }],
-  },
-  {
-    id: "T-1007",
-    name: "User testing session planning",
-    status: "todo",
-    assignee: MOCK_ASSIGNEES[2],
-    dueDate: new Date("2026-10-22"),
-    createdAt: new Date("2026-03-26"),
-    updatedAt: new Date("2026-03-26"),
-    projectId: "proj-2",
-    tags: [{ label: "Research", color: "bg-primary/20 text-primary border border-primary/30" }],
-  },
-];
-
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
+  const { data: dbTasks = [], isLoading: isLoadingTasks } = useTasks();
+  const { data: dbProjects = [], isLoading: isLoadingProjects } = useProjects();
+  const updateTaskMutation = useUpdateTask();
+
+  // Map backend projects to UI format
+  const projects = useMemo(() => {
+    return dbProjects.map((p) => ({
+      id: p.id,
+      name: p.name,
+    }));
+  }, [dbProjects]);
+
+  // Map backend Tasks to UI format
+  const tasks = useMemo(() => {
+    return dbTasks.map(t => ({
+      id: t.id,
+      name: t.title, // DB 'title' mapping to 'name'
+      status: t.status as TaskStatus,
+      // Map arbitrary assignee ID string back to mock assignees or first for now
+      assignee: t.assignees?.[0] ? MOCK_ASSIGNEES.find(a => a.id === t.assignees![0]) || MOCK_ASSIGNEES[0] : undefined,
+      dueDate: t.due_date ? new Date(t.due_date) : undefined,
+      createdAt: new Date(t.created_at),
+      updatedAt: new Date(t.updated_at),
+      projectId: t.project_id || undefined,
+      tags: [], // Tags table is separate, keep empty for now
+    })) as Task[];
+  }, [dbTasks]);
+
   const [filters, setFilters] = useState<TaskFilters>({ status: "all", assigneeId: "all", projectId: "all" });
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -118,10 +58,8 @@ export default function TasksPage() {
   // Sort handler
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
-      // Toggle direction if same key
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
-      // New key, default to ascending
       setSortKey(key);
       setSortDirection("asc");
     }
@@ -129,7 +67,6 @@ export default function TasksPage() {
 
   // Filter and sort tasks
   const filteredAndSortedTasks = useMemo(() => {
-    // First filter
     let result = tasks.filter((task) => {
       if (filters.status !== "all" && task.status !== filters.status) return false;
       if (filters.assigneeId !== "all" && task.assignee?.id !== filters.assigneeId) return false;
@@ -137,7 +74,6 @@ export default function TasksPage() {
       return true;
     });
 
-    // Then sort
     result = [...result].sort((a, b) => {
       let comparison = 0;
 
@@ -146,8 +82,8 @@ export default function TasksPage() {
           comparison = a.name.localeCompare(b.name);
           break;
         case "project":
-          const projA = MOCK_PROJECTS.find(p => p.id === a.projectId)?.name || "";
-          const projB = MOCK_PROJECTS.find(p => p.id === b.projectId)?.name || "";
+          const projA = projects.find(p => p.id === a.projectId)?.name || "";
+          const projB = projects.find(p => p.id === b.projectId)?.name || "";
           comparison = projA.localeCompare(projB);
           break;
         case "status":
@@ -155,7 +91,7 @@ export default function TasksPage() {
           comparison = statusOrder[a.status] - statusOrder[b.status];
           break;
         case "assignee":
-          const nameA = a.assignee?.name || "zzz"; // Unassigned last
+          const nameA = a.assignee?.name || "zzz";
           const nameB = b.assignee?.name || "zzz";
           comparison = nameA.localeCompare(nameB);
           break;
@@ -170,27 +106,32 @@ export default function TasksPage() {
     });
 
     return result;
-  }, [tasks, filters, sortKey, sortDirection]);
+  }, [tasks, filters, sortKey, sortDirection, projects]);
 
   // Task update handlers
   const handleTaskUpdate = (taskId: string, updates: Partial<Task>) => {
-    setTasks((prev) =>
-      prev.map((t) =>
-        t.id === taskId ? { ...t, ...updates, updatedAt: new Date() } : t
-      )
-    );
+    const dbUpdates: any = {};
+    if (updates.status) dbUpdates.status = updates.status;
+    if (updates.name) dbUpdates.title = updates.name;
+    if (updates.assignee) dbUpdates.assignees = [updates.assignee.id];
+    // dueDate etc could also be mapped
+
+    updateTaskMutation.mutate({ id: taskId, updates: dbUpdates });
   };
 
   const handleStatusChange = (taskId: string, status: TaskStatus) => {
     handleTaskUpdate(taskId, { status });
   };
 
-  // Count active filters
   const activeFilterCount = [
     filters.status !== "all",
     filters.assigneeId !== "all",
     filters.projectId !== "all",
   ].filter(Boolean).length;
+
+  if (isLoadingTasks || isLoadingProjects) {
+    return <div className="p-8">Loading tasks...</div>;
+  }
 
   return (
     <>
@@ -210,7 +151,6 @@ export default function TasksPage() {
           <div className="flex items-center justify-between">
             <h2 className="font-display text-2xl font-bold">My Tasks</h2>
             <div className="flex items-center gap-4">
-              {/* Project Filter */}
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono text-muted-foreground uppercase">Project:</span>
                 <Select
@@ -227,7 +167,7 @@ export default function TasksPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Projects</SelectItem>
-                    {MOCK_PROJECTS.map((project) => (
+                    {projects.map((project) => (
                       <SelectItem key={project.id} value={project.id}>
                         {project.name}
                       </SelectItem>
@@ -236,7 +176,6 @@ export default function TasksPage() {
                 </Select>
               </div>
 
-              {/* Status Filter */}
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono text-muted-foreground uppercase">Status:</span>
                 <Select
@@ -262,7 +201,6 @@ export default function TasksPage() {
                 </Select>
               </div>
 
-              {/* Assignee Filter */}
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono text-muted-foreground uppercase">Assignee:</span>
                 <Select
@@ -290,7 +228,6 @@ export default function TasksPage() {
             </div>
           </div>
 
-          {/* Active filters indicator */}
           {activeFilterCount > 0 && (
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-muted-foreground">
@@ -310,7 +247,7 @@ export default function TasksPage() {
           <TaskList
             tasks={filteredAndSortedTasks}
             assignees={MOCK_ASSIGNEES}
-            projects={MOCK_PROJECTS}
+            projects={projects}
             onTaskUpdate={handleTaskUpdate}
             onStatusChange={handleStatusChange}
             showProjectColumn={true}
@@ -319,7 +256,6 @@ export default function TasksPage() {
             onSort={handleSort}
           />
 
-          {/* Task count summary */}
           <div className="text-xs font-mono text-muted-foreground">
             Showing {filteredAndSortedTasks.length} of {tasks.length} tasks
             {sortKey && (
