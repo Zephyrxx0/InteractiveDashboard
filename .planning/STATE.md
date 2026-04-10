@@ -137,6 +137,10 @@ Plan: None yet
 - [Phase 06-data-extraction]: Access: Authenticated project members only, local-only processing
 - [Phase 06-data-extraction]: Runtime: Async jobs with progress, flag low-confidence for review, error + retry + raw-parse fallback
 
+### Roadmap Evolution
+
+- Phase 7 added: document imports unstructured files
+
 ### Research Findings Applied
 
 - Analytics first to establish chart SSR patterns before adding Gantt complexity

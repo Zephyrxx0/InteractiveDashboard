@@ -183,6 +183,16 @@ Plans:
 | 5. Phase 05 Polish | 1/1 | Complete | - |
 | 6. Data Extraction (Gemma4) | 0/1 | Planned | - |
 
+### Phase 7: document imports unstructured files
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 6
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 7 to break down)
+
 ---
 
 *Roadmap created: 2026-03-27*
