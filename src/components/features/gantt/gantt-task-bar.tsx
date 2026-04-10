@@ -30,17 +30,18 @@ export function GanttTaskBar({
   const { left, width } = calculateTaskPosition(task, config);
   const statusConfig = STATUS_CONFIG[task.status];
 
-  // Get background color based on status
+  // Get background color based on status - using high contrast colors for visibility
   const getStatusColor = () => {
     switch (task.status) {
       case 'done':
-        return 'bg-success';
+        return 'bg-success'; // Green
       case 'in-progress':
-        return 'bg-info';
+        return 'bg-info'; // Teal/Cyan
       case 'blocked':
-        return 'bg-destructive';
+        return 'bg-destructive'; // Red
       default:
-        return 'bg-primary';
+        // Todo uses a blue/indigo for visibility instead of white primary
+        return 'bg-[oklch(0.55_0.20_260)]'; // Indigo blue
     }
   };
 

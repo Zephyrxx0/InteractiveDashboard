@@ -305,13 +305,13 @@ export function GanttChart({
           <div className="min-w-max relative" style={{ width: `${totalWidth}px` }}>
             <GanttTimelineHeader config={config} />
             <div className="relative">
-              {/* Today line */}
+              {/* Today line - red for visibility */}
               {todayPosition > 0 && todayPosition < totalWidth && (
                 <div
-                  className="absolute top-0 bottom-0 w-0.5 bg-primary/60 z-20"
+                  className="absolute top-0 bottom-0 w-0.5 bg-destructive z-20"
                   style={{ left: `${todayPosition}px` }}
                 >
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-primary text-primary-foreground text-[8px] font-mono uppercase tracking-wider rounded">
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-destructive text-destructive-foreground text-[8px] font-mono uppercase tracking-wider rounded">
                     Today
                   </div>
                 </div>

@@ -16,7 +16,7 @@ interface KpiCardProps {
 export function KpiCard({ title, value, icon, trend, children, className }: KpiCardProps) {
     const trendColor =
         trend?.direction === "up"
-            ? "text-primary bg-primary/10"
+            ? "text-success bg-success/10"
             : trend?.direction === "down"
                 ? "text-destructive bg-destructive/10"
                 : "text-muted-foreground bg-background";

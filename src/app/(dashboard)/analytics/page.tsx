@@ -61,10 +61,10 @@ const barChartData = [
 
 // Mock data for pie chart - task status distribution
 const pieChartData = [
-    { name: "To Do", value: 35, color: "hsl(var(--muted-foreground))" },
-    { name: "In Progress", value: 42, color: "hsl(var(--chart-2, 173 58% 39%))" },
-    { name: "Done", value: 186, color: "hsl(var(--primary))" },
-    { name: "Blocked", value: 5, color: "hsl(var(--destructive))" },
+    { name: "To Do", value: 35, color: "var(--muted-foreground)" },
+    { name: "In Progress", value: 42, color: "var(--chart-2)" },
+    { name: "Done", value: 186, color: "var(--chart-4)" }, // Emerald for done
+    { name: "Blocked", value: 5, color: "var(--destructive)" },
 ];
 
 export default function AnalyticsPage() {
@@ -111,6 +111,7 @@ export default function AnalyticsPage() {
                             title="Task Completion Trend"
                             subtitle="Tasks completed over the last 7 days"
                             height={280}
+                            color="var(--chart-2)"
                         />
 
                         {/* Bar Chart - Tasks by Assignee */}
@@ -121,6 +122,7 @@ export default function AnalyticsPage() {
                             title="Tasks by Assignee"
                             subtitle="Total assigned tasks per team member"
                             height={280}
+                            color="var(--chart-1)"
                         />
                     </div>
 

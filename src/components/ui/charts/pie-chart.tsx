@@ -14,11 +14,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 // Default color palette using CSS variable-compatible colors
 const DEFAULT_COLORS = [
-  'hsl(var(--primary))',
-  'hsl(var(--chart-2, 173 58% 39%))',
-  'hsl(var(--chart-3, 197 37% 24%))',
-  'hsl(var(--chart-4, 43 74% 66%))',
-  'hsl(var(--chart-5, 27 87% 67%))',
+  'var(--chart-1)',
+  'var(--chart-2)',
+  'var(--chart-3)',
+  'var(--chart-4)',
+  'var(--chart-5)',
 ];
 
 interface PieChartWidgetProps {
@@ -110,10 +110,11 @@ function PieChartWidget({
             </Pie>
             <Tooltip
               contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                border: '1px solid hsl(var(--border))',
+                backgroundColor: 'var(--card)',
+                border: '1px solid var(--border)',
                 borderRadius: '8px',
                 fontSize: '12px',
+                color: 'var(--card-foreground)',
               }}
             />
             <Legend

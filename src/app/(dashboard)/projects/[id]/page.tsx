@@ -14,9 +14,9 @@ export default function ProjectOverviewPage() {
                     />
                     <KpiCard
                         title="Budget Spent"
-                        value="$97,500"
-                        icon="attach_money"
-                        trend={{ value: "65%", direction: "stable", label: "of $150,000" }}
+                        value="₹97,500"
+                        icon="currency_rupee"
+                        trend={{ value: "65%", direction: "stable", label: "of ₹150,000" }}
                     />
                     <KpiCard
                         title="Tasks Complete"
@@ -57,7 +57,7 @@ export default function ProjectOverviewPage() {
                             { label: "Status", value: "Active" },
                             { label: "Start Date", value: "01 Jan 2024" },
                             { label: "Deadline", value: "12 Oct 2024" },
-                            { label: "Budget", value: "$150,000" },
+                            { label: "Budget", value: "₹150,000" },
                             { label: "Lead", value: "S. Miller" },
                             { label: "Team Size", value: "12 members" },
                         ].map((item) => (

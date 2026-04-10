@@ -36,7 +36,7 @@ function BarChartWidget({
   subtitle,
   className,
   height = 300,
-  color = 'hsl(var(--primary))',
+  color = 'var(--chart-1)',
 }: BarChartWidgetProps) {
   const [isMounted, setIsMounted] = React.useState(false);
 
@@ -86,28 +86,29 @@ function BarChartWidget({
           <BarChart data={data}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="hsl(var(--border))"
+              stroke="var(--border)"
               vertical={false}
             />
             <XAxis
               dataKey={xAxisKey}
-              stroke="hsl(var(--muted-foreground))"
+              stroke="var(--muted-foreground)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="hsl(var(--muted-foreground))"
+              stroke="var(--muted-foreground)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                border: '1px solid hsl(var(--border))',
+                backgroundColor: 'var(--card)',
+                border: '1px solid var(--border)',
                 borderRadius: '8px',
                 fontSize: '12px',
+                color: 'var(--card-foreground)',
               }}
             />
             <Bar
