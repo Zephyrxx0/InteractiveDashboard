@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "randomuser.me",
       },
+      {
+        // Pravatar used for some profile avatars
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+      },
     ],
   },
 };

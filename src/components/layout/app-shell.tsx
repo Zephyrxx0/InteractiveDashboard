@@ -31,6 +31,7 @@ import {
     Settings,
     LogOut,
 } from "lucide-react";
+import { ModeToggle } from "@/components/theme-toggle";
 
 const mainNav = [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -178,6 +179,7 @@ function TopBar() {
 
             {/* Right actions */}
             <div className="flex items-center gap-3">
+                <ModeToggle />
                 <Link href="/notifications" className="p-2 hover:bg-background transition-colors relative">
                     <Bell className="size-5 text-muted-foreground" />
                     <span className="absolute top-2 right-2 size-2 bg-destructive rounded-full border border-card" />

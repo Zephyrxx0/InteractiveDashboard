@@ -29,7 +29,7 @@ export function formatExportDate(date: Date | null | undefined): string {
 /**
  * Format date for filename (no special chars).
  */
-export function formatFilenameDate(date: Date): string {
+function formatFilenameDate(date: Date): string {
   return format(date, 'yyyy-MM-dd');
 }
 
