@@ -2,7 +2,7 @@
 
 **Created:** 2026-03-27
 **Granularity:** standard
-**Phases:** 4
+**Phases:** 6
 
 ## Phases
 
@@ -10,6 +10,8 @@
 - [ ] **Phase 2: Task Management Enhancement** - Timeline/Gantt view, task dependencies, drag-drop rescheduling, zoom levels, advanced task features, code quality improvements
 - [ ] **Phase 3: Media Management** - File upload, validation, compression, preview, download, media library
 - [ ] **Phase 4: Reports & Export** - CSV export, PDF generation, report templates, export filtering
+- [ ] **Phase 5: Phase 05 Polish** - Final refinements and bug fixes
+- [ ] **Phase 6: Data Extraction (Gemma4)** - Local LLM for extracting data from XLSX, DOCX, CSV files
 
 ---
 
@@ -125,14 +127,61 @@ Plans:
 
 ---
 
+### Phase 5: Phase 05 Polish
+**Goal:** Final refinements and bug fixes
+
+**Depends on:** Phase 4
+
+**Requirements:** N/A (polish)
+
+**Success Criteria** (what must be TRUE):
+1. Code quality improvements from previous phases maintained
+
+**Plans:** 1 plan
+
+Plans:
+- [x] 05-01-PLAN.md — Polish phase for refinements
+
+**UI hint:** no
+
+---
+
+### Phase 6: Data Extraction (Gemma4)
+**Goal:** Extract structured data from imported files (XLSX, DOCX, CSV) using local Gemma4 LLM via Docker
+
+**Depends on:** Phase 5
+
+**Requirements:** DE-01, DE-02, DE-03, DE-04, DE-05, DE-06, DE-07, DE-08
+
+**Success Criteria** (what must be TRUE):
+1. User can import XLSX files and extract structured data rows
+2. User can import DOCX files and extract text content
+3. User can import CSV files and extract tabular data
+4. Extracted data is presented in editable review table
+5. Data is validated with confidence indicators
+6. User can save extracted data to project
+7. Processing happens asynchronously with progress indication
+8. User can retry failed extractions
+
+**Plans:** 1 plan
+
+Plans:
+- [ ] 06-01-PLAN.md — Gemma4 integration, file parsers, extraction UI
+
+**UI hint:** yes
+
+---
+
 ## Progress Table
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Analytics Foundation | 0/4 | Planned | - |
-| 2. Task Management Enhancement | 0/3 | Planned | - |
-| 3. Media Management | 0/3 | Planned | - |
-| 4. Reports & Export | 2/3 | In Progress|  |
+| 1. Analytics Foundation | 4/4 | Complete | 2026-03-27 |
+| 2. Task Management Enhancement | 5/6 | In Progress | - |
+| 3. Media Management | 3/3 | Complete | - |
+| 4. Reports & Export | 4/4 | Complete | - |
+| 5. Phase 05 Polish | 1/1 | Complete | - |
+| 6. Data Extraction (Gemma4) | 0/1 | Planned | - |
 
 ---
 

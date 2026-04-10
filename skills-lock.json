@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "922da7b613ad80b3b14391980049c2757ea3ad4a9e5c1829c4dc2d332425800e"
     },
+    "chrome-devtools": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "85d9c4ef94e00ddfc937d50aab72a307e80b98bc7e6744ec6e239ef68819c2d7"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
@@ -14,7 +19,7 @@
     "next-best-practices": {
       "source": "vercel-labs/next-skills",
       "sourceType": "github",
-      "computedHash": "c31ddd68ba5798a79a516c619b1e1fc4408cc4876ad600fefa4f5add4425719d"
+      "computedHash": "db85045827ebeb83ac8dbc992b69188755eeb74dcf01cbf5e694d58aa494a106"
     },
     "next-cache-components": {
       "source": "vercel-labs/next-skills",
@@ -29,7 +34,7 @@
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
-      "computedHash": "257b84bf218a7d3b2cba56e929b7e933cf71cb89f2e24ab601759c599d1c23f2"
+      "computedHash": "43ca6c197f8ec13055079da7053232d477068b03ca443f9ac1bc819b95cdd432"
     },
     "webapp-testing": {
       "source": "anthropics/skills",
