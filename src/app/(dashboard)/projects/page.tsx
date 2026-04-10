@@ -79,6 +79,8 @@ const projects = [
     },
 ];
 
+import { DataImportButton } from "@/components/modals/DataImportButton";
+
 export default function ProjectHubPage() {
     return (
         <>
@@ -95,6 +97,7 @@ export default function ProjectHubPage() {
                                 <span className="material-symbols-outlined text-[20px]">view_list</span>
                             </button>
                         </div>
+                        <DataImportButton />
                         <Link href="/projects/new">
                             <Button className="font-mono text-xs uppercase tracking-wider font-bold shadow-[var(--shadow-brutal)] hover:shadow-[var(--shadow-brutal-hover)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all">
                                 <span className="material-symbols-outlined text-[18px] mr-2">add</span>
