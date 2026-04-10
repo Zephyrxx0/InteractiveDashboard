@@ -1,7 +1,23 @@
+"use client";
+
+import { useState } from "react";
 import { OutputTracker } from "@/components/features/output-tracker";
 import { OutcomeCard } from "@/components/features/outcome-card";
+import { AddCard } from "@/components/ui/add-card";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function ProjectOutputsPage() {
+    const [showOutputModal, setShowOutputModal] = useState(false);
+    const [showOutcomeModal, setShowOutcomeModal] = useState(false);
+
     return (
         <div className="p-6 grid-bg min-h-full">
             <div className="max-w-[1200px] mx-auto space-y-8">
@@ -32,6 +48,12 @@ export default function ProjectOutputsPage() {
                             current={80}
                             target={80}
                             colorClass="bg-success"
+                        />
+                        <AddCard
+                            label="Add Output"
+                            description="Track a new tangible output"
+                            onClick={() => setShowOutputModal(true)}
+                            minHeight="100px"
                         />
                     </div>
                 </section>
@@ -66,10 +88,106 @@ export default function ProjectOutputsPage() {
                             target="90%"
                             status="on-track"
                         />
+                        <AddCard
+                            label="Add Outcome"
+                            description="Define a new key outcome"
+                            onClick={() => setShowOutcomeModal(true)}
+                            minHeight="140px"
+                        />
                     </div>
                 </section>
 
             </div>
+
+            {/* Add Output Modal */}
+            <Dialog open={showOutputModal} onOpenChange={setShowOutputModal}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Add Tangible Output</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                Output Title
+                            </label>
+                            <Input placeholder="e.g., Solar Panels Installed" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                    Unit
+                                </label>
+                                <Input placeholder="e.g., units, people" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                    Target
+                                </label>
+                                <Input type="number" placeholder="e.g., 100" />
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowOutputModal(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={() => setShowOutputModal(false)}>
+                            Add Output
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Add Outcome Modal */}
+            <Dialog open={showOutcomeModal} onOpenChange={setShowOutcomeModal}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Add Key Outcome</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                Outcome Title
+                            </label>
+                            <Input placeholder="e.g., Reduced Carbon Emissions" />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                Metric Description
+                            </label>
+                            <Input placeholder="e.g., Tons CO2 / year" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="space-y-2">
+                                <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                    Baseline
+                                </label>
+                                <Input placeholder="e.g., 500" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                    Current
+                                </label>
+                                <Input placeholder="e.g., 350" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
+                                    Target
+                                </label>
+                                <Input placeholder="e.g., 100" />
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowOutcomeModal(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={() => setShowOutcomeModal(false)}>
+                            Add Outcome
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

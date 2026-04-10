@@ -6,7 +6,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Analytics Foundation** - Enhanced KPI cards, charts, date filtering, real-time updates, basic task management, code quality foundation
+- [x] **Phase 1: Analytics Foundation** - Enhanced KPI cards, charts, date filtering, real-time updates, basic task management, code quality foundation
 - [ ] **Phase 2: Task Management Enhancement** - Timeline/Gantt view, task dependencies, drag-drop rescheduling, zoom levels, advanced task features, code quality improvements
 - [ ] **Phase 3: Media Management** - File upload, validation, compression, preview, download, media library
 - [ ] **Phase 4: Reports & Export** - CSV export, PDF generation, report templates, export filtering
@@ -37,10 +37,10 @@
 **Plans:** 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
-- [ ] 01-02-PLAN.md — Enhanced KPI cards, DateRangePicker, analytics page composition
-- [ ] 01-03-PLAN.md — Task types, inline editing, status workflow, filtering
-- [ ] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
+- [x] 01-01-PLAN.md — Install Recharts, create SSR-safe chart wrappers (Line, Bar, Pie)
+- [x] 01-02-PLAN.md — Enhanced KPI cards, DateRangePicker, analytics page composition
+- [x] 01-03-PLAN.md — Task types, inline editing, status workflow, filtering
+- [x] 01-04-PLAN.md — Real-time Firebase data hooks, TypeScript strict mode, ESLint
 
 **UI hint:** yes
 
@@ -60,12 +60,15 @@ Plans:
 4. User can switch between day/week/month zoom levels
 5. User can zoom out to see task overview across extended time periods
 
-**Plans:** 3 plans
+**Plans:** 4 plans (including gap closure)
 
 Plans:
-- [ ] 02-01-PLAN.md — Gantt types, custom GanttChart with zoom levels (day/week/month)
-- [ ] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
-- [ ] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
+- [x] 02-01-PLAN.md — Gantt types, custom GanttChart with zoom levels (day/week/month)
+- [x] 02-02-PLAN.md — Drag-drop rescheduling, dependency lines between tasks
+- [x] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
+- [x] 02-04-PLAN.md — animejs v4 API migration
+- [x] 02-05-PLAN.md — Wire GanttTaskRow, add JSDoc documentation
+- [ ] 02-06-PLAN.md — Fix z-index conflict for arrow removal, wire GanttTaskRow
 
 **UI hint:** yes
 
@@ -89,9 +92,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Install react-dropzone, file validation, FileDropzone component
-- [ ] 03-02-PLAN.md — Firebase Storage upload with progress, thumbnails, download
-- [ ] 03-03-PLAN.md — MediaLibrary grid view, media page with upload dialog
+- [x] 03-01-PLAN.md — Install react-dropzone, file validation, FileDropzone component
+- [x] 03-02-PLAN.md — Firebase Storage upload with progress, thumbnails, download
+- [x] 03-03-PLAN.md — MediaLibrary grid view, media page with upload dialog
 
 **UI hint:** yes
 
@@ -110,12 +113,13 @@ Plans:
 3. User can select from summary report templates
 4. User can filter exports by date range
 
-**Plans:** 3 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Export types, CSV export with date filtering
-- [ ] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
-- [ ] 04-03-PLAN.md — Reports page with preview, quick export cards
+- [x] 04-01-PLAN.md — Export types, CSV export with date filtering
+- [x] 04-02-PLAN.md — Install @react-pdf/renderer, PDF templates (Summary, Detailed)
+- [x] 04-03-PLAN.md — Reports page with preview, quick export cards
+- [x] 04-04-PLAN.md — Gap Closure: Add template selector to PDF exports
 
 **UI hint:** yes
 
@@ -128,7 +132,7 @@ Plans:
 | 1. Analytics Foundation | 0/4 | Planned | - |
 | 2. Task Management Enhancement | 0/3 | Planned | - |
 | 3. Media Management | 0/3 | Planned | - |
-| 4. Reports & Export | 0/3 | Planned | - |
+| 4. Reports & Export | 2/3 | In Progress|  |
 
 ---
 

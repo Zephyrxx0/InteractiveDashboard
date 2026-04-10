@@ -29,7 +29,7 @@ export function MediaGallery({ images, className }: MediaGalleryProps) {
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
             />
             <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors flex items-center justify-center">
-              <span className="material-symbols-outlined text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="material-symbols-outlined text-card text-2xl opacity-0 group-hover:opacity-100 transition-opacity">
                 zoom_in
               </span>
             </div>

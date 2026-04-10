@@ -19,6 +19,6 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@acme": "https://acme.com/r/{name}.json"
+    "@aliimam": "https://aliimam.in/r/{name}.json"
   }
 }
