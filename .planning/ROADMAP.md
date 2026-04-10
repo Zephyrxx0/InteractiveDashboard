@@ -193,6 +193,20 @@ Plans:
 Plans:
 - [ ] TBD (run /gsd:plan-phase 7 to break down)
 
+### Phase 8: Supabase Data Layer Integration
+
+**Goal:** Implement a persistent data layer using Supabase while maintaining hardcoded authentication for initial development.
+**Requirements**: DB-01, DB-02, DB-03, DB-04
+**Depends on:** Phase 7
+**Plans:** 4 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Foundation: Supabase Client & Hardcoded Auth
+- [ ] 08-02-PLAN.md — Database Schema: Tables & Types Migration
+- [ ] 08-03-PLAN.md — Data Hooks: Projects & Tasks (React Query)
+- [ ] 08-04-PLAN.md — UI Integration: Migrating Tasks Hub & Projects
+
+
 ---
 
 *Roadmap created: 2026-03-27*
