@@ -3,14 +3,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut as firebaseSignOut,
+    // onAuthStateChanged,
+    // signInWithEmailAndPassword,
+    // signInWithPopup,
+    // GoogleAuthProvider,
+    // signOut as firebaseSignOut,
     User as FirebaseUser,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+// import { auth } from "@/lib/firebase";
 
 interface User {
     uid: string;
@@ -35,49 +35,85 @@ export function useAuth() {
     return context;
 }
 
-const formatUser = (user: FirebaseUser): User => ({
-    uid: user.uid,
-    email: user.email,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-});
+// const formatUser = (user: FirebaseUser): User => ({
+//     uid: user.uid,
+//     email: user.email,
+//     displayName: user.displayName,
+//     photoURL: user.photoURL,
+// });
+
+const HARDCODED_USER: User = {
+    uid: "admin-dev-01",
+    email: "admin@example.com",
+    displayName: "Admin User",
+    photoURL: "https://i.pravatar.cc/150?u=admin",
+};
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!auth) {
-            setLoading(false);
-            return;
-        }
-
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                setUser(formatUser(firebaseUser));
+        // Mock onAuthStateChanged
+        const checkAuth = () => {
+            const storedAuth = localStorage.getItem("isAuth");
+            if (storedAuth === "true") {
+                setUser(HARDCODED_USER);
             } else {
                 setUser(null);
             }
             setLoading(false);
-        });
+        };
+        
+        checkAuth();
+        
+        // if (!auth) {
+        //     setLoading(false);
+        //     return;
+        // }
 
-        return () => unsubscribe();
+        // const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        //     if (firebaseUser) {
+        //         setUser(formatUser(firebaseUser));
+        //     } else {
+        //         setUser(null);
+        //     }
+        //     setLoading(false);
+        // });
+
+        // return () => unsubscribe();
     }, []);
 
     const signIn = async (email: string, password: string) => {
-        if (!auth) throw new Error("Firebase auth not initialized");
-        await signInWithEmailAndPassword(auth, email, password);
+        // if (!auth) throw new Error("Firebase auth not initialized");
+        // await signInWithEmailAndPassword(auth, email, password);
+        
+        // Mock sign in
+        if (email === "admin" && password === "password123") {
+            setUser(HARDCODED_USER);
+            localStorage.setItem("isAuth", "true");
+        } else {
+            throw new Error("Invalid username or password. Use admin / password123 during development.");
+        }
     };
 
     const signInWithGoogle = async () => {
-        if (!auth) throw new Error("Firebase auth not initialized");
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
+        // if (!auth) throw new Error("Firebase auth not initialized");
+        // const provider = new GoogleAuthProvider();
+        // await signInWithPopup(auth, provider);
+        
+        // Mock Google sign in
+        setUser(HARDCODED_USER);
+        localStorage.setItem("isAuth", "true");
     };
 
     const signOut = async () => {
-        if (!auth) return;
-        await firebaseSignOut(auth);
+        // if (!auth) return;
+        // await firebaseSignOut(auth);
+        
+        // Mock sign out
+        setUser(null);
+        localStorage.removeItem("isAuth");
     };
 
     return (
