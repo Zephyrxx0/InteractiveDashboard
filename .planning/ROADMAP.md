@@ -181,8 +181,8 @@ Plans:
 | 3. Media Management | 3/3 | Complete | - |
 | 4. Reports & Export | 4/4 | Complete | - |
 | 5. Phase 05 Polish | 1/1 | Complete | - |
-| 6. Data Extraction (Gemma4) | 0/1 | Planned | - |
-| 7. document imports unstructured files | 0/0 | Planned | - |
+| 6. Data Extraction (Gemma4) | 1/1 | Complete | 2026-04-11 |
+| 7. document imports unstructured files | 1/1 | Complete | 2026-04-11 |
 | 8. Supabase Data Layer Integration | 4/4 | Complete | 2026-04-10 |
 | 9. Gemma4 Dev Integration | 0/4 | Planned | - |
 

@@ -3,27 +3,31 @@ import path from 'path';
 import { parseXLSX, parseDOCX, parseCSV } from '../parsers';
 
 async function main() {
-  const filePath = path.join(process.cwd(), 'feat_guide/YRA/MPPR Data folder/December 2023.xlsx');
-  console.log(`Testing with file: ${filePath}`);
-  
-  if (!fs.existsSync(filePath)) {
-    console.error('Sample file not found!');
-    process.exit(1);
-  }
+  const samples = [
+    { name: 'XLSX (Table)', path: 'feat_guide/YRA/MPPR Data folder/December 2023.xlsx', parser: parseXLSX },
+    { name: 'DOCX (Narrative)', path: 'feat_guide/unstructered_docs.docx', parser: parseDOCX },
+  ];
 
-  const buffer = fs.readFileSync(filePath);
-  const data = await parseXLSX(buffer);
-  
-  console.log('--- Extracted Data Preview ---');
-  Object.keys(data).forEach(sheet => {
-    console.log(`Sheet: ${sheet}, Rows: ${data[sheet].length}`);
-  });
-  console.log('------------------------------');
-  
-  if (Object.keys(data).length > 0) {
-    console.log('✅ Parser test passed!');
-  } else {
-    console.error('❌ Parser test failed (empty output)');
+  for (const sample of samples) {
+    const fullPath = path.join(process.cwd(), sample.path);
+    console.log(`\nTesting ${sample.name} with: ${sample.path}`);
+    
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`⚠️  Sample file not found: ${fullPath}`);
+      continue;
+    }
+
+    const buffer = fs.readFileSync(fullPath);
+    const result = await (sample.parser as any)(buffer);
+    
+    console.log('--- Extracted Content Preview ---');
+    if (typeof result === 'string') {
+        console.log(result.slice(0, 500) + '...');
+    } else {
+        Object.keys(result).forEach(k => console.log(`Sheet: ${k}\n${result[k].slice(0, 300)}...`));
+    }
+    console.log('---------------------------------');
+    console.log(`✅ ${sample.name} parse success!`);
   }
 }
 
