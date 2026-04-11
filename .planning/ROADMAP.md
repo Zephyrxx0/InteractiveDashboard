@@ -2,7 +2,7 @@
 
 **Created:** 2026-03-27
 **Granularity:** standard
-**Phases:** 6
+**Phases:** 9
 
 ## Phases
 
@@ -182,6 +182,9 @@ Plans:
 | 4. Reports & Export | 4/4 | Complete | - |
 | 5. Phase 05 Polish | 1/1 | Complete | - |
 | 6. Data Extraction (Gemma4) | 0/1 | Planned | - |
+| 7. document imports unstructured files | 0/0 | Planned | - |
+| 8. Supabase Data Layer Integration | 4/4 | Complete | 2026-04-10 |
+| 9. Gemma4 Dev Integration | 0/4 | Planned | - |
 
 ### Phase 7: document imports unstructured files
 
@@ -206,6 +209,19 @@ Plans:
 - [ ] 08-03-PLAN.md — Data Hooks: Projects & Tasks (React Query)
 - [ ] 08-04-PLAN.md — UI Integration: Migrating Tasks Hub & Projects
 
+
+### Phase 9: Gemma4 Dev Integration
+
+**Goal:** Enable AI-powered extraction of NGO project data from uploaded files using local Gemma 4 (9b/dev) via Ollama.
+**Requirements**: DE-01, DE-02, DE-03, DE-04, DE-05, DE-06, DE-07, DE-08
+**Depends on:** Phase 8
+**Plans:** 4 plans
+
+Plans:
+- [x] 09-01-PLAN.md — Setup: Ollama local installation and gemma4:9b model pull
+- [x] 09-02-PLAN.md — API: Next.js /api/extract endpoint development with Ollama integration
+- [x] 09-03-PLAN.md — Parsers: Implementation of deterministic file parsers (DOCX, CSV, XLSX)
+- [x] 09-04-PLAN.md — Integration: UI upload flow and data layer storage for extracted results
 
 ---
 

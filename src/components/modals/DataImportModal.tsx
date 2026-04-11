@@ -8,14 +8,16 @@ import { useExtraction, useStartExtraction } from '@/hooks/use-extractions';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useDropzone } from 'react-dropzone';
-import { createProject } from '@/lib/db/projects';
+import { TabbedTableView } from '../data/TabbedTableView';
+import { DocumentRenderer } from '../data/DocumentRenderer';
 
 interface DataImportModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  projectId?: string;
 }
 
-export function DataImportModal({ open, onOpenChange }: DataImportModalProps) {
+export function DataImportModal({ open, onOpenChange, projectId }: DataImportModalProps) {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [mediaFileId, setMediaFileId] = useState<string | null>(null);
   const [extractionId, setExtractionId] = useState<string | null>(null);
@@ -85,18 +87,25 @@ export function DataImportModal({ open, onOpenChange }: DataImportModalProps) {
   });
 
   const handleCommit = async () => {
-    const extractedData = extraction?.result?.extractedTextPreview || 'Unknown Project';
     try {
-      await createProject({
-        name: 'Imported Project: ' + extractedData.slice(0, 10),
-        description: 'Auto-imported from ' + extractedData.slice(0, 50),
-        status: 'planning'
-      });
+      if (projectId && mediaFileId) {
+        // Import based Project-Documents DB Handler
+        const { associateDocumentWithProject } = await import('@/lib/db/project-documents');
+        await associateDocumentWithProject(mediaFileId, projectId);
+      } else {
+        const { createProject } = await import('@/lib/db/projects');
+        await createProject({
+          name: 'Imported Project: ' + (extraction?.result?.fileName || 'Auto-Imported'),
+          description: 'Document reference added to library.',
+          status: 'on_track'
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ['projects'] });
+      if (projectId) queryClient.invalidateQueries({ queryKey: ['project-documents', projectId] });
       setStep(4);
     } catch (e) {
       console.error(e);
-      alert('Failed to commit project');
+      alert('Failed to commit data');
     }
   };
 
@@ -106,9 +115,9 @@ export function DataImportModal({ open, onOpenChange }: DataImportModalProps) {
         <DialogHeader>
           <DialogTitle>Import Project Data</DialogTitle>
           <DialogDescription>
-            {step === 1 && 'Upload a CSV, XLSX, or DOCX file to automatically extract project structure.'}
-            {step === 2 && 'Processing document with AI...'}
-            {step === 3 && 'Review extracted information.'}
+            {step === 1 && 'Upload a CSV, XLSX, or DOCX file to format and add to your library.'}
+            {step === 2 && 'Formatting and preparing high-fidelity preview...'}
+            {step === 3 && 'Review the formatted document.'}
             {step === 4 && 'Successfully imported!'}
           </DialogDescription>
         </DialogHeader>
@@ -137,16 +146,27 @@ export function DataImportModal({ open, onOpenChange }: DataImportModalProps) {
 
           {step === 3 && (
             <div className="space-y-4">
-              <div className="border rounded-md p-4 bg-muted/20 whitespace-pre-wrap max-h-64 overflow-y-auto">
-                <span className="font-semibold block mb-2">Preview Text:</span>
-                {extraction?.result?.extractedTextPreview || 'Could not preview text.'}
+              <div className="max-h-[60vh] overflow-hidden">
+                {extraction?.result?.fileType === 'xlsx' || extraction?.result?.fileType === 'csv' ? (
+                   <TabbedTableView 
+                     data={extraction.result.fileType === 'csv' 
+                       ? { [extraction.result.fileName]: extraction.result.formattedData } 
+                       : extraction.result.formattedData
+                     } 
+                   />
+                ) : extraction?.result?.fileType === 'docx' ? (
+                   <DocumentRenderer html={extraction.result.formattedData} />
+                ) : (
+                  <div className="border border-border p-4 bg-muted/20 whitespace-pre-wrap font-mono text-sm h-64 overflow-y-auto">
+                    {extraction?.result?.formattedData || 'No data preview available.'}
+                  </div>
+                )}
               </div>
-              <p className="text-sm text-muted-foreground italic">
-                (A full ReviewTable component would map fields here in future iterations)
-              </p>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 pt-4 border-t border-border">
                 <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-                <Button onClick={handleCommit}>Commit as Project</Button>
+                <Button onClick={handleCommit}>
+                  Import Data
+                </Button>
               </div>
             </div>
           )}

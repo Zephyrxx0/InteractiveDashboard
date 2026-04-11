@@ -23,13 +23,13 @@ export function ExtractionReviewTable({ records, onChange }: { records: Extracti
       </thead>
       <tbody>
         {local.map((rec, idx) => (
-          Object.keys(rec.fields).map((key) => (
+          (Object.keys(rec.fields) as Array<keyof typeof rec.fields>).map((key) => (
             <tr key={`${rec.id}-${key}`}> 
               <td className="p-2 align-top">{key}</td>
               <td className="p-2">
                 <input className="w-full" value={String(rec.fields[key] ?? '')} onChange={(e) => updateRecord(idx, key, e.target.value)} />
               </td>
-              <td className="p-2">{(rec.confidences && rec.confidences[key]) ? Math.round((rec.confidences[key]||0)*100) + '%' : '—'}</td>
+              <td className="p-2">{(rec.confidences && rec.confidences[key as string]) ? Math.round((rec.confidences[key as string]||0)*100) + '%' : '—'}</td>
             </tr>
           ))
         ))}
