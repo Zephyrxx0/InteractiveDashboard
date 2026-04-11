@@ -1,102 +1,127 @@
--- Projects Table
-CREATE TABLE projects (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-- ECO-GRID DASHBOARD SCHEMA
+-- Source of Truth for Supabase instance
+
+-- Enable required extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 1. PROJECTS TABLE
+CREATE TABLE IF NOT EXISTS public.projects (
+    id TEXT PRIMARY KEY DEFAULT ('PROJ-' || subsegment(uuid_generate_v4()::text, 1, 8)),
     name TEXT NOT NULL,
     description TEXT,
-    status TEXT NOT NULL DEFAULT 'on_track', -- on_track, at_risk, delayed, completed
-    type TEXT NOT NULL DEFAULT 'long_term', -- quick_win, strategic, exploratory, maintenance, long_term
-    progress INTEGER NOT NULL DEFAULT 0,
-    end_date DATE,
+    status TEXT NOT NULL DEFAULT 'on_track' CHECK (status IN ('on_track', 'at_risk', 'delayed', 'completed')),
+    type TEXT DEFAULT 'strategic' CHECK (type IN ('quick_win', 'strategic', 'exploratory', 'maintenance', 'long_term')),
+    progress INTEGER DEFAULT 0 CHECK (progress >= 0 AND progress <= 100),
+    end_date TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Tasks Table
-CREATE TABLE tasks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+-- 2. TASKS TABLE
+CREATE TABLE IF NOT EXISTS public.tasks (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    project_id TEXT REFERENCES public.projects(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
     description TEXT,
-    status TEXT NOT NULL DEFAULT 'todo', -- todo, in_progress, in_review, done, backlog
-    priority TEXT NOT NULL DEFAULT 'medium', -- urgent, high, medium, low
-    assignees TEXT[], -- Array of assignee names
-    points INTEGER,
-    start_date DATE,
-    due_date DATE,
+    status TEXT NOT NULL DEFAULT 'todo' CHECK (status IN ('todo', 'in_progress', 'in_review', 'done', 'backlog')),
+    priority TEXT NOT NULL DEFAULT 'medium' CHECK (priority IN ('urgent', 'high', 'medium', 'low')),
+    assignees TEXT[] DEFAULT '{}',
+    points INTEGER DEFAULT 0,
+    start_date TIMESTAMP WITH TIME ZONE,
+    due_date TIMESTAMP WITH TIME ZONE,
     epic TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Tags Table
-CREATE TABLE tags (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-- 3. TAGS TABLE
+CREATE TABLE IF NOT EXISTS public.tags (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL UNIQUE,
-    color_scheme TEXT NOT NULL DEFAULT 'gray'
+    color_scheme TEXT DEFAULT 'gray'
 );
 
--- Task Tags Junction Table
-CREATE TABLE task_tags (
-    task_id UUID REFERENCES tasks(id) ON DELETE CASCADE,
-    tag_id UUID REFERENCES tags(id) ON DELETE CASCADE,
+-- 4. TASK_TAGS (JUNCTION)
+CREATE TABLE IF NOT EXISTS public.task_tags (
+    task_id UUID REFERENCES public.tasks(id) ON DELETE CASCADE,
+    tag_id UUID REFERENCES public.tags(id) ON DELETE CASCADE,
     PRIMARY KEY (task_id, tag_id)
 );
 
--- Task Dependencies
-CREATE TABLE task_dependencies (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    task_id UUID REFERENCES tasks(id) ON DELETE CASCADE,
-    depends_on_task_id UUID REFERENCES tasks(id) ON DELETE CASCADE,
-    type TEXT NOT NULL DEFAULT 'blocks', -- blocks, relates_to, duplicates
+-- 5. TASK_DEPENDENCIES (RELATIONS)
+CREATE TABLE IF NOT EXISTS public.task_dependencies (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    task_id UUID REFERENCES public.tasks(id) ON DELETE CASCADE,
+    depends_on_task_id UUID REFERENCES public.tasks(id) ON DELETE CASCADE,
+    type TEXT DEFAULT 'blocks' CHECK (type IN ('blocks', 'relates_to', 'duplicates')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Media Files (Storage metadata)
-CREATE TABLE media_files (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-- 6. MEDIA_FILES TABLE
+CREATE TABLE IF NOT EXISTS public.media_files (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     type TEXT NOT NULL,
     url TEXT NOT NULL,
     storage_path TEXT NOT NULL,
-    size INTEGER,
+    size BIGINT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Extractions (LLM processing results)
-CREATE TABLE extractions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    media_file_id UUID REFERENCES media_files(id) ON DELETE CASCADE,
-    result JSONB NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending', -- pending, processing, completed, failed
+-- 7. PROJECT_DOCUMENTS (JUNCTION)
+-- Associates uploaded media files with specific projects
+CREATE TABLE IF NOT EXISTS public.project_documents (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    project_id TEXT REFERENCES public.projects(id) ON DELETE CASCADE,
+    media_file_id UUID REFERENCES public.media_files(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(project_id, media_file_id)
+);
+
+-- 8. EXTRACTIONS TABLE
+CREATE TABLE IF NOT EXISTS public.extractions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    media_file_id UUID REFERENCES public.media_files(id) ON DELETE CASCADE,
+    result JSONB NOT NULL DEFAULT '{}'::jsonb,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Notifications (System alerts)
-CREATE TABLE notifications (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-- 9. NOTIFICATIONS TABLE
+CREATE TABLE IF NOT EXISTS public.notifications (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title TEXT NOT NULL,
     message TEXT NOT NULL,
-    type TEXT NOT NULL DEFAULT 'info', -- info, success, warning, error
-    read BOOLEAN NOT NULL DEFAULT false,
+    type TEXT NOT NULL DEFAULT 'info' CHECK (type IN ('info', 'success', 'warning', 'error')),
+    read BOOLEAN DEFAULT false,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Triggers for updated_at
-CREATE OR REPLACE FUNCTION set_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN
-   NEW.updated_at = timezone('utc'::text, now());
-   RETURN NEW;
-END;
-$$ language 'plpgsql';
+-- 10. RLS POLICIES (Development "Allow All")
+-- Enable RLS on all tables
+ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.task_tags ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.task_dependencies ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.media_files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.project_documents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.extractions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
-CREATE TRIGGER projects_updated_at BEFORE UPDATE ON projects FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-CREATE TRIGGER tasks_updated_at BEFORE UPDATE ON tasks FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-CREATE TRIGGER extractions_updated_at BEFORE UPDATE ON extractions FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+-- Anonymous/Authenticated access for Dev (Modify for Production!)
+CREATE POLICY "Allow all access to projects" ON public.projects FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to tasks" ON public.tasks FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to tags" ON public.tags FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to task_tags" ON public.task_tags FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to task_dependencies" ON public.task_dependencies FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to media_files" ON public.media_files FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to project_documents" ON public.project_documents FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to extractions" ON public.extractions FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all access to notifications" ON public.notifications FOR ALL USING (true) WITH CHECK (true);
 
--- Indexes for performance
-CREATE INDEX idx_tasks_project_id ON tasks(project_id);
-CREATE INDEX idx_task_tags_task_id ON task_tags(task_id);
-CREATE INDEX idx_task_dependencies_task_id ON task_dependencies(task_id);
-CREATE INDEX idx_extractions_media_file_id ON extractions(media_file_id);
+-- Utility function for custom ID segmenting (if needed for PROJ-xxx pattern)
+CREATE OR REPLACE FUNCTION subsegment(text, integer, integer) RETURNS text AS $$
+    SELECT substring($1 FROM $2 FOR $3);
+$$ LANGUAGE sql IMMUTABLE;

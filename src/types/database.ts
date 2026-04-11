@@ -174,6 +174,26 @@ export interface Database {
                     created_at?: string
                 }
             }
+            project_documents: {
+                Row: {
+                    id: string
+                    project_id: string | null
+                    media_file_id: string | null
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    project_id?: string | null
+                    media_file_id?: string | null
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    project_id?: string | null
+                    media_file_id?: string | null
+                    created_at?: string
+                }
+            }
             extractions: {
                 Row: {
                     id: string
