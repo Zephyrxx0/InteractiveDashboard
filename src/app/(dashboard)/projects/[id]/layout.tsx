@@ -4,6 +4,7 @@ import { usePathname, useParams } from "next/navigation";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataImportButton } from "@/components/modals/DataImportButton";
 
 const tabs = [
     { label: "Overview", segment: "" },
@@ -33,6 +34,7 @@ export default function ProjectDetailLayout({
                 title="Clean Water Initiative - Phase 2"
                 subtitle="WTR-2024-882 · SE Asia · Active"
                 projectName="Clean Water Initiative"
+                actions={<DataImportButton projectId={projectId} />}
             />
 
             {/* Tab bar — URL-driven */}

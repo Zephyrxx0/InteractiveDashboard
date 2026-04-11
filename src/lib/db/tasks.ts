@@ -6,6 +6,45 @@ type TaskInsert = Database['public']['Tables']['tasks']['Insert'];
 type TaskUpdate = Database['public']['Tables']['tasks']['Update'];
 
 export async function getTasks(projectId?: string): Promise<TaskRow[]> {
+    // Fallback for development if Supabase is not configured
+    const isMock = !process.env.NEXT_PUBLIC_SUPABASE_URL || 
+                   process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-instance');
+
+    if (isMock) {
+        return [
+            {
+                id: '1',
+                title: 'Installation of Water Pumps - Sector A',
+                status: 'in-progress',
+                priority: 'High',
+                project_id: projectId || 'WTR-2024-882',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                description: 'Deploying solar-powered pumps for phase 1 completion.'
+            },
+            {
+                id: '2',
+                title: 'Community Training Workshop',
+                status: 'todo',
+                priority: 'Medium',
+                project_id: projectId || 'WTR-2024-882',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                description: 'Maintenance training for local technicians.'
+            },
+            {
+                id: '3',
+                title: 'Water Quality Sensor Calibration',
+                status: 'done',
+                priority: 'Low',
+                project_id: projectId || 'WTR-2024-882',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+                description: 'Final calibration of the IoT sensor array.'
+            }
+        ] as any[];
+    }
+
     let query = supabase.from('tasks').select('*').order('created_at', { ascending: false });
     
     if (projectId) {

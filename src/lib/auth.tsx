@@ -88,12 +88,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // if (!auth) throw new Error("Firebase auth not initialized");
         // await signInWithEmailAndPassword(auth, email, password);
         
-        // Mock sign in
-        if (email === "admin" && password === "password123") {
+        // Mock sign in — accepts either admin@example.com or plain "admin"
+        const validUser = email === "admin" || email === "admin@example.com";
+        if (validUser && password === "password123") {
             setUser(HARDCODED_USER);
             localStorage.setItem("isAuth", "true");
         } else {
-            throw new Error("Invalid username or password. Use admin / password123 during development.");
+            throw new Error("Invalid credentials. Use admin@example.com / password123 during development.");
         }
     };
 

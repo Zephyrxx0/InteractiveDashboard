@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import { KpiCard } from "@/components/ui/kpi-card";
+import { DocumentViewerModal } from "@/components/data/DocumentViewerModal";
 
 export default function ProjectOverviewPage() {
+    const [viewingDoc, setViewingDoc] = useState<{ name: string; type: string } | null>(null);
     return (
         <div className="p-6 grid-bg">
             <div className="max-w-[1600px] mx-auto space-y-6">
@@ -35,17 +40,67 @@ export default function ProjectOverviewPage() {
                 {/* Content sections */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Project Description */}
-                    <div className="lg:col-span-2 bg-card border border-border p-6">
-                        <h3 className="font-display text-lg font-bold mb-4">Project Overview</h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                            Implementation of solar-powered filtration systems in rural districts across Southeast Asia.
-                            The project focuses on providing clean, safe drinking water through sustainable technology,
-                            combined with community training programs for long-term maintenance and operation.
-                        </p>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                            Phase 2 extends coverage to four additional districts and introduces a monitoring dashboard
-                            for real-time water quality tracking via IoT sensors deployed at each filtration site.
-                        </p>
+                    <div className="lg:col-span-2 space-y-6">
+                        <div className="bg-card border border-border p-6 shadow-brutal">
+                            <h3 className="font-display text-lg font-bold mb-4">Project Overview</h3>
+                            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                                Implementation of solar-powered filtration systems in rural districts across Southeast Asia.
+                                The project focuses on providing clean, safe drinking water through sustainable technology,
+                                combined with community training programs for long-term maintenance and operation.
+                            </p>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                Phase 2 extends coverage to four additional districts and introduces a monitoring dashboard
+                                for real-time water quality tracking via IoT sensors deployed at each filtration site.
+                            </p>
+                        </div>
+
+                        {/* Reference Documents Library */}
+                        <div className="bg-card border border-border p-6 shadow-brutal">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="font-display text-lg font-bold">Reference Library</h3>
+                                <span className="font-mono text-[10px] bg-accent/10 text-accent px-2 py-1 uppercase font-bold">
+                                    3 Documents
+                                </span>
+                            </div>
+                            
+                            <div className="space-y-3">
+                                {[
+                                    { name: "Project_Proposal_v2.docx", type: "docx", date: "12 Mar 2024" },
+                                    { name: "Budget_Allocation_Q1.xlsx", type: "xlsx", date: "15 Mar 2024" },
+                                    { name: "Site_Survey_Photos.csv", type: "csv", date: "20 Mar 2024" },
+                                ].map((doc) => (
+                                    <div key={doc.name} className="group flex items-center justify-between p-3 bg-muted/10 border border-border/50 hover:border-accent/50 hover:bg-muted/20 transition-all">
+                                        <div className="flex items-center gap-3">
+                                            <span className={`material-symbols-outlined text-2xl ${
+                                                doc.type === 'xlsx' ? 'text-green-500' : 
+                                                doc.type === 'docx' ? 'text-blue-500' : 'text-orange-500'
+                                            }`}>
+                                                {doc.type === 'xlsx' ? 'table_chart' : 
+                                                 doc.type === 'docx' ? 'description' : 'analytics'}
+                                            </span>
+                                            <div>
+                                                <p className="text-sm font-medium">{doc.name}</p>
+                                                <p className="text-[10px] font-mono text-muted-foreground uppercase">{doc.date}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button 
+                                                onClick={() => setViewingDoc({ name: doc.name, type: doc.type })}
+                                                className="p-1.5 hover:bg-background rounded border border-border text-muted-foreground hover:text-accent"
+                                            >
+                                                <span className="material-symbols-outlined text-[18px]">visibility</span>
+                                            </button>
+                                            <button className="p-1.5 hover:bg-background rounded border border-border text-muted-foreground hover:text-accent">
+                                                <span className="material-symbols-outlined text-[18px]">edit</span>
+                                            </button>
+                                            <button className="p-1.5 hover:bg-background rounded border border-border text-muted-foreground hover:text-destructive">
+                                                <span className="material-symbols-outlined text-[18px]">delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Project Details Sidebar */}
@@ -69,6 +124,12 @@ export default function ProjectOverviewPage() {
                     </div>
                 </div>
             </div>
+
+            <DocumentViewerModal 
+                open={!!viewingDoc} 
+                onOpenChange={(open) => !open && setViewingDoc(null)} 
+                document={viewingDoc}
+            />
         </div>
     );
 }

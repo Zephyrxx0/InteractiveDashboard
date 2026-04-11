@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DataImportModal } from './DataImportModal';
 
-export function DataImportButton() {
+export function DataImportButton({ projectId }: { projectId?: string }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -14,10 +14,10 @@ export function DataImportButton() {
         onClick={() => setOpen(true)}
         className="font-mono text-xs uppercase tracking-wider font-bold shadow-[var(--shadow-brutal)] hover:shadow-[var(--shadow-brutal-hover)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
       >
-        <span className="material-symbols-outlined text-[18px] mr-2">smart_toy</span>
-        Import via AI
+        <span className="material-symbols-outlined text-[18px] mr-2">upload_file</span>
+        Import Data
       </Button>
-      <DataImportModal open={open} onOpenChange={setOpen} />
+      <DataImportModal open={open} onOpenChange={setOpen} projectId={projectId} />
     </>
   );
 }

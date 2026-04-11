@@ -3,57 +3,39 @@ import Papa from 'papaparse';
 import * as xlsx from 'xlsx';
 
 /**
- * Parses an XLSX buffer and returns a markdown table representation of its sheets.
+ * Parses an XLSX buffer and returns a structured object of sheets.
  */
-export async function parseXLSX(buffer: Buffer): Promise<string> {
+export async function parseXLSX(buffer: Buffer): Promise<Record<string, any[][]>> {
   const workbook = xlsx.read(buffer, { type: 'buffer' });
-  const sheetsText: string[] = [];
+  const result: Record<string, any[][]> = {};
   
   for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
-    // Convert to array of arrays
-    const json = xlsx.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
-    if (json.length === 0) continue;
-    
-    // Simple markdown formatting
-    sheetsText.push(`## Sheet: ${sheetName}`);
-    // Assume first row is header
-    const headers = json[0] || [];
-    const headerLine = `| ${headers.map(h => String(h).replace(/\|/g, '-')).join(' | ')} |`;
-    const separator = `| ${headers.map(() => '---').join(' | ')} |`;
-    
-    sheetsText.push(headerLine);
-    sheetsText.push(separator);
-    
-    for (let i = 1; i < json.length; i++) {
-       const row = json[i];
-       const rowStrings = headers.map((_, idx) => String(row[idx] || '').replace(/\|/g, '-'));
-       sheetsText.push(`| ${rowStrings.join(' | ')} |`);
+    const data = xlsx.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
+    if (data.length > 0) {
+      result[sheetName] = data;
     }
   }
 
-  return sheetsText.join('\n');
+  return result;
 }
 
 /**
- * Parses a DOCX buffer and returns plain text.
+ * Parses a DOCX buffer and returns HTML.
  */
 export async function parseDOCX(buffer: Buffer): Promise<string> {
-  const result = await mammoth.extractRawText({ buffer });
+  const result = await mammoth.convertToHtml({ buffer });
   return result.value || '';
 }
 
 /**
- * Parses a CSV buffer and returns its string content.
+ * Parses a CSV buffer and returns its data as a 2D array.
  */
-export async function parseCSV(buffer: Buffer): Promise<string> {
+export async function parseCSV(buffer: Buffer): Promise<any[][]> {
   const csvString = buffer.toString('utf-8');
-  // Just parsing it with papaparse to validate or convert to strict format if needed
-  // For LLM context, plain text or markdown might suffice. 
-  // Let's just return the strict text
   const result = Papa.parse(csvString, { skipEmptyLines: true });
   if (result.errors.length && result.data.length === 0) {
     throw new Error('Failed to parse CSV');
   }
-  return Papa.unparse(result.data);
+  return result.data as any[][];
 }

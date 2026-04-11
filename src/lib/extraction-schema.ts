@@ -14,7 +14,23 @@ export interface ExtractionRecord {
   id: string;
   sourceFileName: string;
   sourceType: 'xlsx' | 'docx' | 'csv' | string;
-  fields: Record<string, any>;
+  fields: {
+    projectName?: string;
+    description?: string;
+    budget?: {
+      amount?: number;
+      currency?: string;
+      raw?: string;
+    };
+    region?: string;
+    status?: string;
+    timeframe?: {
+      start?: string;
+      end?: string;
+      duration?: string;
+    };
+    keyTasks?: string[];
+  };
   confidences?: Record<string, number>; // per-field confidence 0..1
   parsedPreview?: any; // raw parser output for fallback
   metadata?: Record<string, any>;

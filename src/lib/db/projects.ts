@@ -6,6 +6,22 @@ type ProjectInsert = Database['public']['Tables']['projects']['Insert'];
 type ProjectUpdate = Database['public']['Tables']['projects']['Update'];
 
 export async function getProjects(): Promise<ProjectRow[]> {
+    const isMock = !process.env.NEXT_PUBLIC_SUPABASE_URL || 
+                   process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-instance');
+
+    if (isMock) {
+        return [
+            {
+                id: 'WTR-2024-882',
+                name: 'Solar Filtration - SE Asia',
+                description: 'Rural water filtration deployment.',
+                status: 'on_track',
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+            } as any
+        ];
+    }
+
     const { data, error } = await supabase
         .from('projects')
         .select('*')
@@ -30,6 +46,18 @@ export async function getProject(id: string): Promise<ProjectRow | null> {
 }
 
 export async function createProject(project: ProjectInsert): Promise<ProjectRow> {
+    const isMock = !process.env.NEXT_PUBLIC_SUPABASE_URL || 
+                   process.env.NEXT_PUBLIC_SUPABASE_URL.includes('your-instance');
+
+    if (isMock) {
+        return {
+            id: 'MOCK-' + Math.random().toString(36).substring(7),
+            ...project,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+        } as ProjectRow;
+    }
+
     const { data, error } = await supabase
         .from('projects')
         .insert(project)
