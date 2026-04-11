@@ -1,65 +1,41 @@
-# Plan 02-06 Summary: Z-Index Fix & Arrow Improvements
+# Gantt Chart Polish: Layout & Interaction Fixes
 
-## Status: COMPLETE
+This phase successfully addressed visual and interaction regressions in the Gantt Chart, providing a more professional and usable interface.
 
-## What Was Done
-1. **Z-Index Fix**: SVG dependency layer z-index increased from 5 to 25 (above task nodes at z-10)
-2. **Arrow Path Simplification**: Arrows now go bottom-center → top-center with max 1 turn
-3. **Animation Once**: Arrows only animate on initial page load, not on task repositioning
-4. **Drag Snapping**: Real-time day snapping during drag (not just on drop)
-5. **Responsive Scaling**: Chart scales to container width with ResizeObserver
+## Accomplishments
 
-## Files Modified
-- `src/components/features/gantt/gantt-chart.tsx` - z-index, animation ref, responsive scaling
-- `src/components/features/gantt/gantt-dependency-line.tsx` - simplified path calculation
-- `src/components/features/gantt/gantt-task-row.tsx` - removed sidebar, cleaner layout
-- `src/hooks/use-gantt-drag.ts` - real-time day snapping
-- `src/types/gantt.ts` - adjusted minimum column widths
+### 1. Task Sidebar Integration
+- **Feature**: Added a 200px fixed-width sidebar to the Gantt chart.
+- **Components**: Updated `GanttTaskRow` and `GanttTimelineHeader` to maintain perfect alignment.
+- **Content**: Sidebar displays Task Name and Assignee Avatar, allowing users to identify tasks without hovering.
 
-## Key Changes
+### 2. Rich Tooltip Wiring
+- **Feature**: Integrated Radix UI tooltips into `GanttTaskRow`.
+- **Context**: Hovering over any task bar now reveals a summary including:
+  - Full task title
+  - Date range (formatted correctly)
+  - Assignee
+  - Progress percentage
+  - Dependency count
 
-### Arrow Path (Bottom → Top)
-```typescript
-// Arrow from bottom-center of source to top-center of target
-const fromX = fromPos.left + fromPos.width / 2;
-const fromY = (fromIndex + 1) * config.rowHeight - 8;
-const toX = toPos.left + toPos.width / 2;
-const toY = toIndex * config.rowHeight + 8;
+### 3. Interaction Fix (Z-Index)
+- **Problem**: Lower z-index on the SVG layer prevented clicking dependency arrows as task bars intercepted the events.
+- **Fix**: 
+  - Raised SVG `zIndex` to 25.
+  - Set SVG `pointer-events: auto`.
+  - Nested the timeline part in a 200px offset container to match the sidebar.
+- **Outcome**: Dependency arrows are now fully interactive and can be removed via click.
 
-// Simple L-shape or straight vertical (max 1 turn)
-path = `M ${fromX} ${fromY} V ${midY} H ${toX} V ${toY - arrowOffset}`;
-```
+## Technical Details
 
-### Animation Once
-```typescript
-const hasAnimatedRef = useRef(false);
-useEffect(() => {
-  if (hasAnimatedRef.current) return;
-  // ... animate only on first render
-  hasAnimatedRef.current = true;
-}, []);
-```
+- **Files Modified**:
+  - `src/components/features/gantt/gantt-chart.tsx`
+  - `src/components/features/gantt/gantt-task-row.tsx`
+  - `src/components/features/gantt/gantt-timeline-header.tsx`
+- **Build Status**: Verified with `npm run build` (Successful).
 
-### Real-time Drag Snapping
-```typescript
-// Snap to days during drag, not just on drop
-const daysToMove = Math.round(deltaX / pixelsPerDay);
-if (daysToMove !== lastAppliedDaysRef.current) {
-  onTaskUpdate(taskId, newStartDate, newEndDate);
-}
-```
-
-## Verification
-- [x] Arrows clickable for removal (z-index fix)
-- [x] Arrows have max 1 turn (cleaner paths)
-- [x] Arrows animate once on load only
-- [x] Drag snaps smoothly to days
-- [x] Chart scales responsively
-- [x] Build succeeds
-
-## Known Improvements (Future)
-- Arrow routing could be smarter for edge cases
-- Could add visual preview during drag
-
-## Requirements Satisfied
-- TM-05, TM-06, TM-07, TM-08 (Gantt chart interactivity)
+## Verification Guide
+1. Navigate to `/projects/[id]/timeline`.
+2. Observe the new "Tasks" column on the left.
+3. Hover over a task bar to see the detailed tooltip.
+4. Verify you can click and remove dependency arrows.

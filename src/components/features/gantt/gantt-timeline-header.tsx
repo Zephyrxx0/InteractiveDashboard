@@ -82,21 +82,31 @@ export function GanttTimelineHeader({ config }: GanttTimelineHeaderProps) {
   };
 
   return (
-    <div className="flex border-b border-border bg-muted/30 sticky top-0 z-10">
-      {labels.map(({ date, label }, index) => (
-        <div
-          key={index}
-          className={cn(
-            'flex-shrink-0 px-1 py-2 text-center border-r border-border/50',
-            isCurrentPeriod(date) && 'bg-primary/10 font-semibold'
-          )}
-          style={{ width: `${columnWidth}px` }}
-        >
-          <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
-            {label}
-          </span>
-        </div>
-      ))}
+    <div className="flex border-b border-border bg-muted/30 sticky top-0 z-10 w-full">
+      {/* Sidebar Header Space */}
+      <div className="w-[200px] shrink-0 border-r border-border/50 flex items-center px-3 py-2 bg-muted/50">
+        <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
+          Tasks
+        </span>
+      </div>
+
+      {/* Timeline Labels */}
+      <div className="flex flex-1">
+        {labels.map(({ date, label }, index) => (
+          <div
+            key={index}
+            className={cn(
+              'flex-shrink-0 px-1 py-2 text-center border-r border-border/50',
+              isCurrentPeriod(date) && 'bg-primary/10 font-semibold'
+            )}
+            style={{ width: `${columnWidth}px` }}
+          >
+            <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

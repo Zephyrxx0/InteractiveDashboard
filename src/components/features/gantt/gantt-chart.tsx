@@ -136,10 +136,10 @@ export function GanttChart({
     [zoomLevel, dateRange, columnWidth]
   );
 
-  // Calculate total chart width
+  // Calculate total chart width (plus sidebar)
   const totalWidth = useMemo(() => {
     const columnCount = getColumnCount(config);
-    return columnCount * config.columnWidth;
+    return columnCount * config.columnWidth + 200; // +200 for task sidebar
   }, [config]);
 
   // Calculate total chart height
@@ -305,71 +305,85 @@ export function GanttChart({
           <div className="min-w-max relative" style={{ width: `${totalWidth}px` }}>
             <GanttTimelineHeader config={config} />
             <div className="relative">
-              {/* Today line - red for visibility */}
-              {todayPosition > 0 && todayPosition < totalWidth && (
-                <div
-                  className="absolute top-0 bottom-0 w-0.5 bg-destructive z-20"
-                  style={{ left: `${todayPosition}px` }}
-                >
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-destructive text-destructive-foreground text-[8px] font-mono uppercase tracking-wider rounded">
-                    Today
-                  </div>
-                </div>
-              )}
-
-              {/* Grid lines */}
-              <div className="absolute inset-0 pointer-events-none">
-                {Array.from({ length: getColumnCount(config) }).map((_, i) => (
+              {/* Timeline background elements (offset by 200px sidebar) */}
+              <div 
+                className="absolute top-0 bottom-0 left-[200px] pointer-events-none" 
+                style={{ width: `${totalWidth - 200}px`, zIndex: 0 }}
+              >
+                {/* Today line */}
+                {todayPosition > 0 && todayPosition < (totalWidth - 200) && (
                   <div
-                    key={i}
-                    className="absolute top-0 bottom-0 border-r border-border/30"
-                    style={{ left: `${i * config.columnWidth}px` }}
+                    className="absolute top-0 bottom-0 w-0.5 bg-destructive z-20"
+                    style={{ left: `${todayPosition}px` }}
+                  >
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 px-1 py-0.5 bg-destructive text-destructive-foreground text-[8px] font-mono uppercase tracking-wider rounded">
+                      Today
+                    </div>
+                  </div>
+                )}
+
+                {/* Grid lines */}
+                <div className="absolute inset-0">
+                  {Array.from({ length: getColumnCount(config) }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute top-0 bottom-0 border-r border-border/30"
+                      style={{ left: `${i * config.columnWidth}px` }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Task rows with sidebar and tooltips */}
+              <div className="relative z-10">
+                {tasks.map((task) => (
+                  <GanttTaskRow
+                    key={task.id}
+                    task={task}
+                    config={config}
+                    onClick={onTaskClick}
+                    onDragStart={handleDragStart}
+                    onNodeClick={handleNodeClick}
+                    isBeingDragged={draggedTaskId === task.id}
+                    isConnecting={connectionState.isConnecting}
+                    isConnectionSource={connectionState.fromTaskId === task.id}
+                    showNodes={showNodes}
                   />
                 ))}
               </div>
 
-              {/* Task rows with sidebar and tooltips */}
-              {tasks.map((task) => (
-                <GanttTaskRow
-                  key={task.id}
-                  task={task}
-                  config={config}
-                  onClick={onTaskClick}
-                  onDragStart={handleDragStart}
-                  onNodeClick={handleNodeClick}
-                  isBeingDragged={draggedTaskId === task.id}
-                  isConnecting={connectionState.isConnecting}
-                  isConnectionSource={connectionState.fromTaskId === task.id}
-                  showNodes={showNodes}
-                />
-              ))}
-
-              {/* Dependency lines SVG layer - above task nodes (z-25 > z-10) for arrow click events */}
+              {/* Dependency lines SVG layer - offset by 200px sidebar */}
               {showDependencies && (
-                <svg
-                  className="absolute inset-0 pointer-events-none"
-                  style={{ width: totalWidth, height: totalHeight, zIndex: 25 }}
+                <div 
+                  className="absolute top-0 bottom-0 left-[200px]" 
+                  style={{ width: `${totalWidth - 200}px`, height: totalHeight, zIndex: 25 }}
                 >
-                  <DependencyArrowMarker />
-                  {tasks.flatMap((task, taskIndex) =>
-                    (task.dependencies || []).map((depId) => {
-                      const depTask = tasks.find((t) => t.id === depId);
-                      const depIndex = tasks.findIndex((t) => t.id === depId);
-                      if (!depTask) return null;
-                      return (
-                        <GanttDependencyLine
-                          key={`${depId}-${task.id}`}
-                          fromTask={depTask}
-                          toTask={task}
-                          config={config}
-                          fromIndex={depIndex}
-                          toIndex={taskIndex}
-                          onRemove={onConnectionRemove}
-                        />
-                      );
-                    })
-                  )}
-                </svg>
+                  <svg
+                    className="w-full h-full pointer-events-auto"
+                    viewBox={`0 0 ${totalWidth - 200} ${totalHeight}`}
+                    preserveAspectRatio="none"
+                  >
+                    <DependencyArrowMarker />
+                    {tasks.flatMap((task, taskIndex) =>
+                      (task.dependencies || []).map((depId) => {
+                        const depTask = tasks.find((t) => t.id === depId);
+                        const depIndex = tasks.findIndex((t) => t.id === depId);
+                        if (!depTask) return null;
+                        return (
+                          <GanttDependencyLine
+                            key={`${depId}-${task.id}`}
+                            fromTask={depTask}
+                            toTask={task}
+                            config={config}
+                            fromIndex={depIndex}
+                            toIndex={taskIndex}
+                            onRemove={onConnectionRemove}
+                          />
+                        );
+                      })
+                    )}
+                  </svg>
+                </div>
               )}
             </div>
           </div>

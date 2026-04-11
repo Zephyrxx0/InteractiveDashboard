@@ -70,7 +70,7 @@ Plans:
 - [x] 02-03-PLAN.md — Timeline page integration, tooltips, documentation
 - [x] 02-04-PLAN.md — animejs v4 API migration
 - [x] 02-05-PLAN.md — Wire GanttTaskRow, add JSDoc documentation
-- [ ] 02-06-PLAN.md — Fix z-index conflict for arrow removal, wire GanttTaskRow
+- [x] 02-06-PLAN.md — Fix z-index conflict for arrow removal, wire GanttTaskRow
 
 **UI hint:** yes
 
@@ -177,7 +177,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Analytics Foundation | 4/4 | Complete | 2026-03-27 |
-| 2. Task Management Enhancement | 5/6 | In Progress | - |
+| 2. Task Management Enhancement | 6/6 | Complete | - |
 | 3. Media Management | 3/3 | Complete | - |
 | 4. Reports & Export | 4/4 | Complete | - |
 | 5. Phase 05 Polish | 1/1 | Complete | - |
