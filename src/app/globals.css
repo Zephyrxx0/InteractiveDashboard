@@ -67,6 +67,10 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* ── Shadows ── */
+  --shadow-brutal: var(--shadow-brutal);
+  --shadow-brutal-hover: var(--shadow-brutal-hover);
 }
 
 @layer base {
@@ -120,15 +124,15 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply rounded-none border border-border bg-card shadow-brutal p-0 !important;
+  @apply !rounded-none !border !border-border !bg-card !shadow-brutal !p-0;
 }
 
 .leaflet-popup-content {
-  @apply m-0 !important;
+  @apply !m-0;
 }
 
 .leaflet-popup-tip {
-  @apply bg-card border border-border !important;
+  @apply !bg-card !border !border-border;
 }
 
 .custom-marker svg {
