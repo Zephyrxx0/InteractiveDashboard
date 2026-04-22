@@ -246,6 +246,143 @@ export interface Database {
                     created_at?: string
                 }
             }
+            project_locations: {
+                Row: {
+                    id: string
+                    project_id: string
+                    latitude: number
+                    longitude: number
+                    pincode: string | null
+                    address: string | null
+                    city: string | null
+                    state: string | null
+                    country: string | null
+                    created_at: string
+                    updated_at: string
+                }
+                Insert: {
+                    id?: string
+                    project_id: string
+                    latitude: number
+                    longitude: number
+                    pincode?: string | null
+                    address?: string | null
+                    city?: string | null
+                    state?: string | null
+                    country?: string | null
+                    created_at?: string
+                    updated_at?: string
+                }
+                Update: {
+                    id?: string
+                    project_id?: string
+                    latitude?: number
+                    longitude?: number
+                    pincode?: string | null
+                    address?: string | null
+                    city?: string | null
+                    state?: string | null
+                    country?: string | null
+                    created_at?: string
+                    updated_at?: string
+                }
+            }
+            incidents: {
+                Row: {
+                    id: string
+                    project_id: string | null
+                    title: string
+                    description: string | null
+                    priority: 'low' | 'medium' | 'high' | 'critical'
+                    status: 'reported' | 'acknowledged' | 'investigating' | 'resolved' | 'closed'
+                    reporter_id: string | null
+                    assignee_id: string | null
+                    location_id: string | null
+                    resolved_at: string | null
+                    created_at: string
+                    updated_at: string
+                }
+                Insert: {
+                    id?: string
+                    project_id?: string | null
+                    title: string
+                    description?: string | null
+                    priority?: 'low' | 'medium' | 'high' | 'critical'
+                    status?: 'reported' | 'acknowledged' | 'investigating' | 'resolved' | 'closed'
+                    reporter_id?: string | null
+                    assignee_id?: string | null
+                    location_id?: string | null
+                    resolved_at?: string | null
+                    created_at?: string
+                    updated_at?: string
+                }
+                Update: {
+                    id?: string
+                    project_id?: string | null
+                    title?: string
+                    description?: string | null
+                    priority?: 'low' | 'medium' | 'high' | 'critical'
+                    status?: 'reported' | 'acknowledged' | 'investigating' | 'resolved' | 'closed'
+                    reporter_id?: string | null
+                    assignee_id?: string | null
+                    location_id?: string | null
+                    resolved_at?: string | null
+                    created_at?: string
+                    updated_at?: string
+                }
+            }
+            profiles: {
+                Row: {
+                    id: string
+                    full_name: string | null
+                    email: string | null
+                    avatar_url: string | null
+                    role: 'admin' | 'member'
+                    created_at: string
+                    updated_at: string
+                }
+                Insert: {
+                    id: string
+                    full_name?: string | null
+                    email?: string | null
+                    avatar_url?: string | null
+                    role?: 'admin' | 'member'
+                    created_at?: string
+                    updated_at?: string
+                }
+                Update: {
+                    id?: string
+                    full_name?: string | null
+                    email?: string | null
+                    avatar_url?: string | null
+                    role?: 'admin' | 'member'
+                    created_at?: string
+                    updated_at?: string
+                }
+            }
+            project_members: {
+                Row: {
+                    id: string
+                    project_id: string | null
+                    profile_id: string | null
+                    role: 'lead' | 'member'
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    project_id?: string | null
+                    profile_id?: string | null
+                    role?: 'lead' | 'member'
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    project_id?: string | null
+                    profile_id?: string | null
+                    role?: 'lead' | 'member'
+                    created_at?: string
+                }
+            }
         }
         Views: {
             [_ in never]: never

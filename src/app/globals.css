@@ -113,3 +113,28 @@
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
+
+/* ── Map Overrides & High-Fidelity Pins ── */
+.leaflet-container {
+  font-family: var(--font-inter) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  @apply rounded-none border border-border bg-card shadow-brutal p-0 !important;
+}
+
+.leaflet-popup-content {
+  @apply m-0 !important;
+}
+
+.leaflet-popup-tip {
+  @apply bg-card border border-border !important;
+}
+
+.custom-marker svg {
+  @apply drop-shadow-[var(--shadow-brutal)] transition-transform duration-300;
+}
+
+.custom-marker:hover svg {
+  @apply scale-110;
+}

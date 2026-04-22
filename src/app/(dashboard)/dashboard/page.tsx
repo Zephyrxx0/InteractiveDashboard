@@ -1,12 +1,18 @@
+"use client";
+
 import { PageHeader } from "@/components/layout/page-header";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { ChartWidget } from "@/components/widgets/chart-widget";
 import { MapWidget } from "@/components/widgets/map-widget";
 import { LogItem } from "@/components/widgets/log-item";
 import { ProjectStatusChart } from "@/components/widgets/project-status-chart";
+import { IncidentWidget } from "@/components/widgets/incident-widget";
 import { Button } from "@/components/ui/button";
+import { useRBAC } from "@/hooks/use-rbac";
 
 export default function DashboardPage() {
+    const { isAdmin } = useRBAC();
+
     return (
         <>
             <PageHeader
@@ -14,12 +20,14 @@ export default function DashboardPage() {
                 subtitle="Real-time project overview and impact metrics"
                 actions={
                     <div className="flex items-center gap-3">
-                        <Button
-                            className="font-mono text-xs uppercase tracking-wider font-bold shadow-[var(--shadow-brutal)] hover:shadow-[var(--shadow-brutal-hover)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
-                        >
-                            <span className="material-symbols-outlined text-[16px] mr-2">add</span>
-                            Import Data
-                        </Button>
+                        {isAdmin && (
+                            <Button
+                                className="font-mono text-xs uppercase tracking-wider font-bold shadow-[var(--shadow-brutal)] hover:shadow-[var(--shadow-brutal-hover)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                            >
+                                <span className="material-symbols-outlined text-[16px] mr-2">add</span>
+                                Import Data
+                            </Button>
+                        )}
                         <div className="flex items-center bg-card border border-border p-0.5">
                             <button className="px-3 py-1 bg-foreground text-card font-mono text-xs font-medium uppercase">Grid</button>
                             <button className="px-3 py-1 text-muted-foreground hover:text-foreground font-mono text-xs font-medium uppercase">List</button>
@@ -105,17 +113,9 @@ export default function DashboardPage() {
                             <ProjectStatusChart />
                         </div>
 
-                        {/* Add Widget Placeholder */}
-                        <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4 border-2 border-dashed border-border bg-card/50 flex flex-col items-center justify-center min-h-[300px] group hover:border-primary hover:bg-primary/5 transition-all cursor-pointer">
-                            <div className="size-12 border-2 border-dashed border-border flex items-center justify-center text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors mb-3">
-                                <span className="material-symbols-outlined text-2xl">add</span>
-                            </div>
-                            <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider group-hover:text-primary transition-colors">
-                                Add Widget
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Drag data or click to configure
-                            </p>
+                        {/* Active Incidents Widget */}
+                        <div className="col-span-1 md:col-span-2 lg:col-span-2 xl:col-span-4">
+                            <IncidentWidget />
                         </div>
                     </div>
                 </div>

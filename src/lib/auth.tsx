@@ -11,12 +11,14 @@ import {
     User as FirebaseUser,
 } from "firebase/auth";
 // import { auth } from "@/lib/firebase";
+import { supabase } from "@/lib/supabase";
 
 interface User {
     uid: string;
     email: string | null;
     displayName: string | null;
     photoURL: string | null;
+    role?: 'admin' | 'member';
 }
 
 interface AuthContextType {
@@ -53,12 +55,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const fetchProfile = async (uid: string) => {
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', uid)
+                .single();
+            
+            if (error) return null;
+            return data.role as 'admin' | 'member';
+        } catch (e) {
+            return null;
+        }
+    };
+
     useEffect(() => {
-        // Mock onAuthStateChanged
-        const checkAuth = () => {
+        const checkAuth = async () => {
             const storedAuth = localStorage.getItem("isAuth");
             if (storedAuth === "true") {
-                setUser(HARDCODED_USER);
+                const role = await fetchProfile(HARDCODED_USER.uid);
+                setUser({ ...HARDCODED_USER, role: role || 'admin' });
             } else {
                 setUser(null);
             }
@@ -66,32 +83,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
         
         checkAuth();
-        
-        // if (!auth) {
-        //     setLoading(false);
-        //     return;
-        // }
-
-        // const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-        //     if (firebaseUser) {
-        //         setUser(formatUser(firebaseUser));
-        //     } else {
-        //         setUser(null);
-        //     }
-        //     setLoading(false);
-        // });
-
-        // return () => unsubscribe();
     }, []);
 
     const signIn = async (email: string, password: string) => {
-        // if (!auth) throw new Error("Firebase auth not initialized");
-        // await signInWithEmailAndPassword(auth, email, password);
-        
-        // Mock sign in — accepts either admin@example.com or plain "admin"
         const validUser = email === "admin" || email === "admin@example.com";
         if (validUser && password === "password123") {
-            setUser(HARDCODED_USER);
+            const role = await fetchProfile(HARDCODED_USER.uid);
+            setUser({ ...HARDCODED_USER, role: role || 'admin' });
             localStorage.setItem("isAuth", "true");
         } else {
             throw new Error("Invalid credentials. Use admin@example.com / password123 during development.");
@@ -99,20 +97,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const signInWithGoogle = async () => {
-        // if (!auth) throw new Error("Firebase auth not initialized");
-        // const provider = new GoogleAuthProvider();
-        // await signInWithPopup(auth, provider);
-        
-        // Mock Google sign in
-        setUser(HARDCODED_USER);
+        const role = await fetchProfile(HARDCODED_USER.uid);
+        setUser({ ...HARDCODED_USER, role: role || 'admin' });
         localStorage.setItem("isAuth", "true");
     };
 
     const signOut = async () => {
-        // if (!auth) return;
-        // await firebaseSignOut(auth);
-        
-        // Mock sign out
         setUser(null);
         localStorage.removeItem("isAuth");
     };

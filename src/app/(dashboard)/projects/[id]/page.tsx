@@ -3,8 +3,14 @@
 import { useState } from "react";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { DocumentViewerModal } from "@/components/data/DocumentViewerModal";
+import { LocationCard } from "@/components/features/map/location-card";
+import { useParams } from "next/navigation";
+import { useProject } from "@/hooks/use-projects";
 
 export default function ProjectOverviewPage() {
+    const params = useParams();
+    const projectId = params.id as string;
+    const { data: project } = useProject(projectId);
     const [viewingDoc, setViewingDoc] = useState<{ name: string; type: string } | null>(null);
     return (
         <div className="p-6 grid-bg">
@@ -101,6 +107,13 @@ export default function ProjectOverviewPage() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* Map Location Section */}
+                        <LocationCard 
+                            projectId={projectId} 
+                            projectName={project?.name || "Loading..."}
+                            projectStatus={project?.status || "on_track"}
+                        />
                     </div>
 
                     {/* Project Details Sidebar */}
